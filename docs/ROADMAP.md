@@ -121,7 +121,7 @@ Milestone 4：Downloadable App（进行中）
     └── Checkpoint A2：签名与 GitHub Prerelease（进行中）
         ├── Task：长期 Android 签名证书与 GitHub Secrets（已完成）
         ├── Task：签名 APK / AAB 与 GitHub Prerelease（已完成）
-        ├── Task：中国大陆阿里云入口 Beta 3（进行中）
+        ├── Task：中国大陆阿里云入口 Beta 3（已完成，2026-07-26）
         └── Task：Android 真机下载安装与主流程验收（待人工真机）
 └── Phase B：Store Evaluation（待决策）
     ├── Checkpoint B1：Google Play 一次性费用与测试要求评估
@@ -139,7 +139,7 @@ Checkpoint A2 发布部分已完成：run `29586070898` 发布首个长期签名
 
 Android 首轮真机结果：`0.2.0-beta.1` 安装成功但启动白屏。APK 配置、权限、资源和 Vercel WebView 请求均正常，当前最可能是设备 WebView 低于 Next.js 16 的 Chrome 111 默认基线，或手机网络无法稳定载入 Vercel。`0.2.0-beta.2` 已增加 Chrome 90 构建目标与本地加载失败页并完成发布，等待覆盖安装复验。
 
-Beta 3 保留现有 Capacitor 工程与长期签名，只把 App 入口切换到 `https://app.recipetix.top`。该域名的阿里云生产线路已通过 HTTPS、Supabase、DeepSeek、火山 ASR、yt-dlp、FFmpeg 和真实小红书样本验收；发布后只剩华为设备真机复验。
+Beta 3 保留现有 Capacitor 工程与长期签名，只把 App 入口切换到 `https://app.recipetix.top`。该域名的阿里云生产线路已通过 HTTPS、Supabase、DeepSeek、火山 ASR、yt-dlp、FFmpeg 和真实小红书样本验收；run `30207828314` 已发布签名 APK/AAB，只剩华为设备真机复验。
 
 首轮只做 Android APK。iOS 正式分发需要 Apple Developer Program 年费，不符合当前低成本约束；Google Play 和中国大陆应用市场等 GitHub Beta 验证后再决定。
 

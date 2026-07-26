@@ -5,7 +5,9 @@
 - 保留现有 Capacitor Android 工程、包名和长期签名证书，只调整远程应用入口。
 - APK 入口从 Vercel 切换到 `https://app.recipetix.top`，由阿里云轻量服务器、Docker Compose 和 Caddy 提供中国大陆主线路。
 - 同步更新 Capacitor 导航白名单与本地错误页重试地址，不修改网页 UI、Supabase、Auth 或 AI 业务逻辑。
-- GitHub Actions 增加 release APK 签名校验，并将 Beta 3 作为新的真机验收版本。
+- 复用已验证的 GitHub Actions 长期签名流程，并将 Beta 3 作为新的真机验收版本。
+- GitHub Actions run `30207828314` 完成 Capacitor 同步、debug 构建、长期签名校验、release APK/AAB 构建和 Prerelease 发布。
+- Beta 3 APK 大小约 3.02 MB，SHA-256 为 `b196fd442b30334579eecffaa42e7c0e8b0c79e3f1cb698edf3cdc4afd5593e0`；本地下载后的压缩结构与内嵌大陆入口均验证通过。
 
 ## 2026-07-18 - Android Beta 白屏兼容修复
 

@@ -80,6 +80,17 @@ Beta 2 签名发布验证：
 - 发布步骤：签名配置校验、release APK/AAB 构建和 GitHub Prerelease 均通过。
 - 本地完整下载后 SHA-256 与 GitHub Release 一致，APK 压缩结构无错误。
 
+Beta 3 中国大陆线路验证：
+
+- GitHub Actions run：`30207828314`
+- Commit：`5d07666`
+- APK：`rishibiji-0.2.1-beta.3.apk`
+- AAB：`rishibiji-0.2.1-beta.3.aab`
+- APK 大小：约 `3.02 MB`
+- APK SHA-256：`b196fd442b30334579eecffaa42e7c0e8b0c79e3f1cb698edf3cdc4afd5593e0`
+- 包内入口：`https://app.recipetix.top`
+- Capacitor 同步、debug 构建、长期签名校验、release APK/AAB 与 GitHub Prerelease 均通过。
+
 长期证书和恢复信息只备份在本机：
 
 ```text

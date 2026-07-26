@@ -40,6 +40,7 @@ const recipeHtml = `<!doctype html>
 test("identifies supported platform hosts without accepting lookalikes", () => {
   assert.equal(identifySourcePlatform("www.xiaohongshu.com"), "xiaohongshu");
   assert.equal(identifySourcePlatform("xhslink.com"), "xiaohongshu");
+  assert.equal(identifySourcePlatform("xhslink.cn"), "xiaohongshu");
   assert.equal(identifySourcePlatform("v.douyin.com"), "douyin");
   assert.equal(identifySourcePlatform("www.iesdouyin.com"), "douyin");
   assert.equal(identifySourcePlatform("douyin.com.evil.test"), null);
@@ -92,6 +93,21 @@ test("extracts a clean URL from copied share text", () => {
     "https://v.douyin.com/abc123/",
   );
   assert.equal(extractHttpUrlFromSharedText("只有普通菜谱正文"), null);
+  assert.equal(
+    extractHttpUrlFromSharedText(
+      "「番茄干焗牛肉」10min解锁无水牛肉新吃法🥘 所需食材... http://xhslink.cn/o/2pHowO3XXDJ 拷走这段，去【小红书】围观好内容~",
+    ),
+    "http://xhslink.cn/o/2pHowO3XXDJ",
+  );
+});
+
+test("normalizes a copied xhslink.cn share command", () => {
+  const normalized = normalizeShareUrl(
+    "「番茄干焗牛肉」10min解锁无水牛肉新吃法🥘 http://xhslink.cn/o/2pHowO3XXDJ 拷走这段",
+  );
+
+  assert.equal(normalized.platform, "xiaohongshu");
+  assert.equal(normalized.canonicalUrl, "https://xhslink.cn/o/2pHowO3XXDJ");
 });
 
 test("does not persist share query tokens in pending browser state", () => {

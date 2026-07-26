@@ -3,7 +3,7 @@ import { isIP } from "node:net";
 import type { PublicSourcePlatform } from "@/lib/source/types";
 
 const PLATFORM_HOSTS: Record<PublicSourcePlatform, string[]> = {
-  xiaohongshu: ["xiaohongshu.com", "xhslink.com"],
+  xiaohongshu: ["xiaohongshu.com", "xhslink.com", "xhslink.cn"],
   douyin: ["douyin.com", "iesdouyin.com"],
 };
 

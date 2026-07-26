@@ -5,10 +5,10 @@ const config: CapacitorConfig = {
   appName: "日食笔记",
   webDir: "mobile-shell",
   server: {
-    allowNavigation: ["recipe-ticket-app-v2.vercel.app"],
+    allowNavigation: ["app.recipetix.top"],
     cleartext: false,
     errorPath: "error.html",
-    url: "https://recipe-ticket-app-v2.vercel.app",
+    url: "https://app.recipetix.top",
   },
 };
 

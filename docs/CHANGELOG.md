@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-07-26 - Android Beta 3 中国大陆线路
+
+- 保留现有 Capacitor Android 工程、包名和长期签名证书，只调整远程应用入口。
+- APK 入口从 Vercel 切换到 `https://app.recipetix.top`，由阿里云轻量服务器、Docker Compose 和 Caddy 提供中国大陆主线路。
+- 同步更新 Capacitor 导航白名单与本地错误页重试地址，不修改网页 UI、Supabase、Auth 或 AI 业务逻辑。
+- GitHub Actions 增加 release APK 签名校验，并将 Beta 3 作为新的真机验收版本。
+
 ## 2026-07-18 - Android Beta 白屏兼容修复
 
 - 真实 Android 安装确认 `0.2.0-beta.1` 能下载安装，但启动后显示空白页。

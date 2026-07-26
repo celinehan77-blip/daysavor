@@ -20,7 +20,7 @@ on:
       version_name:
         description: "Android version name"
         required: true
-        default: "0.2.0-beta.1"
+        default: "0.2.1-beta.3"
 
 permissions:
   contents: write
@@ -88,6 +88,12 @@ jobs:
         working-directory: android
         run: ./gradlew assembleRelease bundleRelease -PappVersionCode=${{ github.run_number }} -PappVersionName=${{ inputs.version_name }}
 
+      - name: Verify signed release APK
+        if: ${{ inputs.publish_release == true }}
+        run: |
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" \
+            verify --verbose android/app/build/outputs/apk/release/app-release.apk
+
       - name: Publish GitHub prerelease
         if: ${{ inputs.publish_release == true }}
         env:
@@ -102,4 +108,4 @@ jobs:
             "rishibiji-${VERSION_NAME}.aab" \
             --prerelease \
             --title "日食笔记 Android ${VERSION_NAME}" \
-            --notes "小范围 Android Beta。APK 可直接下载安装；AAB 用于后续应用市场提交。"
+            --notes "中国大陆访问 Beta。APK 连接 https://app.recipetix.top；AAB 用于后续应用市场提交。"

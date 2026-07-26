@@ -10,7 +10,7 @@
 com.rishibiji.app
 ```
 
-App 需要联网，业务和数据继续由 Vercel Production、Supabase 和现有 AI API 提供。GitHub APK 不包含任何服务端 Secret。
+App 需要联网，业务由 `https://app.recipetix.top` 的阿里云中国大陆生产线路提供，数据和 AI 继续使用现有 Supabase 与服务端 API。GitHub APK 不包含任何服务端 Secret。
 
 ## 为什么先做 Android
 
@@ -63,10 +63,10 @@ ANDROID_KEY_PASSWORD
 
 ## 用户安装步骤
 
-当前 Beta 下载页：
+Beta 3 发布后的下载页：
 
 ```text
-https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.2.0-beta.2
+https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.2.1-beta.3
 ```
 
 Beta 2 签名发布验证：
@@ -101,4 +101,5 @@ Beta 2 签名发布验证：
 - GitHub Actions 的 debug APK 只用于构建验证，不作为公开长期版本；公开给用户的版本必须使用长期证书签名。
 - `0.2.0-beta.1` 与 `0.2.0-beta.2` 已使用同一长期证书签名，可直接覆盖升级；后续版本必须继续使用同一证书。
 - `0.2.0-beta.1` 首轮真机出现启动白屏；`0.2.0-beta.2` 将浏览器兼容目标下调到 Chrome 90，并增加网络/WebView 加载失败页。若仍失败，需记录错误页代码、手机 Android 版本和 Android System WebView/Chrome 版本。
+- `0.2.1-beta.3` 保留相同包名和长期证书，将远程入口切换到阿里云中国大陆线路 `https://app.recipetix.top`，用于解决 Vercel 在部分大陆网络下加载不稳定的问题。
 - 中国大陆应用市场通常还涉及实名认证、软件著作权、隐私政策或其他资质，本阶段不提前投入。

@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { BriefcaseBusiness, Feather, Utensils } from "lucide-react";
 import { StationTicket } from "@/components/flavor-map/StationTicket";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import type { SerializableStation } from "@/types";
 
@@ -14,8 +13,7 @@ type FlavorMapScreenProps = {
 
 export function FlavorMapScreen({ stations }: FlavorMapScreenProps) {
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <section className="app-content tab-page-content overflow-hidden px-5 pt-6">
         <div className="relative z-10 flex items-start justify-between">
@@ -90,6 +88,6 @@ export function FlavorMapScreen({ stations }: FlavorMapScreenProps) {
       </section>
 
       <TabBar current="flavor-map" />
-    </IphoneFrame>
+    </AppViewport>
   );
 }

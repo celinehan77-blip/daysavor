@@ -16,8 +16,7 @@ import {
   NotebookPen,
   Share2,
 } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import {
   getRecipeDetailBySlug,
   getLocalGeneratedRecipeBySlug,
@@ -289,19 +288,17 @@ export function RecipeDetailScreen({
 
   if (isResolvingRecipe) {
     return (
-      <IphoneFrame>
-        <IosStatusBar />
+      <AppViewport>
         <div className="app-content grid place-items-center px-6 text-center text-[14px] text-[#75695f]">
           正在读取你的菜谱…
         </div>
-      </IphoneFrame>
+      </AppViewport>
     );
   }
 
   if (!resolvedRecipe) {
     return (
-      <IphoneFrame>
-        <IosStatusBar />
+      <AppViewport>
         <div className="app-content px-5 pt-8">
           <Link
             href="/flavor-map"
@@ -327,7 +324,7 @@ export function RecipeDetailScreen({
             </div>
           </section>
         </div>
-      </IphoneFrame>
+      </AppViewport>
     );
   }
 
@@ -364,8 +361,7 @@ export function RecipeDetailScreen({
   ];
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content recipe-detail-scroll pb-24">
         <section className="relative h-[236px] px-5 pt-2">
@@ -587,6 +583,6 @@ export function RecipeDetailScreen({
           })}
         </div>
       </div>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

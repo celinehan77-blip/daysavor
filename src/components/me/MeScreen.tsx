@@ -13,8 +13,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { getCurrentProfile, type UserProfile } from "@/lib/auth/profile";
 import { signOut } from "@/lib/auth/session";
@@ -231,8 +230,7 @@ export function MeScreen() {
   );
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content tab-page-content px-5 pt-3">
         <motion.header
@@ -444,6 +442,6 @@ export function MeScreen() {
       </div>
 
       <TabBar current="profile" />
-    </IphoneFrame>
+    </AppViewport>
   );
 }

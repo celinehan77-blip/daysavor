@@ -12,8 +12,7 @@ import {
   Soup,
   Tags,
 } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import type { SerializableRecipe, SerializableStation } from "@/types";
 
 const ingredientLabelPositions = [
@@ -251,8 +250,7 @@ export function ChickenStationScreen({
 
   if (!station) {
     return (
-      <IphoneFrame>
-        <IosStatusBar />
+      <AppViewport>
         <section className="app-content flex flex-col px-6 pb-8 pt-5">
           <Link
             href="/flavor-map"
@@ -277,7 +275,7 @@ export function ChickenStationScreen({
             </div>
           </div>
         </section>
-      </IphoneFrame>
+      </AppViewport>
     );
   }
 
@@ -303,8 +301,7 @@ export function ChickenStationScreen({
   };
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <section className="app-content flex flex-col px-6 pb-8 pt-5">
         <div className="flex items-center justify-between">
@@ -488,6 +485,6 @@ export function ChickenStationScreen({
           </>
         )}
       </section>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

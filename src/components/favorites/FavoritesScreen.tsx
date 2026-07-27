@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, Compass, Flame, Search, Star } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getFavoriteRecipes } from "@/lib/data";
@@ -38,8 +37,7 @@ export function FavoritesScreen() {
   }, []);
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content tab-page-content px-5 pt-3">
         <motion.header
@@ -168,6 +166,6 @@ export function FavoritesScreen() {
       </div>
 
       <TabBar current="favorites" />
-    </IphoneFrame>
+    </AppViewport>
   );
 }

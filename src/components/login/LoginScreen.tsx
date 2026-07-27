@@ -4,8 +4,7 @@ import { type FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, Send, ShieldCheck } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import {
   canSendLoginEmail,
   getLoginCooldownMessage,
@@ -86,8 +85,7 @@ export function LoginScreen() {
   const buttonLabel = getLoginSendButtonLabel(sendState);
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content px-5 pt-3">
         <motion.header
@@ -170,6 +168,6 @@ export function LoginScreen() {
           </div>
         </motion.form>
       </div>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

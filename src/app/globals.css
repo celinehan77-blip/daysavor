@@ -28,12 +28,14 @@
 }
 
 html {
-  background:
-    radial-gradient(circle at 50% 18%, rgba(255, 252, 247, 0.78), transparent 34rem),
-    linear-gradient(135deg, #f3eadf 0%, #faf6f0 46%, #f1e6d8 100%);
+  min-height: 100%;
+  background: var(--background);
 }
 
 body {
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", sans-serif;
@@ -54,22 +56,22 @@ input {
 }
 
 .app-shell {
-  min-height: 100svh;
+  width: 100%;
+  min-height: 100dvh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 0;
-  background:
-    radial-gradient(circle at 50% 12%, rgba(255, 252, 247, 0.92), transparent 30rem),
-    radial-gradient(circle at 16% 80%, rgba(201, 129, 91, 0.06), transparent 24rem),
-    linear-gradient(145deg, #f4ece1, #faf6f0);
+  overflow-x: hidden;
+  background: var(--background);
 }
 
-.phone-screen {
+.app-viewport {
   position: relative;
-  width: min(100vw, 393px);
-  height: min(100svh, 852px);
-  max-height: 852px;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top);
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 24%, rgba(255, 252, 247, 0.68), transparent 18rem),
@@ -77,19 +79,16 @@ input {
   color: var(--foreground);
 }
 
-@media (min-width: 430px) {
-  .phone-screen {
-    height: min(852px, calc(100svh - 48px));
-    margin: 24px 0;
-    border-radius: 44px;
-    box-shadow: 0 30px 100px rgba(70, 45, 25, 0.2);
+@media (min-width: 768px) {
+  .app-viewport {
+    max-width: 768px;
   }
 }
 
 .app-content {
   position: relative;
   z-index: 10;
-  height: calc(100% - 54px);
+  height: calc(100dvh - env(safe-area-inset-top));
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;

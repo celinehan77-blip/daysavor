@@ -71,6 +71,11 @@
 | difficulty | text | 难度，例如简单、中等 |
 | flavor | text | 风味，例如川味、家常、鲜香 |
 | main_ingredient | text | 主食材展示文案 |
+| primary_category | text | 稳定英文分类 ID；旧数据为空时由应用按 `other` 读取 |
+| primary_ingredient | text | 决定主要分类的具体食材 |
+| classification_confidence | numeric(4,3) | 分类置信度，范围 0–1 |
+| classification_reason | text | 分类依据 |
+| classification_source | text | 分类来源：`ai`、`user` 或 `rule` |
 | saved_count | integer | 收藏展示数量 |
 | cover_type | text | 封面类型，例如 `illustration`、`image` |
 | is_generated | boolean | 是否由链接生成 |
@@ -86,6 +91,9 @@
 - `slug` 加唯一约束。
 - `station_id` 加索引，方便读取某个驿站下的菜谱。
 - `user_id` 加索引，方便未来读取某个用户生成过的菜谱。
+- `user_id + primary_category + created_at` 建联合索引，支持当前用户分类列表与最近新增排序。
+- 分类 ID 只允许 `chicken / duck / pork / beef / lamb / fish / shrimp / crab / other`。
+- 旧数据不强制回填；读取时归入 `other`，避免误覆盖用户已经手动修正的结果。
 
 ## 4. ingredients 食材表
 
@@ -221,4 +229,3 @@
 - 流程一负责新增数据。
 - 流程二负责浏览和复用数据。
 - AI 生成出来的菜谱，只要通过审核或保存，就应该进入 `recipes`，成为普通可浏览菜谱。
-

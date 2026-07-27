@@ -4,6 +4,10 @@ import type {
   ParsedStep,
 } from "@/types/ai";
 import type { IngredientGroup } from "@/types";
+import {
+  classifyRecipeContent,
+  isRecipeCategoryId,
+} from "@/lib/classification/recipeCategories";
 
 function asString(value: unknown, fallback = "", maxLength = 240) {
   return typeof value === "string" && value.trim()
@@ -222,6 +226,38 @@ export function validateParsedRecipeDraft(
     warnings.push(`有 ${missingHeatCount} 个步骤未识别到火候。`);
   }
 
+  const aiCategory = isRecipeCategoryId(draft.primaryCategory)
+    ? draft.primaryCategory
+    : null;
+  const aiClassificationConfidence = Math.min(
+    1,
+    Math.max(0, asNumber(draft.classificationConfidence, 0)),
+  );
+  const hasCompleteAiClassification =
+    aiCategory !== null &&
+    (aiCategory === "other" || aiClassificationConfidence >= 0.6) &&
+    Boolean(asString(draft.primaryIngredient)) &&
+    Boolean(asString(draft.classificationReason));
+  const fallbackClassification = classifyRecipeContent({
+    titleZh,
+    titleEn: asString(draft.titleEn, titleZh),
+    mainIngredient,
+    ingredients,
+    steps,
+  });
+  const classification = hasCompleteAiClassification
+    ? {
+        primaryCategory: aiCategory,
+        primaryIngredient: asString(draft.primaryIngredient, mainIngredient),
+        classificationConfidence: aiClassificationConfidence,
+        classificationReason: asString(
+          draft.classificationReason,
+          "AI 根据菜名、食材和步骤判断主要分类",
+        ),
+        classificationSource: "ai" as const,
+      }
+    : fallbackClassification;
+
   return {
     titleZh,
     titleEn: asString(draft.titleEn, titleZh),
@@ -230,6 +266,7 @@ export function validateParsedRecipeDraft(
     difficulty: asDifficulty(draft.difficulty),
     flavor: asString(draft.flavor, "家常"),
     mainIngredient,
+    ...classification,
     tags: Array.from(new Set(asStringArray(draft.tags))).slice(0, 6),
     ingredients,
     seasonings,

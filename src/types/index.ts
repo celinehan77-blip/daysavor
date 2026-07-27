@@ -1,4 +1,14 @@
 import type { LucideIcon } from "lucide-react";
+import type {
+  ClassificationSource,
+  RecipeCategoryId,
+} from "@/types/classification";
+
+export type {
+  ChefCategoryViewModel,
+  ClassificationSource,
+  RecipeCategoryId,
+} from "@/types/classification";
 
 export type TabKey = "home" | "favorites" | "flavor-map" | "profile";
 
@@ -55,6 +65,11 @@ export type Recipe = {
   difficulty: string;
   flavor: string;
   mainIngredient: string;
+  primaryCategory?: RecipeCategoryId;
+  primaryIngredient?: string;
+  classificationConfidence?: number;
+  classificationReason?: string;
+  classificationSource?: ClassificationSource;
   tags: string[];
   description: string;
   ingredients: Ingredient[];

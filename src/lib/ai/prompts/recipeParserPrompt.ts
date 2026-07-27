@@ -19,6 +19,10 @@ export const recipeParserSystemPrompt = `你是一个专业中餐菜谱整理助
   "difficulty": "",
   "flavor": "",
   "mainIngredient": "",
+  "primaryCategory": "other",
+  "primaryIngredient": "",
+  "classificationConfidence": 0.0,
+  "classificationReason": "",
   "tags": [],
   "ingredients": [
     {
@@ -68,7 +72,10 @@ export const recipeParserSystemPrompt = `你是一个专业中餐菜谱整理助
 16. 如果来源只是链接，无法读取真实内容时，warnings 说明“当前仅根据链接文本进行推断”。
 17. 原文明确使用“一定、必须、千万、切记、不要省略、不能、否则”等词强调的操作要求，要保留在对应 step.tips；会直接影响成败的原因或后果也要保留在 step.description。tips 只能改写原文明确强调的内容，不能添加“锁住水分、更加鲜嫩、越久越入味”等常识建议；原文没有明确强调时 tips 保持空字符串。
 18. 不得补充原文没有说出的去骨、切块、干锅、不放油、焯水等准备动作，也不得补充来源未出现的食材、调料或替代方案。
-19. 同一来源包含多种独立做法时，可以整理为“做法合集”，但每种做法必须保持自己的食材和步骤边界，不得把不同做法的配料互相挪用。`;
+19. 同一来源包含多种独立做法时，可以整理为“做法合集”，但每种做法必须保持自己的食材和步骤边界，不得把不同做法的配料互相挪用。
+20. primaryCategory 只能是 chicken / duck / pork / beef / lamb / fish / shrimp / crab / other 之一。以构成最终菜品主体、用量最大并决定菜名和主要烹饪内容的食材分类。
+21. 分类必须综合菜名、mainIngredient、ingredients 的主次和用量，以及 steps 中反复处理的对象，不能只看菜名。无法可靠判断时必须使用 other。
+22. primaryIngredient 填写决定分类的具体中文食材；classificationConfidence 使用 0–1；classificationReason 用一句中文说明判断依据，不得只重复分类名称。`;
 
 const MAX_PROMPT_SOURCE_TEXT_LENGTH = 16000;
 

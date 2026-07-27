@@ -6,6 +6,7 @@
 首页输入
 -> POST /api/parse-recipe
 -> 得到 ParsedRecipeDraft
+-> 校验或规则补齐 primaryCategory 等分类字段
 -> 保存 latest parsed draft 到 localStorage
 -> 创建 generation task
 -> 尝试写入 Supabase recipes
@@ -16,6 +17,16 @@
 -> loading
 -> 跳转 /recipe/[latestGeneratedRecipeSlug]
 ```
+
+`recipes` 保存时会同步写入：
+
+- `primary_category`
+- `primary_ingredient`
+- `classification_confidence`
+- `classification_reason`
+- `classification_source`
+
+AI 提供完整且可信的分类时来源为 `ai`；AI 字段缺失、非法或低可信时由本地保守规则补齐并标记为 `rule`；详情页手动修正后标记为 `user`。
 
 如果没有生成新 slug，`loading` 会继续 fallback 到：
 

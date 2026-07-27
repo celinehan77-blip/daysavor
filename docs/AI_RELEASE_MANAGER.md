@@ -29,6 +29,7 @@ RELEASE_MANAGER 以 Working Release 为单位管理版本，而不是把每个 C
 
 | Version | Commit | Phase | 状态 | Rollback |
 | --- | --- | --- | --- | --- |
+| `0.3.0-beta.4` | 发布候选工作区 | Milestone 4 / A2 | 全屏移动端、自动分类、风味地图票根与 3D Cover Flow；等待签名 Prerelease | `android-v0.2.1-beta.3` |
 | `0.2.0-beta.1` | `b23e24d` | Milestone 4 / A2 | 长期签名 APK/AAB 与 GitHub Prerelease 已发布；待 Android 真机验收 | `81e75b8` |
 | `0.2.0-working.17` | `24330c9` | Milestone 4 / A1 | Capacitor Android 与 GitHub Actions debug APK 构建已验证 | `81e75b8` |
 | `0.2.0-working.16` | 当前工作区 | Milestone 3 / D1 | Beta MVP 生产闭环验收完成；等待真实用户反馈，不创建 Stable Tag | `61deaff` |
@@ -45,4 +46,4 @@ RELEASE_MANAGER 以 Working Release 为单位管理版本，而不是把每个 C
 | `0.2.0-working.5` | 当前工作区 | Milestone 2 / B1 | Vercel 真实样本、61 tests、lint、build、Secret Scan 通过 | `b058dab` |
 | `0.2.0-working.4` | 未提交工作区 | Milestone 2 / A1 | 小红书视频语音链路本地验收完成；待 Git/Netlify 发布 | 最近安全提交 `0a35bb1` |
 
-仓库当前没有 Git Tag，因此不能声称已有 Stable Release。Git 权限未明确授权时，只生成建议版本和 Release Note，不执行 Commit、Tag、Push 或 GitHub Release。
+当前 Android Beta 使用 `android-v<version>` Prerelease Tag；`0.3.0-beta.4` 必须在 QA、Reviewer、生产 migration、同提交 Web 部署和 GitHub 签名资产验证通过后才能标记为已发布。

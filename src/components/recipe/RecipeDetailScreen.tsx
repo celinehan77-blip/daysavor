@@ -23,9 +23,18 @@ import {
   isLocalGeneratedRecipeSlug,
   isRecipeFavorite,
   toggleRecipeFavorite,
+  updateRecipeClassification,
 } from "@/lib/data";
 import { serializeRecipe } from "@/lib/data/serializers";
 import type { Ingredient, IngredientGroup, SerializableRecipe } from "@/types";
+import {
+  normalizeRecipeCategory,
+  recipeCategoryLabels,
+} from "@/lib/classification/recipeCategories";
+import {
+  RECIPE_CATEGORY_IDS,
+  type RecipeCategoryId,
+} from "@/types/classification";
 
 type RecipeDetailScreenProps = {
   allRecipes: SerializableRecipe[];
@@ -217,6 +226,11 @@ export function RecipeDetailScreen({
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteMessage, setFavoriteMessage] = useState("");
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
+  const [isClassificationMenuOpen, setIsClassificationMenuOpen] =
+    useState(false);
+  const [classificationMessage, setClassificationMessage] = useState("");
+  const [isClassificationLoading, setIsClassificationLoading] =
+    useState(false);
   const favoriteLockRef = useRef(false);
 
   useEffect(() => {
@@ -283,6 +297,43 @@ export function RecipeDetailScreen({
     } finally {
       favoriteLockRef.current = false;
       setIsFavoriteLoading(false);
+    }
+  };
+
+  const handleClassificationChange = async (
+    category: RecipeCategoryId,
+  ) => {
+    if (!resolvedRecipe || isClassificationLoading) return;
+
+    setIsClassificationLoading(true);
+    setClassificationMessage("");
+
+    try {
+      const result = await updateRecipeClassification(
+        resolvedRecipe.slug,
+        category,
+      );
+
+      if (!result.ok) {
+        setClassificationMessage(result.error ?? "分类修改失败，请稍后重试。");
+        return;
+      }
+
+      setResolvedRecipe((current) =>
+        current
+          ? {
+              ...current,
+              primaryCategory: category,
+              classificationConfidence: 1,
+              classificationReason: "用户手动修正主要分类",
+              classificationSource: "user",
+            }
+          : current,
+      );
+      setClassificationMessage(`已归入${recipeCategoryLabels[category]}`);
+      setIsClassificationMenuOpen(false);
+    } finally {
+      setIsClassificationLoading(false);
     }
   };
 
@@ -387,12 +438,44 @@ export function RecipeDetailScreen({
               </button>
               <button
                 aria-label="更多"
+                aria-expanded={isClassificationMenuOpen}
+                onClick={() =>
+                  setIsClassificationMenuOpen((isOpen) => !isOpen)
+                }
                 className="recipe-nav-button"
               >
                 <MoreHorizontal size={22} />
               </button>
             </div>
           </div>
+
+          {isClassificationMenuOpen ? (
+            <div className="paper-card absolute right-5 top-16 z-40 w-[190px] rounded-[18px] p-3 text-left shadow-[0_18px_45px_rgba(72,49,30,0.2)]">
+              <label
+                htmlFor="recipe-primary-category"
+                className="relative z-10 block text-[12px] font-semibold text-[#6f5b49]"
+              >
+                主要分类
+              </label>
+              <select
+                id="recipe-primary-category"
+                value={normalizeRecipeCategory(recipe.primaryCategory)}
+                disabled={isClassificationLoading}
+                onChange={(event) =>
+                  void handleClassificationChange(
+                    event.target.value as RecipeCategoryId,
+                  )
+                }
+                className="relative z-10 mt-2 h-10 w-full rounded-xl border border-[#d8cabb] bg-[#fffaf2] px-3 text-[13px] text-[#3a2a1d] outline-none"
+              >
+                {RECIPE_CATEGORY_IDS.map((category) => (
+                  <option key={category} value={category}>
+                    {recipeCategoryLabels[category]}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
 
           <FoodStillLife />
 
@@ -448,6 +531,11 @@ export function RecipeDetailScreen({
         {favoriteMessage ? (
           <p className="mx-5 mt-2 rounded-full bg-[#fffaf2]/70 px-3 py-1.5 text-[12px] leading-5 text-[#8a5a35]">
             {favoriteMessage}
+          </p>
+        ) : null}
+        {classificationMessage ? (
+          <p className="mx-5 mt-2 rounded-full bg-[#fffaf2]/70 px-3 py-1.5 text-[12px] leading-5 text-[#8a5a35]">
+            {classificationMessage}
           </p>
         ) : null}
 

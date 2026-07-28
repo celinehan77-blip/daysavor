@@ -20,7 +20,7 @@ on:
       version_name:
         description: "Android version name"
         required: true
-        default: "0.2.0-beta.1"
+        default: "0.3.0-beta.4"
 
 permissions:
   contents: write
@@ -55,7 +55,7 @@ jobs:
 
       - name: Build installable debug APK
         working-directory: android
-        run: ./gradlew assembleDebug -PappVersionCode=${{ github.run_number }} -PappVersionName=${{ inputs.version_name || '0.2.0-beta.1' }}
+        run: ./gradlew assembleDebug -PappVersionCode=${{ github.run_number }} -PappVersionName=${{ inputs.version_name || '0.3.0-beta.4' }}
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4

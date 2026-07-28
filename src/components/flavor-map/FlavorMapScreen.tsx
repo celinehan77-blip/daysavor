@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Feather } from "lucide-react";
+import { Feather, Plane } from "lucide-react";
 import { ChefTicket } from "@/components/flavor-map/ChefTicket";
 import styles from "@/components/flavor-map/FlavorMap.module.css";
 import { AppViewport } from "@/components/layout/AppViewport";
@@ -30,7 +30,26 @@ export function FlavorMapScreen() {
               Flavor Map
             </span>
             <span className="h-px w-10 bg-[#b89975]/55" />
+            <span className={styles.airMailMark} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <Plane size={13} strokeWidth={1.25} />
+            </span>
           </div>
+
+          <aside className={styles.travelTag} aria-hidden="true">
+            <span className={styles.travelTagPin} />
+            <Plane
+              className={styles.travelTagPlane}
+              size={12}
+              strokeWidth={1.45}
+            />
+            <p className={styles.travelTagTitle}>探索美食世界</p>
+            <p className={styles.travelTagSubtitle}>从这里出发</p>
+            <span className={styles.travelTagRule} />
+            <span className={styles.travelTagBarcode} />
+          </aside>
         </motion.header>
 
         <motion.div

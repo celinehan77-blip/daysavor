@@ -52,6 +52,7 @@ export function ChefTicket({ category, index }: ChefTicketProps) {
     ? `最近新增：${category.latestRecipeName}`
     : "还没有新的菜谱";
   const depth = index === 0 ? "0" : index < 4 ? "1" : "2";
+  const stampRingId = `chef-stamp-${category.id}`;
 
   return (
     <Link
@@ -86,8 +87,48 @@ export function ChefTicket({ category, index }: ChefTicketProps) {
           </div>
 
           <span className={styles.stamp} aria-hidden="true">
-            <Icon size={21} strokeWidth={1.35} />
-            TASTE ARCHIVE
+            <svg
+              className={styles.stampArtwork}
+              viewBox="0 0 100 100"
+              role="presentation"
+            >
+              <defs>
+                <path
+                  id={stampRingId}
+                  d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+                />
+              </defs>
+              <circle
+                className={styles.stampOuterRing}
+                cx="50"
+                cy="50"
+                r="46"
+              />
+              <circle
+                className={styles.stampInnerRing}
+                cx="50"
+                cy="50"
+                r="31"
+              />
+              <text className={styles.stampText}>
+                <textPath href={`#${stampRingId}`} startOffset="2%">
+                  TASTE ARCHIVE • CHEF COLLECTION •
+                </textPath>
+              </text>
+              <path
+                className={styles.stampDivider}
+                d="M22 50h9M69 50h9"
+              />
+            </svg>
+            <Icon
+              className={styles.stampAnimal}
+              size={25}
+              strokeWidth={1.35}
+            />
+            <span className={styles.stampNumber}>
+              NO. {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className={styles.stampDistress} />
           </span>
         </section>
 

@@ -51,6 +51,9 @@ test("the shared ticket consumes view-model props and keeps empty categories lin
   assert.match(source, /chef-ticket-barcode/);
   assert.match(source, /active:scale-\[0\.985\]/);
   assert.match(source, /data-depth=\{depth\}/);
+  assert.match(source, /<svg[\s\S]*viewBox="0 0 100 100"/);
+  assert.match(source, /<textPath/);
+  assert.match(source, /styles\.stampAnimal/);
   assert.doesNotMatch(source, /getPersonalRecipes|getChefCategories|supabase/i);
 });
 
@@ -65,6 +68,10 @@ test("the flavor map renders a scalable overlapping stack from category view mod
   assert.match(source, /<ChefTicket/);
   assert.match(source, /category=\{category\}/);
   assert.match(source, /styles\.ticketStackInset/);
+  assert.match(source, /styles\.travelTag/);
+  assert.match(source, /styles\.airMailMark/);
+  assert.match(source, /探索美食世界/);
+  assert.match(source, /从这里出发/);
   assert.match(source, /-mt-\[18px\]/);
   assert.match(source, /都是一类值得收藏的味道/);
   assert.doesNotMatch(
@@ -96,5 +103,29 @@ test("ticket proportions, center shadow, and stamp match the refined visual spec
     source,
     /\.ticketLink\[data-depth="1"\]::after[\s\S]*opacity:/,
   );
-  assert.match(source, /\.stamp\s*\{[\s\S]*width:\s*72px[\s\S]*height:\s*72px/);
+  assert.match(source, /\.stamp\s*\{[\s\S]*width:\s*84px[\s\S]*height:\s*84px/);
+});
+
+test("paper, typography, and edge details stay subtle and high fidelity", () => {
+  const source = readProjectFile(
+    "src/components/flavor-map/FlavorMap.module.css",
+  );
+
+  assert.match(
+    source,
+    /\.screen::before\s*\{[\s\S]*repeating-linear-gradient[\s\S]*opacity:/,
+  );
+  assert.match(source, /\.screen::after\s*\{[\s\S]*radial-gradient/);
+  assert.match(source, /\.travelTag\s*\{[\s\S]*width:\s*clamp\(/);
+  assert.match(source, /\.travelTagPin\s*\{[\s\S]*border-radius:\s*50%/);
+  assert.match(source, /\.airMailMark\s*\{[\s\S]*opacity:/);
+  assert.match(source, /\.ticket\s*\{[\s\S]*clip-path:\s*polygon/);
+  assert.match(source, /\.main::after\s*\{[\s\S]*background-image:\s*url/);
+  assert.match(
+    source,
+    /\.title\s*\{[\s\S]*font-size:\s*clamp\([^;]*31px\)/,
+  );
+  assert.match(source, /\.description\s*\{[\s\S]*max-width:\s*82%/);
+  assert.match(source, /\.meta\s*\{[\s\S]*margin-top:\s*20px/);
+  assert.match(source, /\.stamp\s*\{[\s\S]*width:\s*84px[\s\S]*height:\s*84px/);
 });

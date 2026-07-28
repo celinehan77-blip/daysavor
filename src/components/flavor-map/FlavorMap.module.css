@@ -1,7 +1,170 @@
 .screen {
+  position: relative;
+  isolation: isolate;
   background:
-    radial-gradient(circle at 78% 4%, rgb(255 255 255 / 58%), transparent 19rem),
-    linear-gradient(180deg, #f7f2e9 0%, #f3ece0 100%);
+    radial-gradient(circle at 78% 4%, rgb(255 255 255 / 64%), transparent 19rem),
+    linear-gradient(180deg, #f8f4ed 0%, #f3ece0 100%);
+}
+
+.screen::before,
+.screen::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.screen::before {
+  background-image:
+    repeating-linear-gradient(
+      7deg,
+      transparent 0 9px,
+      rgb(91 67 43 / 2.8%) 10px,
+      transparent 11px
+    ),
+    radial-gradient(rgb(98 72 46 / 5%) 0.35px, transparent 0.55px),
+    radial-gradient(rgb(255 255 255 / 55%) 0.45px, transparent 0.65px);
+  background-position:
+    0 0,
+    0 0,
+    8px 11px;
+  background-size:
+    auto,
+    17px 17px,
+    21px 21px;
+  mix-blend-mode: multiply;
+  opacity: 0.48;
+}
+
+.screen::after {
+  background:
+    radial-gradient(circle at 18% 9%, rgb(255 255 255 / 62%), transparent 15rem),
+    radial-gradient(circle at 86% 23%, rgb(210 171 119 / 8%), transparent 12rem),
+    radial-gradient(circle at 44% 74%, rgb(255 255 255 / 28%), transparent 22rem);
+  opacity: 0.78;
+}
+
+.airMailMark {
+  position: relative;
+  display: inline-flex;
+  width: 76px;
+  height: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: -3px;
+  color: #a7794d;
+  opacity: 0.16;
+  transform: rotate(-3deg);
+}
+
+.airMailMark span {
+  position: absolute;
+  left: 0;
+  width: 52px;
+  height: 7px;
+  border-top: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.airMailMark span:nth-child(1) {
+  top: 3px;
+}
+
+.airMailMark span:nth-child(2) {
+  top: 9px;
+  left: 4px;
+}
+
+.airMailMark span:nth-child(3) {
+  top: 15px;
+  left: 1px;
+}
+
+.travelTag {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  display: flex;
+  width: clamp(64px, 18vw, 76px);
+  height: clamp(91px, 25vw, 105px);
+  flex-direction: column;
+  justify-content: center;
+  padding: 17px 8px 8px;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%, 0 8px);
+  border: 1px solid rgb(100 71 44 / 9%);
+  border-radius: 7px 7px 9px 9px;
+  background:
+    radial-gradient(circle at 78% 18%, rgb(255 255 255 / 58%), transparent 26px),
+    repeating-linear-gradient(12deg, transparent 0 8px, rgb(91 65 41 / 2.5%) 9px, transparent 10px),
+    #eee2cc;
+  color: #584534;
+  box-shadow:
+    0 9px 18px rgb(61 41 25 / 9%),
+    inset 0 1px rgb(255 255 255 / 48%);
+  text-align: left;
+  transform: rotate(1.2deg);
+}
+
+.travelTagPin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 21px;
+  height: 21px;
+  border: 1px solid rgb(114 73 39 / 10%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(255 255 255 / 34%), transparent 35%),
+    #c99a68;
+  box-shadow:
+    0 3px 5px rgb(70 45 26 / 22%),
+    inset 0 -2px 3px rgb(81 49 25 / 10%);
+  transform: translateX(-50%);
+}
+
+.travelTagPlane {
+  position: absolute;
+  top: 9px;
+  right: 7px;
+  color: #6f5740;
+  transform: rotate(-11deg);
+}
+
+.travelTagTitle {
+  margin-top: 3px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.travelTagSubtitle {
+  margin-top: 4px;
+  font-size: 7px;
+  letter-spacing: 0.035em;
+  opacity: 0.62;
+  white-space: nowrap;
+}
+
+.travelTagRule {
+  width: 100%;
+  margin-top: 7px;
+  border-top: 1px dashed rgb(92 65 41 / 22%);
+}
+
+.travelTagBarcode {
+  width: 100%;
+  height: 13px;
+  margin-top: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(88 65 45 / 45%) 0 1px,
+    transparent 1px 3px,
+    rgb(88 65 45 / 36%) 3px 5px,
+    transparent 5px 7px
+  );
+  opacity: 0.55;
 }
 
 .stack {
@@ -26,21 +189,21 @@
 
 .ticketLink::after {
   position: absolute;
-  right: 12%;
-  bottom: -11px;
-  left: 12%;
+  right: 13%;
+  bottom: -10px;
+  left: 13%;
   z-index: 0;
   height: 23px;
   pointer-events: none;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    rgb(55 37 23 / 28%) 0%,
-    rgb(55 37 23 / 14%) 42%,
-    rgb(55 37 23 / 5%) 62%,
+    rgb(55 37 23 / 29%) 0%,
+    rgb(55 37 23 / 15%) 39%,
+    rgb(55 37 23 / 5%) 63%,
     transparent 76%
   );
-  filter: blur(5px);
+  filter: blur(5.5px);
   opacity: 0.92;
   content: "";
 }
@@ -60,20 +223,21 @@
 }
 
 .ticket {
-  --paper-fiber: rgb(70 50 32 / 6%);
+  --paper-fiber: rgb(70 50 32 / 4%);
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(72px, 1fr);
+  grid-template-columns: minmax(0, 4fr) minmax(68px, 1fr);
   height: 178px;
   overflow: hidden;
   border: 1px solid rgb(73 51 34 / 12%);
-  border-radius: 10px;
+  border-radius: 8px;
   background-color: var(--ticket-paper);
+  clip-path: polygon(0 4%, 1.2% 4%, 1.2% 0, 98.8% 0, 98.8% 4%, 100% 4%, 100% 96%, 98.8% 96%, 98.8% 100%, 1.2% 100%, 1.2% 96%, 0 96%);
   color: var(--ticket-text);
   box-shadow:
-    0 12px 24px rgb(61 42 27 / 11%),
-    0 4px 9px rgb(61 42 27 / 7%),
+    0 10px 20px rgb(61 42 27 / 9%),
+    0 3px 8px rgb(61 42 27 / 6%),
     inset 0 1px 0 rgb(255 255 255 / 50%),
     inset 0 -1px 0 rgb(71 50 30 / 10%);
   transform: translateZ(0);
@@ -82,16 +246,16 @@
 
 .ticket[data-depth="1"] {
   box-shadow:
-    0 10px 20px rgb(61 42 27 / 9%),
-    0 3px 7px rgb(61 42 27 / 6%),
+    0 8px 17px rgb(61 42 27 / 7%),
+    0 2px 6px rgb(61 42 27 / 5%),
     inset 0 1px 0 rgb(255 255 255 / 46%),
     inset 0 -1px 0 rgb(71 50 30 / 9%);
 }
 
 .ticket[data-depth="2"] {
   box-shadow:
-    0 8px 16px rgb(61 42 27 / 7%),
-    0 2px 6px rgb(61 42 27 / 5%),
+    0 6px 13px rgb(61 42 27 / 6%),
+    0 2px 5px rgb(61 42 27 / 4%),
     inset 0 1px 0 rgb(255 255 255 / 42%),
     inset 0 -1px 0 rgb(71 50 30 / 8%);
 }
@@ -120,12 +284,12 @@
 
 .ticket::before {
   background:
-    radial-gradient(circle at 14% 28%, rgb(255 255 255 / 28%), transparent 26%),
-    radial-gradient(circle at 68% 78%, rgb(62 42 25 / 5%), transparent 29%),
+    radial-gradient(circle at 14% 28%, rgb(255 255 255 / 24%), transparent 26%),
+    radial-gradient(circle at 68% 78%, rgb(62 42 25 / 4%), transparent 29%),
     repeating-linear-gradient(7deg, transparent 0 8px, var(--paper-fiber) 9px, transparent 10px),
-    linear-gradient(105deg, rgb(255 255 255 / 20%), transparent 36%, rgb(72 48 29 / 4%) 100%);
+    linear-gradient(105deg, rgb(255 255 255 / 16%), transparent 36%, rgb(72 48 29 / 3%) 100%);
   mix-blend-mode: soft-light;
-  opacity: 0.78;
+  opacity: 0.72;
 }
 
 .ticket::after {
@@ -143,7 +307,7 @@
     17px 17px,
     auto;
   mix-blend-mode: multiply;
-  opacity: 0.55;
+  opacity: 0.42;
 }
 
 .main,
@@ -154,7 +318,23 @@
 
 .main {
   min-width: 0;
-  padding: 18px 17px 16px;
+  padding: 17px 16px 15px;
+}
+
+.main::after {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  z-index: 0;
+  width: 126px;
+  height: 94px;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='126' height='94' viewBox='0 0 126 94' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23624d38' stroke-width='.7'%3E%3Cpath d='M2 75c19-16 31 11 48-6s29-28 44-17 19 10 30 5'/%3E%3Cpath d='M3 83c20-15 34 9 52-7s26-19 42-10 17 8 27 4'/%3E%3Cpath d='M24 92c12-21 22-42 36-49 17-8 20-23 32-36M43 94c5-15 14-29 27-37 19-12 20-29 29-47'/%3E%3Cpath d='M76 21c7 5 11 11 11 18-9-4-17-1-24 5 0-9 4-17 13-23Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  opacity: 0.07;
 }
 
 .stub {
@@ -163,7 +343,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 7px 13px 11px;
+  padding: 16px 6px 13px 9px;
   border-left: 1px solid rgb(68 48 31 / 10%);
   background: rgb(255 255 255 / 9%);
   text-align: center;
@@ -183,7 +363,7 @@
     var(--ticket-text) 0 5px,
     transparent 5px 10px
   );
-  opacity: 0.22;
+  opacity: 0.18;
 }
 
 .notch {
@@ -193,7 +373,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #f7f2e9;
+  background: #f8f4ed;
   box-shadow:
     inset -2px 0 3px rgb(62 42 27 / 11%),
     1px 0 0 rgb(255 255 255 / 25%);
@@ -208,6 +388,8 @@
 }
 
 .eyebrow {
+  position: relative;
+  z-index: 1;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.23em;
@@ -215,17 +397,22 @@
 }
 
 .title {
-  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
   font-family: "Songti SC", "STSong", "Noto Serif CJK SC", Georgia, serif;
-  font-size: clamp(27px, 7.7vw, 34px);
+  font-size: clamp(26px, 7.2vw, 31px);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.08em;
+  line-height: 1.05;
+  letter-spacing: 0.065em;
 }
 
 .description {
-  margin-top: 7px;
-  padding-right: 64px;
+  position: relative;
+  z-index: 1;
+  max-width: 82%;
+  margin-top: 9px;
+  padding-right: 44px;
   overflow: hidden;
   font-size: 12px;
   line-height: 1.45;
@@ -236,11 +423,13 @@
 }
 
 .meta {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 10px;
   align-items: center;
-  margin-top: 14px;
+  margin-top: 20px;
 }
 
 .iconSeal {
@@ -281,31 +470,86 @@
 
 .stamp {
   position: absolute;
-  top: 36px;
-  right: 11px;
+  top: 27px;
+  right: 8px;
   z-index: 2;
-  display: grid;
-  width: 72px;
-  height: 72px;
-  align-content: center;
-  place-items: center;
-  gap: 3px;
-  border: 1.5px solid var(--ticket-accent);
-  border-radius: 50%;
+  width: 84px;
+  height: 84px;
   color: var(--ticket-accent);
-  font-size: 6.5px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.12em;
-  opacity: 0.32;
-  transform: rotate(-11deg);
+  opacity: 0.27;
+  transform: rotate(-5.5deg);
 }
 
-.stamp::after {
+.stampArtwork {
   position: absolute;
-  inset: 5px;
-  border: 1px dashed currentColor;
-  border-radius: inherit;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stampOuterRing,
+.stampInnerRing {
+  fill: none;
+  stroke: currentColor;
+}
+
+.stampOuterRing {
+  stroke-width: 1.65;
+  stroke-dasharray: 1.8 1.2;
+}
+
+.stampInnerRing {
+  stroke-width: 1.05;
+  stroke-dasharray: 3.2 1.6;
+}
+
+.stampText {
+  fill: currentColor;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 6.4px;
+  font-weight: 700;
+  letter-spacing: 0.75px;
+}
+
+.stampDivider {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.stampAnimal {
+  position: absolute;
+  top: 28px;
+  left: 29px;
+}
+
+.stampNumber {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  left: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 5.8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.stampDistress {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 23% 28%, var(--ticket-paper) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 72% 32%, var(--ticket-paper) 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 58% 71%, var(--ticket-paper) 0 1.2px, transparent 1.8px);
+  background-size:
+    13px 11px,
+    17px 14px,
+    19px 18px;
+  mix-blend-mode: screen;
+  opacity: 0.58;
   content: "";
 }
 
@@ -352,7 +596,7 @@
     var(--ticket-text) 7px 8px,
     transparent 8px 11px
   );
-  opacity: 0.47;
+  opacity: 0.38;
 }
 
 @media (max-width: 360px) {
@@ -365,7 +609,20 @@
   }
 
   .stamp {
-    right: 8px;
+    right: 5px;
+    width: 78px;
+    height: 78px;
+  }
+
+  .stampAnimal {
+    top: 26px;
+    left: 27px;
+    width: 23px;
+    height: 23px;
+  }
+
+  .description {
+    padding-right: 38px;
   }
 }
 

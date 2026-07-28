@@ -133,8 +133,6 @@ export function ChefTicket({ category, index }: ChefTicketProps) {
         </section>
 
         <aside className={styles.stub} aria-hidden="true">
-          <span className={`${styles.notch} ${styles.notchTop} chef-ticket-notch`} />
-          <span className={`${styles.notch} ${styles.notchBottom} chef-ticket-notch`} />
           <span className={`${styles.perforation} chef-ticket-perforation`} />
 
           <div>

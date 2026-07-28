@@ -47,7 +47,7 @@ test("the shared ticket consumes view-model props and keeps empty categories lin
   assert.match(source, /category\.latestRecipeName/);
   assert.match(source, /还没有新的菜谱/);
   assert.match(source, /chef-ticket-perforation/);
-  assert.match(source, /chef-ticket-notch/);
+  assert.doesNotMatch(source, /chef-ticket-notch|styles\.notch/);
   assert.match(source, /chef-ticket-barcode/);
   assert.match(source, /active:scale-\[0\.985\]/);
   assert.match(source, /data-depth=\{depth\}/);
@@ -97,11 +97,11 @@ test("ticket proportions, center shadow, and stamp match the refined visual spec
   assert.match(source, /\.ticket\s*\{[\s\S]*height:\s*178px/);
   assert.match(
     source,
-    /\.ticketLink::after\s*\{[\s\S]*radial-gradient[\s\S]*filter:\s*blur/,
+    /\.ticket\s*\{[^}]*0 3px 5px rgb\(65 48 32 \/ 16%\)[^}]*0 10px 22px rgb\(65 48 32 \/ 10%\)/,
   );
   assert.match(
     source,
-    /\.ticketLink\[data-depth="1"\]::after[\s\S]*opacity:/,
+    /\.ticket\[data-depth="1"\]\s*\{[^}]*0 3px 5px rgb\(65 48 32 \/ 13%\)/,
   );
   assert.match(source, /\.stamp\s*\{[\s\S]*width:\s*84px[\s\S]*height:\s*84px/);
 });
@@ -119,8 +119,8 @@ test("paper, typography, and edge details stay subtle and high fidelity", () => 
   assert.match(source, /\.travelTag\s*\{[\s\S]*width:\s*clamp\(/);
   assert.match(source, /\.travelTagPin\s*\{[\s\S]*border-radius:\s*50%/);
   assert.match(source, /\.airMailMark\s*\{[\s\S]*opacity:/);
-  assert.match(source, /\.ticket\s*\{[\s\S]*clip-path:\s*polygon/);
-  assert.match(source, /\.main::after\s*\{[\s\S]*background-image:\s*url/);
+  assert.match(source, /\.ticket\s*\{[\s\S]*border-radius:\s*16px/);
+  assert.match(source, /\.main::after\s*\{[\s\S]*radial-gradient/);
   assert.match(
     source,
     /\.title\s*\{[\s\S]*font-size:\s*clamp\([^;]*31px\)/,
@@ -128,4 +128,61 @@ test("paper, typography, and edge details stay subtle and high fidelity", () => 
   assert.match(source, /\.description\s*\{[\s\S]*max-width:\s*82%/);
   assert.match(source, /\.meta\s*\{[\s\S]*margin-top:\s*20px/);
   assert.match(source, /\.stamp\s*\{[\s\S]*width:\s*84px[\s\S]*height:\s*84px/);
+});
+
+test("final polish keeps cotton grain and overlaps complete rounded tickets", () => {
+  const source = readProjectFile(
+    "src/components/flavor-map/FlavorMap.module.css",
+  );
+
+  assert.match(
+    source,
+    /\.stack\s*>\s*div\s*\+\s*div\s+\.main\s*\{[\s\S]*padding-top:\s*24px/,
+  );
+  assert.match(
+    source,
+    /\.ticket::after\s*\{[\s\S]*feTurbulence[\s\S]*background-size:\s*100%\s+100%[\s\S]*background-repeat:\s*no-repeat/,
+  );
+  assert.doesNotMatch(
+    source,
+    /\.ticket::before\s*\{[^}]*repeating-linear-gradient/,
+  );
+  assert.doesNotMatch(source, /\.main::before\s*\{[^}]*url\(/);
+  assert.doesNotMatch(source, /\.main::after\s*\{[^}]*url\(/);
+  assert.match(source, /\.main::before\s*\{[^}]*radial-gradient/);
+  assert.match(
+    source,
+    /\.ticket::after\s*\{[\s\S]*feDisplacementMap[\s\S]*feGaussianBlur/,
+  );
+  assert.match(source, /cx='220'\s+cy='66'/);
+  assert.match(
+    source,
+    /\.ticket\s*\{[\s\S]*border-radius:\s*16px[\s\S]*0 3px 5px rgb\(65 48 32 \/ 16%\)[\s\S]*0 10px 22px rgb\(65 48 32 \/ 10%\)/,
+  );
+  assert.doesNotMatch(source, /\.ticket\s*\{[^}]*mask-image:/);
+  assert.doesNotMatch(source, /\.ticket\s*\{[^}]*-webkit-mask-image:/);
+  assert.doesNotMatch(source, /\.ticket\s*\{[^}]*clip-path:/);
+  assert.doesNotMatch(source, /\.ticketLink::before/);
+  assert.doesNotMatch(source, /\.ticketLink::after/);
+  assert.doesNotMatch(source, /\.notch(?:Top|Bottom)?\s*\{/);
+});
+
+test("two complete rounded cards expose a natural 4-8px branch when overlapped", () => {
+  const screenSource = readProjectFile(
+    "src/components/flavor-map/FlavorMapScreen.tsx",
+  );
+  const styleSource = readProjectFile(
+    "src/components/flavor-map/FlavorMap.module.css",
+  );
+
+  const radius = Number(
+    styleSource.match(/\.ticket\s*\{[^}]*border-radius:\s*(\d+)px/)?.[1],
+  );
+  const overlap = Number(screenSource.match(/-mt-\[(\d+)px\]/)?.[1]);
+  const cornerCenterDistance = radius * 2 - overlap;
+  const exposedBranch = cornerCenterDistance / 2;
+
+  assert.equal(radius, 16);
+  assert.equal(overlap, 18);
+  assert.ok(exposedBranch >= 4 && exposedBranch <= 8);
 });

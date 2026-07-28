@@ -16,10 +16,12 @@ GitHub main
 
 仓库 Actions Secrets 必须包含：
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
 
-这两个值会在 Next.js 构建阶段写入浏览器公开配置。AI、ASR 和 ALAPI 密钥不进入镜像，继续只保存在服务器 `/home/admin/web-beta/.env`。
+Workflow 会把这两个现有 Secret 映射为 Next.js 构建阶段所需的
+`NEXT_PUBLIC_SUPABASE_URL` 与 `NEXT_PUBLIC_SUPABASE_ANON_KEY`。AI、ASR 和
+ALAPI 密钥不进入镜像，继续只保存在服务器 `/home/admin/web-beta/.env`。
 
 Workflow 使用仓库内置 `GITHUB_TOKEN` 推送：
 

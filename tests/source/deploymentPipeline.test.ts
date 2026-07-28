@@ -16,6 +16,8 @@ test("web image workflow publishes an amd64 GHCR image with immutable tags", asy
   assert.match(workflow, /type=sha,format=long/);
   assert.match(workflow, /NEXT_PUBLIC_SUPABASE_URL/);
   assert.match(workflow, /NEXT_PUBLIC_SUPABASE_ANON_KEY/);
+  assert.match(workflow, /secrets\.SUPABASE_URL/);
+  assert.match(workflow, /secrets\.SUPABASE_ANON_KEY/);
 });
 
 test("production compose pulls a registry image instead of building on the server", async () => {

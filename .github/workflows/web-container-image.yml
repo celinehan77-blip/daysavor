@@ -89,8 +89,8 @@ jobs:
           {
             echo "### Production image"
             echo
-            echo "- Commit: `${{ github.sha }}`"
-            echo "- Digest: `${{ steps.build.outputs.digest }}`"
-            echo "- Main tag: `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main`"
-            echo "- Rollback tag: `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}`"
+            echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Digest: \`${{ steps.build.outputs.digest }}\`"
+            echo "- Main tag: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main\`"
+            echo "- Rollback tag: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}\`"
           } >> "$GITHUB_STEP_SUMMARY"

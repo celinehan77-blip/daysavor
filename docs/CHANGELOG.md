@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-07-27 - Android 0.3.0 Beta 4 发布候选
+
+- 将手机样机容器改为真实移动端全屏，移除假 iOS 状态栏，并使用动态视口与 safe-area 适配真实设备。
+- 发布个人菜谱自动分类：AI 识别主要食材，底层支持 chicken、duck、pork、beef、lamb、fish、shrimp、crab、other，并提供分类纠错。
+- 风味地图改为读取真实用户分类数量和最近菜谱，九类票根使用稳定动态路由与高保真纸张、缺口、印章和条形码视觉。
+- Chicken Station 改为连续 3D Cover Flow：实时跟手、速度分级惯性、慢拖单张、快速甩动多张和弹簧吸附。
+- Android 继续使用 `com.rishibiji.app`、同一长期签名证书和 `https://app.recipetix.top` 中国大陆入口，支持从 Beta 3 覆盖升级。
+- 发布候选版本更新为 `0.3.0-beta.4`；正式 GitHub Actions run、APK 大小和 SHA-256 在 Prerelease 成功后补录。
+
+## 2026-07-27 - 风味地图个人菜谱自动分类
+
+- AI 菜谱结构新增稳定英文分类 ID、主要食材、分类置信度与判断理由；缺失或低可信输出由保守规则补齐，无法可靠判断时进入 `other`。
+- 生成菜谱的 Supabase 与本地保存路径同步保存分类来源；新增可重复执行的 `recipes` 分类字段 migration，不回写或删除旧数据。
+- 风味地图三张现有票根连接当前用户真实“生成 + 收藏”数据，显示 chicken / beef / fish 的真实数量、平均时间和难度。
+- 新增通用 `/chef/[categoryId]` 页面，底层支持 chicken、duck、pork、beef、lamb、fish、shrimp、crab、other，分类列表不再读取固定 Mock Data。
+- 菜谱详情复用“更多”入口提供最小分类纠错；本地和当前用户云端菜谱更新后写入 `classification_source = user`。
+- 完整测试、lint、production build 通过；本地浏览器完成鸡肉、牛肉、待整理与 chicken → beef 纠错四条流程。
+
 ## 2026-07-27 - 小红书 `.cn` 分享口令兼容
 
 - 真实线上样本确认 `xhslink.cn` 被安全域名白名单拒绝，接口返回 `unsupported_url`；问题与登录状态无关。

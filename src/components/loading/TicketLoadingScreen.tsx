@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Check, CookingPot, Leaf, Plus, Star } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import {
   getLatestGeneratedRecipeSlug,
   getLatestParsedDraft,
@@ -84,8 +83,7 @@ export function TicketLoadingScreen() {
   }, [router]);
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <section className="app-content overflow-hidden px-7 pb-8 pt-4 text-center">
         <motion.div
@@ -288,6 +286,6 @@ export function TicketLoadingScreen() {
           ))}
         </div>
       </section>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

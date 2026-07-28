@@ -4,8 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, Search, Sparkles } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { searchRecipes } from "@/lib/searchRecipes";
 import type { SerializableRecipe, SerializableStation } from "@/types";
@@ -27,8 +26,7 @@ export function SearchScreen({ recipes, stations }: SearchScreenProps) {
   );
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content tab-page-content px-5 pt-3">
         <motion.header
@@ -164,6 +162,6 @@ export function SearchScreen({ recipes, stations }: SearchScreenProps) {
       </div>
 
       <TabBar current="home" />
-    </IphoneFrame>
+    </AppViewport>
   );
 }

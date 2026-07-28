@@ -1,5 +1,9 @@
 import type { IngredientGroup } from "@/types";
 import type {
+  ClassificationSource,
+  RecipeCategoryId,
+} from "@/types/classification";
+import type {
   SourceExtractionErrorCode,
   SourceExtractionMetadata,
 } from "@/lib/source/types";
@@ -55,6 +59,11 @@ export type ParsedRecipeDraft = {
   difficulty: string;
   flavor: string;
   mainIngredient: string;
+  primaryCategory: RecipeCategoryId;
+  primaryIngredient: string;
+  classificationConfidence: number;
+  classificationReason: string;
+  classificationSource: ClassificationSource;
   tags: string[];
   ingredients: ParsedIngredient[];
   seasonings: ParsedIngredient[];

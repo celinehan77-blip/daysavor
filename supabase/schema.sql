@@ -44,11 +44,31 @@ create table if not exists public.recipes (
   difficulty text,
   flavor text,
   main_ingredient text,
+  primary_category text,
+  primary_ingredient text,
+  classification_confidence numeric(4, 3),
+  classification_reason text,
+  classification_source text,
   saved_count integer default 0,
   cover_type text,
   is_generated boolean default false,
   created_at timestamptz default now(),
-  updated_at timestamptz default now()
+  updated_at timestamptz default now(),
+  constraint recipes_primary_category_check check (
+    primary_category is null
+    or primary_category in (
+      'chicken', 'duck', 'pork', 'beef', 'lamb',
+      'fish', 'shrimp', 'crab', 'other'
+    )
+  ),
+  constraint recipes_classification_confidence_check check (
+    classification_confidence is null
+    or classification_confidence between 0 and 1
+  ),
+  constraint recipes_classification_source_check check (
+    classification_source is null
+    or classification_source in ('ai', 'user', 'rule')
+  )
 );
 
 create table if not exists public.ingredients (
@@ -112,6 +132,8 @@ create index if not exists recipes_main_ingredient_idx on public.recipes (main_i
 create index if not exists recipes_difficulty_idx on public.recipes (difficulty);
 create index if not exists recipes_flavor_idx on public.recipes (flavor);
 create index if not exists recipes_created_at_idx on public.recipes (created_at);
+create index if not exists recipes_user_category_created_at_idx
+  on public.recipes (user_id, primary_category, created_at desc);
 
 create index if not exists ingredients_recipe_id_idx on public.ingredients (recipe_id);
 create index if not exists ingredients_group_type_idx on public.ingredients (group_type);

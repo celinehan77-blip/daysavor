@@ -11,8 +11,7 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { LeafMark } from "@/components/ui/LeafMark";
 import {
@@ -67,8 +66,7 @@ export function HomeScreen() {
   };
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content tab-page-content flex flex-col justify-center px-7 pb-8">
         <motion.section
@@ -160,6 +158,6 @@ export function HomeScreen() {
       </div>
 
       <TabBar current="home" />
-    </IphoneFrame>
+    </AppViewport>
   );
 }

@@ -63,10 +63,10 @@ ANDROID_KEY_PASSWORD
 
 ## 用户安装步骤
 
-Beta 3 发布后的下载页：
+当前 Beta 4 下载页：
 
 ```text
-https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.2.1-beta.3
+https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.3.0-beta.4
 ```
 
 Beta 2 签名发布验证：
@@ -91,6 +91,15 @@ Beta 3 中国大陆线路验证：
 - 包内入口：`https://app.recipetix.top`
 - Capacitor 同步、debug 构建、长期签名校验、release APK/AAB 与 GitHub Prerelease 均通过。
 
+Beta 4 发布范围：
+
+- 版本：`0.3.0-beta.4`
+- APK：`rishibiji-0.3.0-beta.4.apk`
+- AAB：`rishibiji-0.3.0-beta.4.aab`
+- 保留包名 `com.rishibiji.app`、同一长期证书和 `https://app.recipetix.top` 入口。
+- 新增真实全屏移动端、个人菜谱自动分类、九类师傅路由、风味地图票根视觉和 Chicken Station 3D Cover Flow。
+- GitHub Actions run、APK 大小与 SHA-256 在 Prerelease 完成后补录。
+
 长期证书和恢复信息只备份在本机：
 
 ```text
@@ -113,4 +122,5 @@ Beta 3 中国大陆线路验证：
 - `0.2.0-beta.1` 与 `0.2.0-beta.2` 已使用同一长期证书签名，可直接覆盖升级；后续版本必须继续使用同一证书。
 - `0.2.0-beta.1` 首轮真机出现启动白屏；`0.2.0-beta.2` 将浏览器兼容目标下调到 Chrome 90，并增加网络/WebView 加载失败页。若仍失败，需记录错误页代码、手机 Android 版本和 Android System WebView/Chrome 版本。
 - `0.2.1-beta.3` 保留相同包名和长期证书，将远程入口切换到阿里云中国大陆线路 `https://app.recipetix.top`，用于解决 Vercel 在部分大陆网络下加载不稳定的问题。
+- `0.3.0-beta.4` 继续使用相同包名、证书和远程入口；安装包升级本身不会替代线上 Web 部署，发布时必须保证阿里云运行同一 Git 提交。
 - 中国大陆应用市场通常还涉及实名认证、软件著作权、隐私政策或其他资质，本阶段不提前投入。

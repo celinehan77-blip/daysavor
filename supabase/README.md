@@ -8,6 +8,15 @@
 
 - `schema.sql`：创建表、索引和 RLS 权限策略。
 - `seed.sql`：插入当前 MVP 的初始菜谱数据。
+- `migrations/`：对现有项目进行增量升级；已上线数据库优先执行这里的 migration，不要重新执行 seed。
+
+## 已有数据库增加菜谱分类
+
+在 Supabase SQL Editor 中执行：
+
+`migrations/20260727090433_add_recipe_classification.sql`
+
+该 migration 可重复执行，只新增缺失字段、约束和索引，不删除菜谱、不回填旧分类，也不会覆盖 `classification_source = user` 的记录。旧数据由应用安全归入 `other`。
 
 ## 执行步骤
 

@@ -30,6 +30,14 @@
 
 UI 页面不应该关心数据来自 `mockData`、`localStorage` 还是未来数据库。
 
+## 个人菜谱分类
+
+- `recipeClassification.ts` 合并当前用户生成和收藏的菜谱，并按 slug 去重。
+- 登录用户的生成与收藏查询都使用当前 `user.id`；游客只读取当前浏览器的本地生成和收藏。
+- `primary_category` 为空或非法时统一按 `other` 处理。
+- 风味地图只展示当前设计已有的 chicken / beef / fish 三张票根，但 `/chef/[categoryId]` 和数据层支持全部九类。
+- 用户纠错只更新本地生成菜谱或当前用户拥有的云端菜谱；云端更新同时限定 `slug + user_id`。
+
 ## 后续接 Supabase 的替换方式
 
 后续接 Supabase 时，优先替换 `src/lib/data/` 内部实现：

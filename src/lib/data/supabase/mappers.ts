@@ -23,6 +23,11 @@ import type {
   StationAccentColor,
   StationCategoryType,
 } from "@/types";
+import type {
+  ClassificationSource,
+  RecipeCategoryId,
+} from "@/types/classification";
+import { normalizeRecipeCategory } from "@/lib/classification/recipeCategories";
 
 export type SupabaseStationRow = {
   id?: unknown;
@@ -49,6 +54,11 @@ export type SupabaseRecipeRow = {
   difficulty?: unknown;
   flavor?: unknown;
   main_ingredient?: unknown;
+  primary_category?: unknown;
+  primary_ingredient?: unknown;
+  classification_confidence?: unknown;
+  classification_reason?: unknown;
+  classification_source?: unknown;
   saved_count?: unknown;
   cover_type?: unknown;
   stations?: unknown;
@@ -114,6 +124,23 @@ function asCoverType(value: unknown, fallback: RecipeCoverType): RecipeCoverType
   return value === "illustration" || value === "photo" || value === "ticket"
     ? value
     : fallback;
+}
+
+function asClassificationSource(value: unknown): ClassificationSource {
+  return value === "ai" || value === "user" || value === "rule"
+    ? value
+    : "rule";
+}
+
+function categoryStationId(category: RecipeCategoryId) {
+  if (category === "chicken" || category === "duck") return "station-chicken";
+  if (category === "pork" || category === "beef" || category === "lamb") {
+    return "station-pasture";
+  }
+  if (category === "fish" || category === "shrimp" || category === "crab") {
+    return "station-seafood";
+  }
+  return "station-other";
 }
 
 function getJoinedStationSlug(row: SupabaseRecipeRow): string {
@@ -192,13 +219,17 @@ export function mapSupabaseRecipeToRecipe(row: SupabaseRecipeRow): Recipe | null
 
   const fallback = getMockRecipeDetailBySlug(slug) ?? getMockRecipeBySlug(slug);
   const stationSlug = getJoinedStationSlug(row);
+  const primaryCategory = normalizeRecipeCategory(row.primary_category);
 
   return {
     id: fallback?.id ?? `recipe-${slug}`,
     slug,
     titleZh: asString(row.title_zh, fallback?.titleZh ?? slug),
     titleEn: asString(row.title_en, fallback?.titleEn ?? ""),
-    stationId: fallback?.stationId ?? (stationSlug ? `station-${stationSlug}` : asString(row.station_id)),
+    stationId:
+      categoryStationId(primaryCategory) ??
+      fallback?.stationId ??
+      (stationSlug ? `station-${stationSlug}` : asString(row.station_id)),
     coverType: asCoverType(row.cover_type, fallback?.coverType ?? "illustration"),
     timeMinutes: asNumber(row.time_minutes, fallback?.timeMinutes ?? 0),
     difficulty: asString(row.difficulty, fallback?.difficulty ?? "暂无"),
@@ -207,6 +238,20 @@ export function mapSupabaseRecipeToRecipe(row: SupabaseRecipeRow): Recipe | null
       row.main_ingredient,
       fallback?.mainIngredient ?? "主食材",
     ),
+    primaryCategory,
+    primaryIngredient: asString(
+      row.primary_ingredient,
+      asString(row.main_ingredient, fallback?.mainIngredient ?? "待确认"),
+    ),
+    classificationConfidence: Math.min(
+      1,
+      Math.max(0, asNumber(row.classification_confidence, 0)),
+    ),
+    classificationReason: asString(
+      row.classification_reason,
+      "旧菜谱尚未完成分类，暂归入待整理",
+    ),
+    classificationSource: asClassificationSource(row.classification_source),
     tags: getFallbackTags(fallback, row),
     description: asString(row.description, fallback?.description ?? ""),
     ingredients: fallback?.ingredients ?? [],

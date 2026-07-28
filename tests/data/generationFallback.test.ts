@@ -9,8 +9,10 @@ import {
 } from "../../src/lib/mockGenerationTask";
 import {
   getLocalGeneratedRecipeBySlug,
+  getLocalGeneratedDraftBySlug,
   mapParsedDraftToLocalRecipe,
   saveLocalGeneratedRecipe,
+  updateLocalGeneratedRecipeCategory,
 } from "../../src/lib/data/localGeneratedRecipe";
 import type { ParsedRecipeDraft } from "../../src/types/ai";
 import {
@@ -58,6 +60,11 @@ const draft: ParsedRecipeDraft = {
   difficulty: "简单",
   flavor: "酸甜",
   mainIngredient: "番茄 · 鸡蛋",
+  primaryCategory: "other",
+  primaryIngredient: "番茄",
+  classificationConfidence: 0.55,
+  classificationReason: "番茄和鸡蛋共同构成主体，暂归入待整理",
+  classificationSource: "rule",
   tags: ["家常菜"],
   ingredients: [
     { name: "番茄", amount: "2 个", group: "main", note: "切块" },
@@ -152,6 +159,30 @@ test("each saved local recipe keeps a unique slug and its own draft", () => {
   assert.equal(
     getLocalGeneratedRecipeBySlug(secondRecipe.slug)?.titleZh,
     "青椒肉丝",
+  );
+});
+
+test("local user correction persists the category and user source", () => {
+  const chickenRecipe = saveLocalGeneratedRecipe({
+    ...draft,
+    primaryCategory: "chicken",
+    primaryIngredient: "鸡腿肉",
+    classificationConfidence: 0.95,
+    classificationReason: "鸡肉是菜品主体",
+    classificationSource: "ai",
+  });
+
+  assert.equal(
+    updateLocalGeneratedRecipeCategory(chickenRecipe.slug, "beef"),
+    true,
+  );
+  assert.equal(
+    getLocalGeneratedDraftBySlug(chickenRecipe.slug)?.primaryCategory,
+    "beef",
+  );
+  assert.equal(
+    getLocalGeneratedDraftBySlug(chickenRecipe.slug)?.classificationSource,
+    "user",
   );
 });
 

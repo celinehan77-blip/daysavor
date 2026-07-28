@@ -2,6 +2,11 @@ import { ChefHat, CookingPot, Flame, Soup, Star } from "lucide-react";
 import { getLatestParsedDraft } from "@/lib/data/parsedDrafts";
 import type { Recipe, StationCategoryType } from "@/types";
 import type { ParsedRecipeDraft } from "@/types/ai";
+import type { RecipeCategoryId } from "@/types/classification";
+import {
+  normalizeRecipeCategory,
+  recipeCategoryLabels,
+} from "@/lib/classification/recipeCategories";
 
 export const LOCAL_GENERATED_RECIPE_SLUG = "my-generated-recipe";
 const LOCAL_GENERATED_RECIPE_PREFIX = "local-recipe-";
@@ -55,6 +60,15 @@ export function mapParsedDraftToLocalRecipe(
     difficulty: draft.difficulty,
     flavor: draft.flavor,
     mainIngredient: draft.mainIngredient,
+    primaryCategory: normalizeRecipeCategory(draft.primaryCategory),
+    primaryIngredient: draft.primaryIngredient || draft.mainIngredient,
+    classificationConfidence:
+      typeof draft.classificationConfidence === "number"
+        ? draft.classificationConfidence
+        : 0,
+    classificationReason:
+      draft.classificationReason || "旧菜谱尚未完成分类，暂归入待整理",
+    classificationSource: draft.classificationSource || "rule",
     tags: draft.tags,
     description: draft.description,
     ingredients: foodIngredients.map((ingredient, index) => ({
@@ -200,4 +214,38 @@ export function getLatestLocalGeneratedRecipe(): Recipe | null {
   return draft
     ? mapParsedDraftToLocalRecipe(draft, LOCAL_GENERATED_RECIPE_SLUG)
     : null;
+}
+
+export function updateLocalGeneratedRecipeCategory(
+  slug: string,
+  category: RecipeCategoryId,
+) {
+  if (!canUseLocalStorage()) {
+    return false;
+  }
+
+  const recipes = readStoredLocalRecipes();
+  const recipeIndex = recipes.findIndex((recipe) => recipe.slug === slug);
+
+  if (recipeIndex < 0) {
+    return false;
+  }
+
+  const current = recipes[recipeIndex];
+  recipes[recipeIndex] = {
+    ...current,
+    draft: {
+      ...current.draft,
+      primaryCategory: category,
+      classificationConfidence: 1,
+      classificationReason: `用户手动修正为${recipeCategoryLabels[category]}`,
+      classificationSource: "user",
+    },
+  };
+  window.localStorage.setItem(
+    LOCAL_GENERATED_RECIPES_KEY,
+    JSON.stringify(recipes),
+  );
+
+  return true;
 }

@@ -1,6 +1,6 @@
 {
   "name": "recipe-ticket-app-v2",
-  "version": "0.2.1-beta.3",
+  "version": "0.3.0-beta.4",
   "private": true,
   "browserslist": [
     "chrome >= 90",

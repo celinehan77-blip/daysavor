@@ -122,6 +122,7 @@ Milestone 4：Downloadable App（进行中）
         ├── Task：长期 Android 签名证书与 GitHub Secrets（已完成）
         ├── Task：签名 APK / AAB 与 GitHub Prerelease（已完成）
         ├── Task：中国大陆阿里云入口 Beta 3（已完成，2026-07-26）
+        ├── Task：全屏移动端、自动分类与 3D Cover Flow Beta 4（发布准备中，2026-07-27）
         └── Task：Android 真机下载安装与主流程验收（待人工真机）
 └── Phase B：Store Evaluation（待决策）
     ├── Checkpoint B1：Google Play 一次性费用与测试要求评估
@@ -131,7 +132,7 @@ Milestone 4：Downloadable App（进行中）
 - Current Milestone：`Milestone 4 - Downloadable App`
 - Current Phase：`Phase A - Android Direct Distribution`
 - Current Checkpoint：`A2 - 签名与 GitHub Prerelease`
-- Current Version：`0.2.1-beta.3`
+- Current Version：`0.3.0-beta.4`
 
 Checkpoint A1 已完成：GitHub Actions run `29582168527` 在 `24330c9` 上成功完成 Capacitor 同步、Gradle 编译和 debug APK 上传，产物约 3.58 MiB。
 
@@ -140,6 +141,8 @@ Checkpoint A2 发布部分已完成：run `29586070898` 发布首个长期签名
 Android 首轮真机结果：`0.2.0-beta.1` 安装成功但启动白屏。APK 配置、权限、资源和 Vercel WebView 请求均正常，当前最可能是设备 WebView 低于 Next.js 16 的 Chrome 111 默认基线，或手机网络无法稳定载入 Vercel。`0.2.0-beta.2` 已增加 Chrome 90 构建目标与本地加载失败页并完成发布，等待覆盖安装复验。
 
 Beta 3 保留现有 Capacitor 工程与长期签名，只把 App 入口切换到 `https://app.recipetix.top`。该域名的阿里云生产线路已通过 HTTPS、Supabase、DeepSeek、火山 ASR、yt-dlp、FFmpeg 和真实小红书样本验收；run `30207828314` 已发布签名 APK/AAB，只剩华为设备真机复验。
+
+Beta 4 保留相同包名、长期签名和中国大陆入口，发布真实移动端全屏、个人菜谱自动分类与纠错、九类师傅动态路由、风味地图高保真票根和 Chicken Station 连续 3D Cover Flow。发布门槛包括生产 Supabase 分类 migration、Web 与 Android 构建、GitHub Prerelease 资产完整性和阿里云同提交部署验证。
 
 首轮只做 Android APK。iOS 正式分发需要 Apple Developer Program 年费，不符合当前低成本约束；Google Play 和中国大陆应用市场等 GitHub Beta 验证后再决定。
 

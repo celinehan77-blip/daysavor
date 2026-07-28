@@ -1,0 +1,602 @@
+.screen {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 78% 4%, rgb(255 255 255 / 64%), transparent 19rem),
+    linear-gradient(180deg, #f8f4ed 0%, #f3ece0 100%);
+}
+
+.screen::before,
+.screen::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.screen::before {
+  background-image:
+    repeating-linear-gradient(
+      7deg,
+      transparent 0 9px,
+      rgb(91 67 43 / 2.8%) 10px,
+      transparent 11px
+    ),
+    radial-gradient(rgb(98 72 46 / 5%) 0.35px, transparent 0.55px),
+    radial-gradient(rgb(255 255 255 / 55%) 0.45px, transparent 0.65px);
+  background-position:
+    0 0,
+    0 0,
+    8px 11px;
+  background-size:
+    auto,
+    17px 17px,
+    21px 21px;
+  mix-blend-mode: multiply;
+  opacity: 0.48;
+}
+
+.screen::after {
+  background:
+    radial-gradient(circle at 18% 9%, rgb(255 255 255 / 62%), transparent 15rem),
+    radial-gradient(circle at 86% 23%, rgb(210 171 119 / 8%), transparent 12rem),
+    radial-gradient(circle at 44% 74%, rgb(255 255 255 / 28%), transparent 22rem);
+  opacity: 0.78;
+}
+
+.airMailMark {
+  position: relative;
+  display: inline-flex;
+  width: 76px;
+  height: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: -3px;
+  color: #a7794d;
+  opacity: 0.16;
+  transform: rotate(-3deg);
+}
+
+.airMailMark span {
+  position: absolute;
+  left: 0;
+  width: 52px;
+  height: 7px;
+  border-top: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.airMailMark span:nth-child(1) {
+  top: 3px;
+}
+
+.airMailMark span:nth-child(2) {
+  top: 9px;
+  left: 4px;
+}
+
+.airMailMark span:nth-child(3) {
+  top: 15px;
+  left: 1px;
+}
+
+.travelTag {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  display: flex;
+  width: clamp(64px, 18vw, 76px);
+  height: clamp(91px, 25vw, 105px);
+  flex-direction: column;
+  justify-content: center;
+  padding: 17px 8px 8px;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%, 0 8px);
+  border: 1px solid rgb(100 71 44 / 9%);
+  border-radius: 7px 7px 9px 9px;
+  background:
+    radial-gradient(circle at 78% 18%, rgb(255 255 255 / 58%), transparent 26px),
+    repeating-linear-gradient(12deg, transparent 0 8px, rgb(91 65 41 / 2.5%) 9px, transparent 10px),
+    #eee2cc;
+  color: #584534;
+  box-shadow:
+    0 9px 18px rgb(61 41 25 / 9%),
+    inset 0 1px rgb(255 255 255 / 48%);
+  text-align: left;
+  transform: rotate(1.2deg);
+}
+
+.travelTagPin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 21px;
+  height: 21px;
+  border: 1px solid rgb(114 73 39 / 10%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(255 255 255 / 34%), transparent 35%),
+    #c99a68;
+  box-shadow:
+    0 3px 5px rgb(70 45 26 / 22%),
+    inset 0 -2px 3px rgb(81 49 25 / 10%);
+  transform: translateX(-50%);
+}
+
+.travelTagPlane {
+  position: absolute;
+  top: 9px;
+  right: 7px;
+  color: #6f5740;
+  transform: rotate(-11deg);
+}
+
+.travelTagTitle {
+  margin-top: 3px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.travelTagSubtitle {
+  margin-top: 4px;
+  font-size: 7px;
+  letter-spacing: 0.035em;
+  opacity: 0.62;
+  white-space: nowrap;
+}
+
+.travelTagRule {
+  width: 100%;
+  margin-top: 7px;
+  border-top: 1px dashed rgb(92 65 41 / 22%);
+}
+
+.travelTagBarcode {
+  width: 100%;
+  height: 13px;
+  margin-top: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(88 65 45 / 45%) 0 1px,
+    transparent 1px 3px,
+    rgb(88 65 45 / 36%) 3px 5px,
+    transparent 5px 7px
+  );
+  opacity: 0.55;
+}
+
+.stack {
+  isolation: isolate;
+}
+
+.ticketStackInset {
+  margin-inline: 8px;
+}
+
+.ticketLink {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  min-width: 0;
+  color: inherit;
+  outline: none;
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 140ms ease;
+}
+
+.stack > div + div .main {
+  padding-top: 24px;
+}
+
+.stack > div + div .stub {
+  padding-top: 22px;
+}
+
+.ticketLink:focus-visible {
+  border-radius: 16px;
+  outline: 2px solid var(--ticket-accent);
+  outline-offset: 4px;
+}
+
+.ticket {
+  --paper-fiber: rgb(70 50 32 / 4%);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(68px, 1fr);
+  height: 178px;
+  overflow: hidden;
+  border: 1px solid rgb(73 51 34 / 12%);
+  border-radius: 16px;
+  background-color: var(--ticket-paper);
+  color: var(--ticket-text);
+  box-shadow:
+    0 3px 5px rgb(65 48 32 / 16%),
+    0 10px 22px rgb(65 48 32 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 50%),
+    inset 0 -2px 2px rgb(71 50 30 / 11%);
+  transform: translateZ(0);
+  transition: box-shadow 140ms ease;
+}
+
+.ticket[data-depth="1"] {
+  box-shadow:
+    0 3px 5px rgb(65 48 32 / 13%),
+    0 9px 18px rgb(65 48 32 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 46%),
+    inset 0 -1px 0 rgb(71 50 30 / 9%);
+}
+
+.ticket[data-depth="2"] {
+  box-shadow:
+    0 2px 4px rgb(65 48 32 / 10%),
+    0 7px 15px rgb(65 48 32 / 6%),
+    inset 0 1px 0 rgb(255 255 255 / 42%),
+    inset 0 -1px 0 rgb(71 50 30 / 8%);
+}
+
+.ticketLink:active .ticket {
+  box-shadow:
+    0 2px 4px rgb(65 48 32 / 12%),
+    0 7px 15px rgb(65 48 32 / 7%),
+    inset 0 1px 0 rgb(255 255 255 / 42%),
+    inset 0 -1px 0 rgb(71 50 30 / 8%);
+}
+
+.ticket::before,
+.ticket::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+}
+
+.ticket::before {
+  background:
+    radial-gradient(ellipse at 2% 7%, rgb(82 57 38 / 8%), transparent 13%),
+    radial-gradient(ellipse at 97% 91%, rgb(82 57 38 / 7%), transparent 17%),
+    radial-gradient(ellipse at 18% 24%, rgb(255 255 255 / 22%), transparent 34%),
+    radial-gradient(ellipse at 72% 73%, rgb(62 42 25 / 5%), transparent 31%),
+    linear-gradient(105deg, rgb(255 255 255 / 15%), transparent 36%, rgb(72 48 29 / 3%) 100%);
+  mix-blend-mode: soft-light;
+  opacity: 0.76;
+}
+
+.ticket::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 360 178' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='pulp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024 .064' numOctaves='4' seed='29'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cfilter id='marble' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='2' seed='37' result='warp'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='warp' scale='17'/%3E%3CfeGaussianBlur stdDeviation='3.2'/%3E%3C/filter%3E%3CradialGradient id='fade'%3E%3Cstop offset='0' stop-color='white'/%3E%3Cstop offset='.55' stop-color='white' stop-opacity='.7'/%3E%3Cstop offset='1' stop-color='black'/%3E%3C/radialGradient%3E%3Cmask id='patina'%3E%3Crect width='360' height='178' fill='black'/%3E%3Cellipse cx='34' cy='26' rx='54' ry='35' fill='url(%23fade)' opacity='.7'/%3E%3Cellipse cx='326' cy='151' rx='90' ry='52' fill='url(%23fade)'/%3E%3Cellipse cx='42' cy='160' rx='82' ry='34' fill='url(%23fade)' opacity='.86'/%3E%3Cpath d='M0 160C78 133 128 177 198 153S303 164 360 131' fill='none' stroke='white' stroke-opacity='.58' stroke-width='30'/%3E%3Cellipse cx='220' cy='66' rx='63' ry='58' fill='black'/%3E%3C/mask%3E%3C/defs%3E%3Crect width='360' height='178' filter='url(%23pulp)' mask='url(%23patina)' opacity='.15'/%3E%3Cg fill='none' stroke='%23664d36' stroke-opacity='.12' stroke-width='9' filter='url(%23marble)' mask='url(%23patina)'%3E%3Cpath d='M-24 157C49 121 98 181 171 145S287 167 386 112'/%3E%3Cpath d='M237 184C276 143 307 160 375 126' stroke-width='6'/%3E%3C/g%3E%3Cg fill='%23735a42' fill-opacity='.08' filter='url(%23marble)' mask='url(%23patina)'%3E%3Cellipse cx='19' cy='24' rx='16' ry='9'/%3E%3Cellipse cx='333' cy='157' rx='23' ry='12'/%3E%3Cellipse cx='55' cy='170' rx='18' ry='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.58;
+}
+
+.main,
+.stub {
+  position: relative;
+  z-index: 3;
+}
+
+.main {
+  min-width: 0;
+  padding: 17px 16px 15px;
+}
+
+.main::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 48%;
+  z-index: 0;
+  height: 72px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 84% 92%, rgb(78 56 39 / 9%), transparent 52%),
+    radial-gradient(ellipse at 28% 78%, rgb(255 255 255 / 16%), transparent 46%);
+  filter: blur(5px);
+  mask-image: radial-gradient(ellipse at 70% 85%, #000 8%, transparent 74%);
+  mix-blend-mode: multiply;
+  opacity: 0.48;
+  content: "";
+}
+
+.main::after {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  z-index: 0;
+  width: 132px;
+  height: 70px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 76% 84%, rgb(74 52 35 / 10%), transparent 54%),
+    radial-gradient(ellipse at 18% 96%, rgb(255 255 255 / 15%), transparent 48%);
+  filter: blur(4px);
+  content: "";
+  opacity: 0.36;
+}
+
+.stub {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 6px 13px 9px;
+  border-left: 1px solid rgb(68 48 31 / 10%);
+  background: rgb(255 255 255 / 9%);
+  text-align: center;
+  box-shadow:
+    inset 5px 0 9px rgb(66 43 26 / 4%),
+    -1px 0 0 rgb(255 255 255 / 22%);
+}
+
+.perforation {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: -1px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--ticket-text) 0 5px,
+    transparent 5px 10px
+  );
+  opacity: 0.18;
+}
+
+.eyebrow {
+  position: relative;
+  z-index: 1;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.23em;
+  opacity: 0.68;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
+  font-family: "Songti SC", "STSong", "Noto Serif CJK SC", Georgia, serif;
+  font-size: clamp(26px, 7.2vw, 31px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.065em;
+}
+
+.description {
+  position: relative;
+  z-index: 1;
+  max-width: 82%;
+  margin-top: 9px;
+  padding-right: 44px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.45;
+  letter-spacing: 0.035em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.78;
+}
+
+.meta {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.iconSeal {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  background: var(--ticket-accent);
+  color: rgb(255 255 255 / 90%);
+  box-shadow:
+    inset 0 -7px 12px rgb(53 35 22 / 10%),
+    0 3px 7px rgb(53 35 22 / 8%);
+}
+
+.details {
+  min-width: 0;
+  padding-left: 11px;
+  border-left: 1px solid rgb(65 44 27 / 13%);
+}
+
+.count {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.latest {
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.67;
+}
+
+.stamp {
+  position: absolute;
+  top: 27px;
+  right: 8px;
+  z-index: 2;
+  width: 84px;
+  height: 84px;
+  color: var(--ticket-accent);
+  opacity: 0.27;
+  transform: rotate(-5.5deg);
+}
+
+.stampArtwork {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stampOuterRing,
+.stampInnerRing {
+  fill: none;
+  stroke: currentColor;
+}
+
+.stampOuterRing {
+  stroke-width: 1.65;
+  stroke-dasharray: 1.8 1.2;
+}
+
+.stampInnerRing {
+  stroke-width: 1.05;
+  stroke-dasharray: 3.2 1.6;
+}
+
+.stampText {
+  fill: currentColor;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 6.4px;
+  font-weight: 700;
+  letter-spacing: 0.75px;
+}
+
+.stampDivider {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.stampAnimal {
+  position: absolute;
+  top: 28px;
+  left: 29px;
+}
+
+.stampNumber {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  left: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 5.8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.stampDistress {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 23% 28%, var(--ticket-paper) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 72% 32%, var(--ticket-paper) 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 58% 71%, var(--ticket-paper) 0 1.2px, transparent 1.8px);
+  background-size:
+    13px 11px,
+    17px 14px,
+    19px 18px;
+  mix-blend-mode: screen;
+  opacity: 0.58;
+  content: "";
+}
+
+.stubLabel {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+
+.number {
+  margin-top: 5px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.english {
+  width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 7px;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.arrow {
+  color: var(--ticket-accent);
+  opacity: 0.8;
+}
+
+.barcode {
+  width: 42px;
+  height: 19px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ticket-text) 0 1px,
+    transparent 1px 3px,
+    var(--ticket-text) 3px 5px,
+    transparent 5px 7px,
+    var(--ticket-text) 7px 8px,
+    transparent 8px 11px
+  );
+  opacity: 0.38;
+}
+
+@media (max-width: 360px) {
+  .ticket {
+    grid-template-columns: minmax(0, 4fr) minmax(66px, 1fr);
+  }
+
+  .main {
+    padding-inline: 16px 13px;
+  }
+
+  .stamp {
+    right: 5px;
+    width: 78px;
+    height: 78px;
+  }
+
+  .stampAnimal {
+    top: 26px;
+    left: 27px;
+    width: 23px;
+    height: 23px;
+  }
+
+  .description {
+    padding-right: 38px;
+  }
+}
+
+@media (max-width: 340px) {
+  .ticketStackInset {
+    margin-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticketLink,
+  .ticket {
+    transition: none;
+  }
+}

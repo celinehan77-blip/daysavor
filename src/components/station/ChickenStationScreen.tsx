@@ -1,8 +1,20 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, type PanInfo, type Transition } from "framer-motion";
+import { useRouter } from "next/navigation";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type AnimationPlaybackControls,
+  type MotionValue,
+  type PanInfo,
+  type Transition,
+} from "framer-motion";
+import { flushSync } from "react-dom";
 import {
   BarChart3,
   Bookmark,
@@ -12,9 +24,15 @@ import {
   Soup,
   Tags,
 } from "lucide-react";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import type { SerializableRecipe, SerializableStation } from "@/types";
+import {
+  COVER_FLOW_CARD_STRIDE,
+  getContinuousCoverFlowOffset,
+  getCoverFlowTransform,
+  getProjectedCardDelta,
+  getSnapDurationMs,
+} from "./chickenStationMotion";
 
 const ingredientLabelPositions = [
   { left: "13%", top: "31%" },
@@ -30,59 +48,6 @@ const cardTransition: Transition = {
   damping: 28,
   mass: 0.8,
 };
-
-function getCoverFlowOffset(index: number, activeIndex: number, total: number) {
-  let offset = index - activeIndex;
-
-  if (offset > total / 2) {
-    offset -= total;
-  }
-
-  if (offset < -total / 2) {
-    offset += total;
-  }
-
-  return offset;
-}
-
-function getCardMotionState(offset: number) {
-  const distance = Math.abs(offset);
-  const direction = Math.sign(offset);
-
-  if (distance === 0) {
-    return {
-      x: 0,
-      y: 0,
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-      zIndex: 30,
-      filter: "blur(0px)",
-    };
-  }
-
-  if (distance === 1) {
-    return {
-      x: direction * 166,
-      y: 42,
-      rotate: direction * 5,
-      scale: 0.86,
-      opacity: 0.58,
-      zIndex: 20,
-      filter: "blur(0.4px)",
-    };
-  }
-
-  return {
-    x: direction * 220,
-    y: 66,
-    rotate: direction * 7,
-    scale: 0.72,
-    opacity: 0.32,
-    zIndex: 10,
-    filter: "blur(0.8px)",
-  };
-}
 
 function StationFoodMap({
   compact = false,
@@ -184,9 +149,7 @@ function RecipeCard({
 }) {
   return (
     <article
-      className={`paper-card relative h-full overflow-hidden rounded-[28px] p-7 text-center transition ${
-        isActive ? "shadow-[0_26px_70px_rgba(72,49,30,0.22)]" : ""
-      }`}
+      className="paper-card relative h-full overflow-hidden rounded-[28px] p-7 text-center"
     >
       <div className="relative z-10">
         <div className="flex items-start justify-between">
@@ -224,6 +187,71 @@ function RecipeCard({
   );
 }
 
+function MotionRecipeCard({
+  activeIndex,
+  dragX,
+  index,
+  isActive,
+  recipe,
+  total,
+}: {
+  activeIndex: number;
+  dragX: MotionValue<number>;
+  index: number;
+  isActive: boolean;
+  recipe: SerializableRecipe;
+  total: number;
+}) {
+  const offset = useTransform(dragX, (x) =>
+    getContinuousCoverFlowOffset(
+      index,
+      activeIndex,
+      -x / COVER_FLOW_CARD_STRIDE,
+      total,
+    ),
+  );
+  const transformState = useTransform(offset, getCoverFlowTransform);
+  const x = useTransform(transformState, (state) => state.x);
+  const y = useTransform(transformState, (state) => state.y);
+  const z = useTransform(transformState, (state) => state.z);
+  const rotateY = useTransform(transformState, (state) => state.rotateY);
+  const scale = useTransform(transformState, (state) => state.scale);
+  const opacity = useTransform(transformState, (state) => state.opacity);
+  const zIndex = useTransform(transformState, (state) => state.zIndex);
+  const filter = useTransform(
+    transformState,
+    ({ blur, brightness }) =>
+      `blur(${blur.toFixed(2)}px) brightness(${brightness.toFixed(3)})`,
+  );
+  const boxShadow = useTransform(
+    transformState,
+    ({ shadowOpacity }) =>
+      `0 26px 64px rgba(72, 49, 30, ${shadowOpacity.toFixed(3)})`,
+  );
+
+  return (
+    <motion.div
+      className="pointer-events-none absolute left-1/2 top-0 -ml-[135px] h-[450px] w-[270px] text-left"
+      style={{
+        x,
+        y,
+        z,
+        rotateY,
+        scale,
+        opacity,
+        zIndex,
+        filter,
+        boxShadow,
+        transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden",
+        willChange: "transform, opacity, filter",
+      }}
+    >
+      <RecipeCard recipe={recipe} isActive={isActive} />
+    </motion.div>
+  );
+}
+
 type ChickenStationScreenProps = {
   station: SerializableStation | null;
   recipes: SerializableRecipe[];
@@ -243,16 +271,113 @@ export function ChickenStationScreen({
   recipes,
   station,
 }: ChickenStationScreenProps) {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
+  const dragX = useMotionValue(0);
+  const reducedMotion = useReducedMotion();
+  const animationRef = useRef<AnimationPlaybackControls | null>(null);
+  const animationTokenRef = useRef(0);
+  const didDragRef = useRef(false);
+  const dragStartXRef = useRef(0);
   const safeActiveIndex = normalizeActiveIndex(activeIndex, recipes.length);
-  const setSafeActiveIndex = (nextIndex: number) => {
-    setActiveIndex(normalizeActiveIndex(nextIndex, recipes.length));
-  };
+  const canSwitchRecipes = recipes.length > 1;
+
+  useEffect(
+    () => () => {
+      animationRef.current?.stop();
+    },
+    [],
+  );
+
+  const settleBy = useCallback(
+    (cardDelta: number, velocity = 0) => {
+      animationRef.current?.stop();
+      const token = ++animationTokenRef.current;
+      const targetX = -cardDelta * COVER_FLOW_CARD_STRIDE;
+      const duration = getSnapDurationMs(cardDelta, velocity) / 1_000;
+      const transition = reducedMotion
+        ? { duration: 0.12, ease: "easeOut" as const }
+        : {
+            type: "spring" as const,
+            visualDuration: duration,
+            bounce: 0.14,
+          };
+
+      const controls = animate(dragX, targetX, transition);
+      animationRef.current = controls;
+
+      void controls.then(() => {
+        if (token !== animationTokenRef.current) {
+          return;
+        }
+
+        if (cardDelta !== 0) {
+          flushSync(() => {
+            setActiveIndex((currentIndex) =>
+              normalizeActiveIndex(
+                currentIndex + cardDelta,
+                recipes.length,
+              ),
+            );
+          });
+          dragX.set(0);
+        }
+      });
+    },
+    [dragX, recipes.length, reducedMotion],
+  );
+
+  const selectRecipe = useCallback(
+    (nextIndex: number) => {
+      if (!canSwitchRecipes) {
+        return;
+      }
+
+      const cardDelta = getContinuousCoverFlowOffset(
+        nextIndex,
+        safeActiveIndex,
+        0,
+        recipes.length,
+      );
+      settleBy(Math.round(cardDelta));
+    },
+    [canSwitchRecipes, recipes.length, safeActiveIndex, settleBy],
+  );
+
+  const handleDragStart = useCallback(() => {
+    didDragRef.current = true;
+    animationRef.current?.stop();
+    animationTokenRef.current += 1;
+    dragStartXRef.current = dragX.get();
+  }, [dragX]);
+
+  const handleDragEnd = useCallback(
+    (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const eventTarget = event.currentTarget ?? event.target;
+      if (eventTarget instanceof HTMLElement) {
+        eventTarget.blur();
+      }
+
+      if (!canSwitchRecipes) {
+        settleBy(0);
+        return;
+      }
+
+      const velocity = info.velocity.x;
+      const dragOffset = dragStartXRef.current + info.offset.x;
+      const cardDelta = getProjectedCardDelta({
+        dragOffset,
+        velocity,
+        totalCards: recipes.length,
+      });
+      settleBy(cardDelta, velocity);
+    },
+    [canSwitchRecipes, recipes.length, settleBy],
+  );
 
   if (!station) {
     return (
-      <IphoneFrame>
-        <IosStatusBar />
+      <AppViewport>
         <section className="app-content flex flex-col px-6 pb-8 pt-5">
           <Link
             href="/flavor-map"
@@ -277,7 +402,7 @@ export function ChickenStationScreen({
             </div>
           </div>
         </section>
-      </IphoneFrame>
+      </AppViewport>
     );
   }
 
@@ -285,26 +410,12 @@ export function ChickenStationScreen({
   const recipeCount = recipes.length;
   const activeRecipe = recipes[safeActiveIndex] ?? recipes[0];
   const hasRecipes = recipeCount > 0;
-  const canSwitchRecipes = recipeCount > 1;
   const recipeSummary = `${recipeCount} ${
     recipeCount === 1 ? "Recipe" : "Recipes"
   }`;
 
-  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (!canSwitchRecipes) return;
-
-    if (info.offset.x < -42) {
-      setSafeActiveIndex(safeActiveIndex + 1);
-    }
-
-    if (info.offset.x > 42) {
-      setSafeActiveIndex(safeActiveIndex - 1);
-    }
-  };
-
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <section className="app-content flex flex-col px-6 pb-8 pt-5">
         <div className="flex items-center justify-between">
@@ -358,65 +469,39 @@ export function ChickenStationScreen({
           </div>
         ) : (
           <>
-            <div className="relative mt-10 h-[466px]">
+            <div
+              className="relative mt-10 h-[466px]"
+              style={{
+                perspective: "1100px",
+                perspectiveOrigin: "50% 44%",
+                transformStyle: "preserve-3d",
+              }}
+            >
               {recipes.map((recipe, index) => {
                 const isActive = index === safeActiveIndex;
-                const offset = getCoverFlowOffset(
+                const offset = getContinuousCoverFlowOffset(
                   index,
                   safeActiveIndex,
+                  0,
                   recipeCount,
                 );
-                const cardMotionState = getCardMotionState(offset);
-                const cardBaseClass =
-                  "absolute left-1/2 top-0 -ml-[135px] h-[450px] w-[270px]";
-                const cardMotion = {
-                  initial: false,
-                  animate: cardMotionState,
-                  transition: cardTransition,
-                  style: { zIndex: cardMotionState.zIndex },
-                };
-
-                if (isActive) {
-                  return (
-                    <Link
-                      key={recipe.id}
-                      href={`/recipe/${recipe.slug}`}
-                      aria-label={`打开${recipe.titleZh}菜谱详情`}
-                      className={cardBaseClass}
-                      style={{ zIndex: cardMotionState.zIndex }}
-                    >
-                      <motion.div
-                        {...cardMotion}
-                        drag={canSwitchRecipes ? "x" : false}
-                        dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0.18}
-                        onDragEnd={handleDragEnd}
-                        whileTap={{ scale: 0.98 }}
-                        className="h-full w-full cursor-pointer"
-                      >
-                        <RecipeCard recipe={recipe} isActive />
-                      </motion.div>
-                    </Link>
-                  );
-                }
 
                 return (
                   <Fragment key={recipe.id}>
-                    <motion.div
-                      {...cardMotion}
-                      className={`${cardBaseClass} pointer-events-none text-left`}
-                    >
-                      <RecipeCard recipe={recipe} isActive={false} />
-                    </motion.div>
+                    <MotionRecipeCard
+                      activeIndex={safeActiveIndex}
+                      dragX={dragX}
+                      index={index}
+                      isActive={isActive}
+                      recipe={recipe}
+                      total={recipeCount}
+                    />
                     {Math.abs(offset) === 1 ? (
                       <button
                         type="button"
                         aria-label={`切换到${recipe.titleZh}`}
-                        onMouseDown={() => setSafeActiveIndex(index)}
-                        onPointerDown={() => setSafeActiveIndex(index)}
-                        onClick={() => setSafeActiveIndex(index)}
-                        onPointerUp={() => setSafeActiveIndex(index)}
-                        className={`absolute top-16 z-40 h-[326px] w-[108px] cursor-pointer rounded-[28px] bg-black/[0.001] ${
+                        onClick={() => selectRecipe(index)}
+                        className={`absolute top-16 z-[120] h-[326px] w-[108px] cursor-pointer rounded-[28px] bg-black/[0.001] ${
                           offset < 0 ? "left-[-38px]" : "right-[-38px]"
                         }`}
                       />
@@ -424,6 +509,29 @@ export function ChickenStationScreen({
                   </Fragment>
                 );
               })}
+              <motion.button
+                type="button"
+                aria-label={`打开${activeRecipe.titleZh}菜谱详情`}
+                drag={canSwitchRecipes ? "x" : false}
+                dragMomentum={false}
+                onPointerDown={() => {
+                  didDragRef.current = false;
+                }}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onClick={() => {
+                  if (!didDragRef.current) {
+                    router.push(`/recipe/${activeRecipe.slug}`);
+                  }
+                }}
+                whileTap={reducedMotion ? undefined : { scale: 0.985 }}
+                style={{
+                  x: dragX,
+                  touchAction: "pan-y",
+                  willChange: "transform",
+                }}
+                className="absolute left-1/2 top-0 z-[110] -ml-[135px] h-[450px] w-[270px] cursor-grab rounded-[28px] bg-transparent active:cursor-grabbing"
+              />
             </div>
 
             {canSwitchRecipes ? (
@@ -433,7 +541,7 @@ export function ChickenStationScreen({
                     key={`dot-${recipe.id}`}
                     type="button"
                     aria-label={`查看${recipe.titleZh}`}
-                    onClick={() => setSafeActiveIndex(index)}
+                    onClick={() => selectRecipe(index)}
                     animate={{
                       scale: index === safeActiveIndex ? 1 : 0.94,
                     }}
@@ -488,6 +596,6 @@ export function ChickenStationScreen({
           </>
         )}
       </section>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

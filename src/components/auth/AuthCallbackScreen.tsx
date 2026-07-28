@@ -6,8 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import type { EmailOtpType } from "@supabase/supabase-js";
-import { IosStatusBar } from "@/components/layout/IosStatusBar";
-import { IphoneFrame } from "@/components/layout/IphoneFrame";
+import { AppViewport } from "@/components/layout/AppViewport";
 import { getAuthClient } from "@/lib/auth/client";
 import {
   migrateLatestLocalRecipeAfterLogin,
@@ -200,8 +199,7 @@ export function AuthCallbackScreen() {
   }, [router]);
 
   return (
-    <IphoneFrame>
-      <IosStatusBar />
+    <AppViewport>
 
       <div className="app-content flex flex-col items-center justify-center px-6 text-center">
         <motion.section
@@ -244,6 +242,6 @@ export function AuthCallbackScreen() {
           </div>
         </motion.section>
       </div>
-    </IphoneFrame>
+    </AppViewport>
   );
 }

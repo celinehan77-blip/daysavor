@@ -10,9 +10,9 @@
 
 **Milestone 3：Real User Beta MVP 已完成。** Vercel Production 已具备正文、小红书与有限抖音公开视频生成、动态详情、云端收藏和再次查找闭环；完整四级进度以 ROADMAP 为准。
 
-**Milestone 4：Downloadable App 正在进行。** Android 使用 Capacitor 原生外壳连接阿里云中国大陆生产线路；Beta 3 通过 GitHub Actions 使用长期证书构建，当前只剩 Android 真机覆盖安装和主流程验收。
+**Milestone 4：Downloadable App 正在进行。** Android 使用 Capacitor 原生外壳连接阿里云中国大陆生产线路；Beta 4 加入真实移动端全屏、个人菜谱自动分类、九类师傅入口、风味地图票根视觉与 Chicken Station 3D Cover Flow，并继续复用长期签名证书。
 
-Android Beta 下载：[日食笔记 Android 0.2.1-beta.3](https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.2.1-beta.3)。Android 用户下载 `.apk` 后可直接安装；`.aab` 仅用于后续应用市场提交。
+Android Beta 下载：[日食笔记 Android 0.3.0-beta.4](https://github.com/celinehan77-blip/recipe-ticket-app-v2/releases/tag/android-v0.3.0-beta.4)。Android 用户下载 `.apk` 后可直接安装；`.aab` 仅用于后续应用市场提交。
 
 ## 当前功能
 
@@ -22,7 +22,8 @@ Android Beta 下载：[日食笔记 Android 0.2.1-beta.3](https://github.com/cel
 - 本地收藏
 - 收藏页
 - 风味地图
-- Station Cover Flow 菜谱选择
+- 九类师傅个人菜谱自动分类与真实数量
+- Station 3D Cover Flow 菜谱选择
 - 我的页本地数据汇总
 - Supabase 只读接入
 - Supabase Auth 游客优先

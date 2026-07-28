@@ -10,6 +10,7 @@ import type {
   ParsedRecipeDraft,
   RecipeParseSourcePlatform,
 } from "@/types/ai";
+import type { RecipeCategoryId } from "@/types/classification";
 
 export type SupabaseRecipeDetail = {
   recipe: SupabaseRecipeRow;
@@ -110,6 +111,45 @@ function mapIngredientRows(
   }));
 
   return [...mainRows, ...seasoningRows];
+}
+
+export function buildRecipeInsertPayload({
+  draft,
+  slug,
+  sourcePlatform,
+  sourceUrl,
+  stationId,
+  userId,
+}: {
+  draft: ParsedRecipeDraft;
+  slug: string;
+  sourcePlatform: RecipeParseSourcePlatform;
+  sourceUrl?: string;
+  stationId: string | null;
+  userId: string;
+}) {
+  return {
+    cover_type: "generated",
+    description: draft.description,
+    difficulty: draft.difficulty,
+    flavor: draft.flavor,
+    is_generated: true,
+    main_ingredient: draft.mainIngredient,
+    primary_category: draft.primaryCategory,
+    primary_ingredient: draft.primaryIngredient,
+    classification_confidence: draft.classificationConfidence,
+    classification_reason: draft.classificationReason,
+    classification_source: draft.classificationSource,
+    saved_count: 0,
+    slug,
+    source_platform: sourcePlatform,
+    source_url: sourceUrl ?? null,
+    station_id: stationId,
+    time_minutes: draft.timeMinutes,
+    title_en: draft.titleEn,
+    title_zh: draft.titleZh,
+    user_id: userId,
+  };
 }
 
 async function getStationIdBySlug(stationSlug: string) {
@@ -226,6 +266,41 @@ export async function getMyRecipesFromSupabase(
   return data ?? [];
 }
 
+export async function updateRecipeClassificationInSupabase({
+  category,
+  recipeSlug,
+  userId,
+}: {
+  category: RecipeCategoryId;
+  recipeSlug: string;
+  userId: string;
+}) {
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return { error: "Supabase is not configured.", ok: false };
+  }
+
+  const { data, error } = await supabase
+    .from("recipes")
+    .update({
+      primary_category: category,
+      classification_confidence: 1,
+      classification_reason: "用户手动修正主要分类",
+      classification_source: "user",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("slug", recipeSlug)
+    .eq("user_id", userId)
+    .select("id")
+    .maybeSingle<{ id: string }>();
+
+  return {
+    error: error?.message ?? (data ? null : "Only the recipe owner can update its classification."),
+    ok: !error && Boolean(data),
+  };
+}
+
 export async function getRecipeBySlugFromSupabase(
   slug: string,
 ): Promise<SupabaseRecipeRow | null> {
@@ -339,23 +414,16 @@ export async function createRecipeFromParsedDraftInSupabase({
 
   const { data: recipe, error: recipeError } = await supabase
     .from("recipes")
-    .insert({
-      cover_type: "generated",
-      description: draft.description,
-      difficulty: draft.difficulty,
-      flavor: draft.flavor,
-      is_generated: true,
-      main_ingredient: draft.mainIngredient,
-      saved_count: 0,
-      slug,
-      source_platform: sourcePlatform,
-      source_url: sourceUrl ?? null,
-      station_id: stationId,
-      time_minutes: draft.timeMinutes,
-      title_en: draft.titleEn,
-      title_zh: draft.titleZh,
-      user_id: userId,
-    })
+    .insert(
+      buildRecipeInsertPayload({
+        draft,
+        slug,
+        sourcePlatform,
+        sourceUrl,
+        stationId,
+        userId,
+      }),
+    )
     .select("*, stations(slug)")
     .maybeSingle<SupabaseRecipeRow>();
 

@@ -18,6 +18,7 @@ RELEASE_MANAGER 以 Working Release 为单位管理版本，而不是把每个 C
 - QA_AGENT：PASS。
 - REVIEW_AGENT：PASS。
 - README、ROADMAP、CHANGELOG 和相关 docs 已同步。
+- Web 镜像由 GitHub Actions 构建并推送 GHCR，生产健康接口的 `deployCommit` 与发布提交一致。
 - 已记录回滚版本与迁移风险。
 - 用户已授权 Git commit、tag、push 和正式 release 操作。
 

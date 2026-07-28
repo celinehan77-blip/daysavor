@@ -29,6 +29,7 @@ export async function GET() {
   ]);
 
   return Response.json({
+    deployCommit: process.env.DEPLOY_COMMIT_SHA || null,
     supabaseConfigured: configured,
     stationsCount: stations.count,
     recipesCount: recipes.count,

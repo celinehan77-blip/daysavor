@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-07-28 - GHCR 云端镜像发布
+
+- 将 Next.js 与 Docker 镜像构建迁移到 GitHub Actions，阿里云 2 GB 服务器不再承担生产编译。
+- 新增 GHCR `main` 与完整提交 SHA 镜像标签，支持按镜像 digest 验证和按提交标签回滚。
+- 新增服务器拉取式 Compose 配置；Caddy、运行时环境变量、内存限制、健康检查和音视频工具保持不变。
+- 部署健康接口新增 `deployCommit`，用于确认线上容器与 GitHub 发布提交一致。
+- AI、ASR 和 ALAPI 密钥继续只保存在服务器，不写入 GitHub Workflow、镜像或 Android 安装包。
+
 ## 2026-07-27 - Android 0.3.0 Beta 4 发布候选
 
 - 将手机样机容器改为真实移动端全屏，移除假 iOS 状态栏，并使用动态视口与 safe-area 适配真实设备。

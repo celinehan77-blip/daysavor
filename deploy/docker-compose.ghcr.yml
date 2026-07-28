@@ -1,0 +1,73 @@
+services:
+  web:
+    image: ${WEB_IMAGE:-ghcr.io/celinehan77-blip/recipe-ticket-app-v2:main}
+    container_name: recipe-ticket-web
+    restart: unless-stopped
+    init: true
+    env_file:
+      - ./.env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_OPTIONS: "--max-old-space-size=768"
+      YT_DLP_PATH: "/app/runtime-tools/yt-dlp"
+      FFMPEG_PATH: "/app/runtime-tools/ffmpeg"
+    expose:
+      - "3000"
+    mem_limit: 1100m
+    mem_reservation: 512m
+    cpus: 1.50
+    stop_grace_period: 20s
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/deploy-health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - app-network
+
+  caddy:
+    image: caddy:2.10-alpine
+    container_name: recipe-ticket-caddy
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    mem_limit: 128m
+    mem_reservation: 32m
+    cpus: 0.25
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

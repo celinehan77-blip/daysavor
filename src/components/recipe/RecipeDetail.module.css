@@ -1,0 +1,160 @@
+.heroSection {
+  position: relative;
+  padding: 8px 20px 0;
+}
+
+.heroBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(132px, 0.92fr);
+  align-items: start;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.heroCopy {
+  min-width: 0;
+}
+
+.heroTitle {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: clamp(31px, 9.5vw, 38px);
+  line-height: 1.08;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.heroEnglish {
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 1.08;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.heroDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 12px;
+  font-size: clamp(13px, 3.3vw, 15px);
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.heroPhoto {
+  position: relative;
+  align-self: stretch;
+  min-height: 190px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #eee4d6;
+  box-shadow:
+    0 18px 34px rgb(83 55 31 / 12%),
+    inset 0 1px 0 rgb(255 255 255 / 55%);
+}
+
+.heroPhotoImage,
+.ingredientPhotoImage {
+  object-fit: contain;
+}
+
+.heroPhotoImage {
+  padding: 3px;
+}
+
+.statsCard {
+  margin-top: 18px;
+}
+
+.ingredientGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ingredientCard {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 58px;
+  height: 158px;
+  min-width: 0;
+  padding: 10px;
+}
+
+.ingredientText {
+  min-height: 0;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.ingredientLine {
+  overflow: hidden;
+  color: #69594b;
+  font-size: 10px;
+  line-height: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ingredientPhoto {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 13px;
+  background: rgb(239 229 216 / 78%);
+}
+
+.stepThumb {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #efe3d3;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 48%);
+}
+
+.stepThumbImage {
+  object-fit: cover;
+}
+
+.actionBar {
+  grid-template-columns: minmax(56px, 0.8fr) minmax(56px, 0.8fr) minmax(132px, 1.6fr);
+  column-gap: 4px;
+}
+
+.primaryAction {
+  width: 100%;
+  max-width: 164px;
+  white-space: nowrap;
+}
+
+@media (max-width: 340px) {
+  .heroSection {
+    padding-inline: 16px;
+  }
+
+  .heroBody {
+    grid-template-columns: minmax(0, 1.12fr) minmax(116px, 0.88fr);
+    gap: 6px;
+  }
+
+  .heroPhoto {
+    min-height: 174px;
+    border-radius: 25px;
+  }
+
+  .ingredientGrid {
+    gap: 7px;
+  }
+
+  .ingredientCard {
+    height: 156px;
+    padding: 8px;
+  }
+
+  .actionBar {
+    grid-template-columns: minmax(48px, 0.75fr) minmax(48px, 0.75fr) minmax(126px, 1.7fr);
+  }
+}

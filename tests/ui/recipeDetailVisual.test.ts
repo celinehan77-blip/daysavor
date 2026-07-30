@@ -59,9 +59,8 @@ test("ingredient text and photography use independent card regions", () => {
 
   assert.match(
     styles,
-    /\.ingredientCard\s*\{[\s\S]*grid-template-areas:\s*"text"\s*"image"/,
+    /\.ingredientCard\s*\{[\s\S]*grid-template-rows:\s*auto minmax\(0, 1fr\) 58px/,
   );
-  assert.match(styles, /\.ingredientTextArea\s*\{[\s\S]*overflow:\s*hidden/);
   assert.match(styles, /\.ingredientText\s*\{[\s\S]*overflow:\s*hidden/);
   assert.match(
     styles,

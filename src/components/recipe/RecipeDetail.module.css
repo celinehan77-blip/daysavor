@@ -54,10 +54,13 @@
     inset 0 1px 0 rgb(255 255 255 / 55%);
 }
 
-.heroPhotoImage {
-  padding: 4px;
+.heroPhotoImage,
+.ingredientPhotoImage {
   object-fit: contain;
-  object-position: center center;
+}
+
+.heroPhotoImage {
+  padding: 3px;
 }
 
 .statsCard {
@@ -72,27 +75,15 @@
 
 .ingredientCard {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) 66px;
-  grid-template-areas:
-    "text"
-    "image";
-  height: 196px;
+  grid-template-rows: auto minmax(0, 1fr) 58px;
+  height: 158px;
   min-width: 0;
-  overflow: hidden;
-  padding: 0;
-}
-
-.ingredientTextArea {
-  grid-area: text;
-  min-height: 0;
-  min-width: 0;
-  padding: 11px 10px 4px;
-  overflow: hidden;
+  padding: 10px;
 }
 
 .ingredientText {
   min-height: 0;
-  margin-top: 5px;
+  margin-top: 6px;
   overflow: hidden;
 }
 
@@ -107,28 +98,10 @@
 
 .ingredientPhoto {
   position: relative;
-  grid-area: image;
-  justify-self: end;
-  width: calc(100% - 10px);
   min-height: 0;
-  min-width: 0;
   overflow: hidden;
-  padding: 0 7px 7px 0;
-  background: transparent;
-}
-
-.ingredientPhotoImage {
-  padding: 2px;
-  object-fit: contain;
-  object-position: center center;
-}
-
-.ingredientCard[data-group="main"] {
-  grid-template-rows: minmax(0, 1fr) 82px;
-}
-
-.ingredientCard[data-group="side"] {
-  grid-template-rows: minmax(0, 1fr) 74px;
+  border-radius: 13px;
+  background: rgb(239 229 216 / 78%);
 }
 
 .stepThumb {
@@ -177,20 +150,8 @@
   }
 
   .ingredientCard {
-    height: 198px;
-  }
-
-  .ingredientTextArea {
-    padding: 10px 8px 4px;
-  }
-
-  .ingredientPhoto {
-    width: calc(100% - 8px);
-    padding: 0 5px 6px 0;
-  }
-
-  .ingredientPhotoImage {
-    padding: 1px;
+    height: 156px;
+    padding: 8px;
   }
 
   .actionBar {

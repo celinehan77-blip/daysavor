@@ -501,25 +501,28 @@ export function RecipeDetailScreen({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.12 + index * 0.08, duration: 0.45 }}
                 className={`${styles.ingredientCard} recipe-ingredient-card rounded-[18px]`}
+                data-group={group.id}
               >
-                <h3 className="relative z-10 font-display text-[16px] tracking-[0.04em] text-[#3a2a1d]">
-                  {group.title}
-                </h3>
-                <div className={`${styles.ingredientText} relative z-10`}>
-                  {(group.id === "main"
-                    ? group.items.slice(0, 4)
-                    : group.id === "side"
+                <div className={styles.ingredientTextArea}>
+                  <h3 className="font-display text-[16px] tracking-[0.04em] text-[#3a2a1d]">
+                    {group.title}
+                  </h3>
+                  <div className={styles.ingredientText}>
+                    {(group.id === "main"
                       ? group.items.slice(0, 4)
-                      : group.items.slice(0, 6)
-                  ).map((item) => (
-                    <p
-                      key={`${group.id}-${item.name}`}
-                      className={styles.ingredientLine}
-                      title={`${item.name} ${item.amount}`}
-                    >
-                      {item.name} {item.amount}
-                    </p>
-                  ))}
+                      : group.id === "side"
+                        ? group.items.slice(0, 5)
+                        : group.items.slice(0, 6)
+                    ).map((item) => (
+                      <p
+                        key={`${group.id}-${item.name}`}
+                        className={styles.ingredientLine}
+                        title={`${item.name} ${item.amount}`}
+                      >
+                        {item.name} {item.amount}
+                      </p>
+                    ))}
+                  </div>
                 </div>
                 <IngredientArt
                   src={group.image}

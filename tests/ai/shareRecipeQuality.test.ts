@@ -1,23 +1,29 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { isGroundedShareRecipeUsable } from "../../src/lib/generation/generateRecipeFromShareLink.ts";
-import type { ParsedRecipeDraft } from "../../src/types/ai.ts";
+import { isGroundedShareRecipeUsable } from "../../src/lib/generation/generateRecipeFromShareLink";
+import type { ParsedRecipeDraft } from "../../src/types/ai";
 
 const sparseButUsableRecipe: ParsedRecipeDraft = {
+  classificationConfidence: 0.9,
+  classificationReason: "主食材为鱼片",
+  classificationSource: "rule",
   confidence: 0.72,
   description: "根据短视频口播整理的家常椒麻鱼片。",
+  difficulty: "简单",
+  flavor: "椒麻",
   ingredients: [
-    { amount: "适量", name: "鱼片" },
-    { amount: "适量", name: "青椒" },
+    { amount: "适量", group: "main", name: "鱼片", note: "" },
+    { amount: "适量", group: "side", name: "青椒", note: "" },
   ],
+  mainIngredient: "鱼片",
+  primaryCategory: "fish",
+  primaryIngredient: "鱼片",
   seasonings: [],
-  sourcePlatform: "douyin",
-  sourceUrl: "https://v.douyin.com/example/",
   steps: [
-    { description: "鱼片清洗后沥干水分。", duration: "未说明", heat: "未说明" },
-    { description: "青椒切好后下锅炒香。", duration: "未说明", heat: "未说明" },
-    { description: "放入鱼片翻炒至熟后出锅。", duration: "未说明", heat: "未说明" },
+    { description: "鱼片清洗后沥干水分。", duration: "未说明", heat: "未说明", tips: "", title: "处理鱼片" },
+    { description: "青椒切好后下锅炒香。", duration: "未说明", heat: "未说明", tips: "", title: "炒香青椒" },
+    { description: "放入鱼片翻炒至熟后出锅。", duration: "未说明", heat: "未说明", tips: "", title: "炒熟出锅" },
   ],
   tags: [],
   timeMinutes: 15,

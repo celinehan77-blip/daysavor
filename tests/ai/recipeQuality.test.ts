@@ -26,7 +26,7 @@ for (const sample of samples) {
     assert.equal(result.passed, sample.expect.passed);
     assert.ok(result.score >= sample.expect.minScore);
 
-    if ("maxScore" in sample.expect) {
+    if (sample.expect.maxScore !== undefined) {
       assert.ok(result.score <= sample.expect.maxScore);
     }
 

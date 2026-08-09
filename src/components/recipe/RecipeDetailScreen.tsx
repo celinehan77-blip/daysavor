@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -17,14 +16,17 @@ import {
   Share2,
 } from "lucide-react";
 import { AppViewport } from "@/components/layout/AppViewport";
+import { IngredientPrepCard } from "@/components/recipe/IngredientPrepCard";
+import { RecipeAssetImage } from "@/components/recipe/RecipeAssetImage";
+import { resolveHeroObjectPosition } from "@/components/recipe/ingredientCardLayout";
 import styles from "@/components/recipe/RecipeDetail.module.css";
 import {
-  getIngredientGroupImage,
-  getProteinImage,
-  getSeasoningImage,
+  getHeroVisualSelection,
+  getIngredientVisual,
+  getProteinVisual,
+  getSeasoningVisual,
   getStepImage,
-  RECIPE_ASSET_FALLBACK,
-} from "@/components/recipe/recipeAssetMatcher";
+} from "@/lib/recipe-visual/matcher";
 import {
   getRecipeDetailBySlug,
   getLocalGeneratedRecipeBySlug,
@@ -35,6 +37,7 @@ import {
 } from "@/lib/data";
 import { serializeRecipe } from "@/lib/data/serializers";
 import type { Ingredient, IngredientGroup, SerializableRecipe } from "@/types";
+import type { RecipeVisualPresentation } from "@/types/recipeVisual";
 import {
   normalizeRecipeCategory,
   recipeCategoryLabels,
@@ -63,39 +66,19 @@ function getRecipeNo(recipe: SerializableRecipe, recipes: SerializableRecipe[]) 
   return String(index + 1 || 1).padStart(2, "0");
 }
 
-function RecipeAssetImage({
+function FoodStillLife({
   alt,
-  className,
-  priority = false,
-  sizes,
+  objectPosition,
   src,
 }: {
   alt: string;
-  className: string;
-  priority?: boolean;
-  sizes: string;
+  objectPosition: string;
   src: string;
 }) {
-  const [currentSrc, setCurrentSrc] = useState(src);
+  const presentation = /\.png(?:$|[?#])/i.test(src)
+    ? "isolated"
+    : "photographic";
 
-  return (
-    <Image
-      src={currentSrc}
-      alt={alt}
-      fill
-      sizes={sizes}
-      className={className}
-      loading={priority ? "eager" : "lazy"}
-      onError={() => {
-        if (currentSrc !== RECIPE_ASSET_FALLBACK) {
-          setCurrentSrc(RECIPE_ASSET_FALLBACK);
-        }
-      }}
-    />
-  );
-}
-
-function FoodStillLife({ alt, src }: { alt: string; src: string }) {
   return (
     <div className={styles.heroPhoto}>
       <RecipeAssetImage
@@ -103,20 +86,13 @@ function FoodStillLife({ alt, src }: { alt: string; src: string }) {
         alt={alt}
         sizes="(max-width: 430px) 46vw, 190px"
         className={styles.heroPhotoImage}
+        objectPosition={
+          presentation === "isolated"
+            ? "72% 50%"
+            : resolveHeroObjectPosition(objectPosition)
+        }
+        presentation={presentation}
         priority
-      />
-    </div>
-  );
-}
-
-function IngredientArt({ alt, src }: { alt: string; src: string }) {
-  return (
-    <div className={styles.ingredientPhoto}>
-      <RecipeAssetImage
-        src={src}
-        alt={alt}
-        sizes="(max-width: 430px) 29vw, 110px"
-        className={styles.ingredientPhotoImage}
       />
     </div>
   );
@@ -301,6 +277,7 @@ export function RecipeDetailScreen({
 
   const recipeNo = getRecipeNo(resolvedRecipe, allRecipes);
   const recipe = resolvedRecipe;
+  const heroVisual = getHeroVisualSelection(recipe);
   const recipeStats = [
     { label: "烹饪时间", value: String(recipe.timeMinutes), suffix: "分钟" },
     { label: "难度等级", value: recipe.difficulty },
@@ -315,28 +292,34 @@ export function RecipeDetailScreen({
   const sideIngredients = recipe.ingredients.filter(
     (item) => item.group === "side",
   );
-  const proteinImage = getProteinImage(recipe.ingredients);
+  const proteinVisual = getProteinVisual(recipe);
+  const ingredientVisual = getIngredientVisual(recipe);
+  const seasoningVisual = getSeasoningVisual(recipe);
   const ingredientGroups: {
     id: IngredientGroup;
     image: string;
+    presentation: RecipeVisualPresentation;
     title: string;
     items: Ingredient[];
   }[] = [
     {
       id: "main",
-      image: proteinImage,
+      image: proteinVisual.src,
+      presentation: proteinVisual.presentation,
       title: "主食材",
       items: mainIngredients,
     },
     {
       id: "side",
-      image: getIngredientGroupImage(sideIngredients),
+      image: ingredientVisual.src,
+      presentation: ingredientVisual.presentation,
       title: "配料",
       items: sideIngredients,
     },
     {
       id: "seasoning",
-      image: getSeasoningImage(recipe.seasonings),
+      image: seasoningVisual.src,
+      presentation: seasoningVisual.presentation,
       title: "调味料",
       items: recipe.seasonings,
     },
@@ -409,7 +392,7 @@ export function RecipeDetailScreen({
 
           <div className={styles.heroBody}>
             <motion.div
-              initial={{ opacity: 0, y: 22 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
               className={styles.heroCopy}
@@ -434,14 +417,15 @@ export function RecipeDetailScreen({
             </motion.div>
 
             <FoodStillLife
-              src={proteinImage}
-              alt={`${recipe.titleZh}主食材`}
+              src={heroVisual.src}
+              alt={recipe.titleZh}
+              objectPosition={heroVisual.objectPosition}
             />
           </div>
         </section>
 
         <motion.section
-          initial={{ opacity: 0, y: 22 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08, duration: 0.6 }}
           className={`${styles.statsCard} recipe-stats-card mx-5 grid min-h-[68px] grid-cols-5 rounded-[22px] px-1.5 py-2`}
@@ -494,38 +478,15 @@ export function RecipeDetailScreen({
 
           <div className={styles.ingredientGrid}>
             {ingredientGroups.map((group, index) => (
-              /* Keep cards compact by showing the key visible items for the phone-first layout. */
-              <motion.article
+              <IngredientPrepCard
                 key={group.id}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12 + index * 0.08, duration: 0.45 }}
-                className={`${styles.ingredientCard} recipe-ingredient-card rounded-[18px]`}
-              >
-                <h3 className="relative z-10 font-display text-[16px] tracking-[0.04em] text-[#3a2a1d]">
-                  {group.title}
-                </h3>
-                <div className={`${styles.ingredientText} relative z-10`}>
-                  {(group.id === "main"
-                    ? group.items.slice(0, 4)
-                    : group.id === "side"
-                      ? group.items.slice(0, 4)
-                      : group.items.slice(0, 6)
-                  ).map((item) => (
-                    <p
-                      key={`${group.id}-${item.name}`}
-                      className={styles.ingredientLine}
-                      title={`${item.name} ${item.amount}`}
-                    >
-                      {item.name} {item.amount}
-                    </p>
-                  ))}
-                </div>
-                <IngredientArt
-                  src={group.image}
-                  alt={`${group.title}食材组合`}
-                />
-              </motion.article>
+                type={group.id}
+                title={group.title}
+                items={group.items}
+                image={group.image}
+                artworkPresentation={group.presentation}
+                index={index}
+              />
             ))}
           </div>
         </section>
@@ -542,7 +503,7 @@ export function RecipeDetailScreen({
             {recipe.steps.map((step, index) => (
               <motion.div
                 key={step.id}
-                initial={{ opacity: 0, x: -12 }}
+                initial={false}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ delay: index * 0.05, duration: 0.42 }}
@@ -555,7 +516,7 @@ export function RecipeDetailScreen({
                   {index + 1}
                 </span>
                 <StepThumb
-                  src={getStepImage(`${step.title} ${step.description}`)}
+                  src={getStepImage(recipe, step, index)}
                   alt={`步骤${index + 1}：${step.title}`}
                 />
                 <div className="min-w-0 flex-1">

@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "minimumLongEdge": 1536,
+  "runtimePriority": [
+    "recipe.heroImageUrl",
+    "static recipe hero cache",
+    "category hero fallback"
+  ],
+  "generationMode": "offline-background-only",
+  "heroes": [
+    {
+      "id": "kung-pao-chicken",
+      "category": "chicken",
+      "kind": "recipe",
+      "subject": "finished Kung Pao chicken with distinct diced chicken, peanuts, dried red chilies and a restrained glossy sauce",
+      "status": "accepted",
+      "src": "/images/recipe-library/hero/kung-pao-chicken.webp",
+      "prompt": null
+    },
+    {
+      "id": "yellow-braised-chicken",
+      "category": "chicken",
+      "kind": "recipe",
+      "subject": "finished Chinese yellow-braised chicken with bone-in chicken pieces, shiitake mushroom and green pepper in a warm ceramic bowl",
+      "src": "/images/recipe-library/hero/yellow-braised-chicken.webp",
+      "status": "pending",
+      "prompt": "finished Chinese yellow-braised chicken with bone-in chicken pieces, shiitake mushroom and green pepper in a warm ceramic bowl, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "laziji-chicken",
+      "category": "chicken",
+      "kind": "recipe",
+      "subject": "finished Chongqing laziji spicy chicken with crisp small chicken pieces and abundant dried red chilies, appetizing but not overly oily",
+      "src": "/images/recipe-library/hero/laziji-chicken.webp",
+      "status": "pending",
+      "prompt": "finished Chongqing laziji spicy chicken with crisp small chicken pieces and abundant dried red chilies, appetizing but not overly oily, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "beer-duck",
+      "category": "duck",
+      "kind": "recipe",
+      "subject": "finished Chinese beer-braised duck with tender duck pieces and aromatics in a warm ivory ceramic bowl",
+      "src": "/images/recipe-library/hero/beer-duck.webp",
+      "status": "pending",
+      "prompt": "finished Chinese beer-braised duck with tender duck pieces and aromatics in a warm ivory ceramic bowl, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "ginger-duck",
+      "category": "duck",
+      "kind": "recipe",
+      "subject": "finished ginger duck with tender duck pieces and abundant ginger slices in a restrained amber sauce",
+      "src": "/images/recipe-library/hero/ginger-duck.webp",
+      "status": "pending",
+      "prompt": "finished ginger duck with tender duck pieces and abundant ginger slices in a restrained amber sauce, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "red-braised-pork",
+      "category": "pork",
+      "kind": "recipe",
+      "subject": "finished red-braised pork belly with neat glossy cubes in a warm ivory ceramic bowl",
+      "src": "/images/recipe-library/hero/red-braised-pork.webp",
+      "status": "pending",
+      "prompt": "finished red-braised pork belly with neat glossy cubes in a warm ivory ceramic bowl, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fish-fragrant-pork",
+      "category": "pork",
+      "kind": "recipe",
+      "subject": "finished yuxiang shredded pork with clear pork shreds, wood ear mushroom, bamboo shoots and peppers",
+      "src": "/images/recipe-library/hero/fish-fragrant-pork.webp",
+      "status": "pending",
+      "prompt": "finished yuxiang shredded pork with clear pork shreds, wood ear mushroom, bamboo shoots and peppers, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "sweet-sour-ribs",
+      "category": "pork",
+      "kind": "recipe",
+      "subject": "finished Chinese sweet-and-sour pork ribs with recognizable small rib bones and a restrained amber glaze",
+      "src": "/images/recipe-library/hero/sweet-sour-ribs.webp",
+      "status": "pending",
+      "prompt": "finished Chinese sweet-and-sour pork ribs with recognizable small rib bones and a restrained amber glaze, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "beef-stew",
+      "category": "beef",
+      "kind": "recipe",
+      "subject": "finished potato beef stew with tender beef cubes and potato chunks in a warm ceramic bowl",
+      "status": "accepted",
+      "src": "/images/recipe-library/hero/beef-stew.webp",
+      "prompt": null
+    },
+    {
+      "id": "black-pepper-beef",
+      "category": "beef",
+      "kind": "recipe",
+      "subject": "finished black-pepper beef strips with onion and bell pepper, clear beef texture and restrained sauce",
+      "src": "/images/recipe-library/hero/black-pepper-beef.webp",
+      "status": "pending",
+      "prompt": "finished black-pepper beef strips with onion and bell pepper, clear beef texture and restrained sauce, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "tomato-beef-brisket",
+      "category": "beef",
+      "kind": "recipe",
+      "subject": "finished tomato beef brisket stew with clear beef cubes and tomato in a warm ivory ceramic bowl",
+      "src": "/images/recipe-library/hero/tomato-beef-brisket.webp",
+      "status": "pending",
+      "prompt": "finished tomato beef brisket stew with clear beef cubes and tomato in a warm ivory ceramic bowl, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "steamed-fish",
+      "category": "fish",
+      "kind": "recipe",
+      "subject": "finished whole Chinese steamed fish with scallion and ginger on a long ivory platter",
+      "status": "accepted",
+      "src": "/images/recipe-library/hero/steamed-fish.webp",
+      "prompt": null
+    },
+    {
+      "id": "boiled-fish",
+      "category": "fish",
+      "kind": "recipe",
+      "subject": "finished Sichuan boiled fish with tender white fish slices, dried chilies and peppercorns in a shallow ivory bowl",
+      "src": "/images/recipe-library/hero/boiled-fish.webp",
+      "status": "pending",
+      "prompt": "finished Sichuan boiled fish with tender white fish slices, dried chilies and peppercorns in a shallow ivory bowl, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "pan-fried-fish",
+      "category": "fish",
+      "kind": "recipe",
+      "subject": "finished golden pan-fried whole fish on an ivory platter with minimal scallion garnish",
+      "src": "/images/recipe-library/hero/pan-fried-fish.webp",
+      "status": "pending",
+      "prompt": "finished golden pan-fried whole fish on an ivory platter with minimal scallion garnish, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "garlic-vermicelli-shrimp",
+      "category": "seafood",
+      "kind": "recipe",
+      "subject": "finished garlic vermicelli shrimp with whole shrimp, translucent vermicelli and minced garlic clearly visible",
+      "status": "accepted",
+      "src": "/images/recipe-library/hero/garlic-vermicelli-shrimp.webp",
+      "prompt": null
+    },
+    {
+      "id": "spicy-squid",
+      "category": "seafood",
+      "kind": "recipe",
+      "subject": "finished spicy stir-fried scored squid with green and red peppers, unmistakable squid pieces and restrained sauce",
+      "src": "/images/recipe-library/hero/spicy-squid.webp",
+      "status": "pending",
+      "prompt": "finished spicy stir-fried scored squid with green and red peppers, unmistakable squid pieces and restrained sauce, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "steamed-crab",
+      "category": "seafood",
+      "kind": "recipe",
+      "subject": "finished steamed whole crab on an ivory platter with minimal ginger accompaniment",
+      "src": "/images/recipe-library/hero/steamed-crab.webp",
+      "status": "pending",
+      "prompt": "finished steamed whole crab on an ivory platter with minimal ginger accompaniment, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/chicken",
+      "category": "chicken",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese chicken dish with tender chicken pieces and subtle scallion garnish",
+      "src": "/images/recipe-library/hero/fallback/chicken.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese chicken dish with tender chicken pieces and subtle scallion garnish, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/duck",
+      "category": "duck",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese duck dish with recognizable duck pieces in a restrained amber sauce",
+      "src": "/images/recipe-library/hero/fallback/duck.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese duck dish with recognizable duck pieces in a restrained amber sauce, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/pork",
+      "category": "pork",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese pork dish with recognizable pork slices and seasonal vegetables",
+      "src": "/images/recipe-library/hero/fallback/pork.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese pork dish with recognizable pork slices and seasonal vegetables, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/beef",
+      "category": "beef",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese beef dish with tender beef cubes and root vegetables",
+      "src": "/images/recipe-library/hero/fallback/beef.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese beef dish with tender beef cubes and root vegetables, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/fish",
+      "category": "fish",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese whole fish dish on a long ivory platter with scallion and ginger",
+      "src": "/images/recipe-library/hero/fallback/fish.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese whole fish dish on a long ivory platter with scallion and ginger, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/seafood",
+      "category": "seafood",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese seafood dish with shrimp, scallops and squid clearly visible",
+      "src": "/images/recipe-library/hero/fallback/seafood.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese seafood dish with shrimp, scallops and squid clearly visible, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    },
+    {
+      "id": "fallback/other",
+      "category": "other",
+      "kind": "category-fallback",
+      "subject": "an elegant finished Chinese vegetable and tofu dish with seasonal greens and mushrooms",
+      "src": "/images/recipe-library/hero/fallback/other.webp",
+      "status": "pending",
+      "prompt": "an elegant finished Chinese vegetable and tofu dish with seasonal greens and mushrooms, high-end Chinese cookbook magazine photography, wide 3:2 landscape composition, finished plated food is the unmistakable subject, subject concentrated on the right half, left 38 percent kept calm and visually clean for title text, warm cream-white table and pale ceramic serving ware, natural soft morning light, low saturation, realistic appetizing texture, soft restrained shadows, no text, no logo, no brand, no person, no face, no restaurant clutter, no advertising style, no unrelated dishes"
+    }
+  ]
+}

@@ -134,6 +134,8 @@ Milestone 4：Downloadable App（进行中）
 - Current Checkpoint：`A2 - 签名与 GitHub Prerelease`
 - Current Version：`0.3.0-beta.4`
 
+菜谱体验支撑项已完成（2026-07-30）：将详情页视觉素材 Pilot 生产化为 165 张通用素材和 24 张离线 Hero，建立确定性语义评分、三批生成、自动 QA、人工淘汰与覆盖报告；保持详情页 UI 与业务保存链路不变，不新增数据库 migration。
+
 Checkpoint A1 已完成：GitHub Actions run `29582168527` 在 `24330c9` 上成功完成 Capacitor 同步、Gradle 编译和 debug APK 上传，产物约 3.58 MiB。
 
 Checkpoint A2 发布部分已完成：run `29586070898` 发布首个长期签名 `0.2.0-beta.1`；真机安装成功但启动白屏。兼容修复提交 `dc0b55a` 已通过 79 项测试、lint、build、Capacitor sync 和 Vercel Production 健康检查，run `29646310937` 已发布 `0.2.0-beta.2` 签名 APK 与 AAB。公开 APK digest 和压缩结构验证通过；只剩 Android 真机覆盖安装、启动和游客生成流程验收。

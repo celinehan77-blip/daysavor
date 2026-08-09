@@ -7,6 +7,11 @@ import type {
   SourceExtractionErrorCode,
   SourceExtractionMetadata,
 } from "@/lib/source/types";
+import type {
+  HeroImagePromptData,
+  HeroVisualTags,
+  RecipeVisualAssets,
+} from "@/types/recipeVisual";
 
 export type RecipeParseSourcePlatform =
   | "xiaohongshu"
@@ -64,6 +69,14 @@ export type ParsedRecipeDraft = {
   classificationConfidence: number;
   classificationReason: string;
   classificationSource: ClassificationSource;
+  primaryIngredientTags?: string[];
+  ingredientImageTags?: string[];
+  seasoningImageTags?: string[];
+  stepActionTags?: string[];
+  heroImagePromptData?: HeroImagePromptData | null;
+  heroImageUrl?: string;
+  heroVisualTags?: HeroVisualTags;
+  visualAssets?: RecipeVisualAssets;
   tags: string[];
   ingredients: ParsedIngredient[];
   seasonings: ParsedIngredient[];

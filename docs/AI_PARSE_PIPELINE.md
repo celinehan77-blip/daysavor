@@ -45,12 +45,23 @@
 - `difficulty`
 - `flavor`
 - `mainIngredient`
+- `primaryIngredientTags`（可选，仅用于视觉检索）
+- `ingredientImageTags`（可选，仅用于视觉检索）
+- `seasoningImageTags`（可选，仅用于视觉检索）
+- `stepActionTags`（可选，仅用于视觉检索）
+- `heroImagePromptData`（可选，仅用于离线 Hero 生成提示）
+- `heroVisualTags`（可选，本地推导的 Hero 语义标签）
+- `visualAssets`（可选，已经分配的静态素材地址与匹配级别）
 - `tags`
 - `ingredients`
 - `seasonings`
 - `steps`
 - `confidence`
 - `warnings`
+
+视觉语义字段不属于菜谱事实，不能反向修改食材、用量、步骤、时间或火候。校验器会去重并限制长度；旧输出缺失这些字段时返回空数组或 `null`。当前没有为视觉字段增加 Supabase Schema 或 migration，本地动态菜谱会保留这些可选字段，云端旧菜谱由详情页匹配器根据现有内容安全回退。
+
+Hero 不在解析请求或浏览器页面中生成。解析完成后，视觉适配层只根据现有菜谱事实推导标签，并在 24 张静态 Hero 中按“精确菜名 → 别名 → 同分类近似语义 → 分类 fallback → 全局 fallback”选择。分类冲突候选在评分前排除，失败只降级图片，不会阻塞菜谱结构化和保存。
 
 ## 4. 当前流程
 
@@ -65,6 +76,7 @@ POST /api/parse-recipe
 -> 对 408 / 429 / 5xx、网络失败、超时、空内容、截断和非法 JSON 做受控重试
 -> DeepSeek 成功时返回 ParsedRecipeDraft
 -> DeepSeek 失败、超时、未配置 key 或输出不合法时 fallback 到 mockRecipeParser()
+-> 本地视觉适配层从已有字段推导 Hero 标签并分配静态视觉素材
 -> 返回结构化草稿
 ```
 
@@ -81,6 +93,7 @@ POST /api/parse-recipe
 -> 火山 Seed ASR 成功则结束；明确失败后调用 Qwen ASR
 -> parseRecipeWithDeepSeek(transcript)
 -> 来源一致性与质量校验
+-> 本地视觉适配层分配静态 Hero、食材、调味和步骤图片
 -> 返回 ParsedRecipeDraft 与 ASR/阶段诊断
 -> finally 删除临时音频
 ```
@@ -173,6 +186,8 @@ ALIBABA_ASR_MODEL=qwen3-asr-flash
 - 当前视频链路会在火山失败时调用 Qwen ASR，但不会调用 OpenAI。
 - 当前解析公开小红书与抖音视频；ALAPI Token 只在服务端读取，不进入浏览器代码。
 - 当前 `ParsedRecipeDraft` 仍会保存在当前浏览器的 `localStorage`，作为 fallback。
+- 本地生成菜谱会随草稿保存 `heroVisualTags / visualAssets`；旧本地草稿首次读取时补齐并回写。
+- 云端菜谱因本阶段不新增 Supabase 字段，在详情读取时确定性推导视觉素材，不做额外数据库查询。
 - 视频媒体、ASR 或 DeepSeek 失败时不会生成无关 Mock 菜谱；Supabase 保存失败时保留本地动态菜谱。
 - 后续阶段会继续复用同一套保存流程，并增强真实 AI 输出质量。
 

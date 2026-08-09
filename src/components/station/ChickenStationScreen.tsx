@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { AppViewport } from "@/components/layout/AppViewport";
 import type { SerializableRecipe, SerializableStation } from "@/types";
+import { StationFoodMap } from "./StationFoodMap";
 import {
   COVER_FLOW_CARD_STRIDE,
   getContinuousCoverFlowOffset,
@@ -34,111 +35,12 @@ import {
   getSnapDurationMs,
 } from "./chickenStationMotion";
 
-const ingredientLabelPositions = [
-  { left: "13%", top: "31%" },
-  { left: "70%", top: "36%" },
-  { left: "12%", top: "65%" },
-  { left: "70%", top: "68%" },
-  { left: "43%", top: "78%" },
-];
-
 const cardTransition: Transition = {
   type: "spring",
   stiffness: 260,
   damping: 28,
   mass: 0.8,
 };
-
-function StationFoodMap({
-  compact = false,
-  recipe,
-}: {
-  compact?: boolean;
-  recipe: SerializableRecipe;
-}) {
-  const sizeClass = compact ? "h-[190px]" : "h-[252px]";
-  const ingredientLabels = [...recipe.ingredients, ...recipe.seasonings].slice(
-    0,
-    5,
-  );
-
-  return (
-    <div className={`relative mx-auto mt-6 w-full ${sizeClass}`}>
-      <div className="absolute left-1/2 top-1/2 h-24 w-28 -translate-x-1/2 -translate-y-1/2 rounded-[40px] bg-[#efb195] shadow-[inset_0_-8px_18px_rgba(177,94,67,0.18)]" />
-      {[
-        ["44%", "45%", "12deg"],
-        ["53%", "47%", "-9deg"],
-        ["48%", "56%", "4deg"],
-      ].map(([left, top, rotate], index) => (
-        <span
-          key={`station-chicken-${index}`}
-          className="absolute h-12 w-14 rounded-[22px] bg-[#f2bea7] shadow-[inset_0_-7px_12px_rgba(177,94,67,0.16)]"
-          style={{ left, top, transform: `rotate(${rotate})` }}
-        />
-      ))}
-
-      {[
-        ["31%", "23%", "-22deg"],
-        ["40%", "18%", "20deg"],
-        ["25%", "44%", "18deg"],
-        ["37%", "52%", "-30deg"],
-      ].map(([left, top, rotate], index) => (
-        <span
-          key={`station-chili-${index}`}
-          className="absolute h-4 w-16 rounded-full bg-gradient-to-r from-[#8f1f16] via-[#c93526] to-[#8f1f16]"
-          style={{ left, top, transform: `rotate(${rotate})` }}
-        />
-      ))}
-
-      {[
-        ["58%", "23%"],
-        ["66%", "26%"],
-        ["72%", "31%"],
-        ["63%", "38%"],
-        ["76%", "42%"],
-        ["56%", "34%"],
-        ["66%", "48%"],
-      ].map(([left, top], index) => (
-        <span
-          key={`station-peanut-${index}`}
-          className="absolute h-4 w-6 rotate-[-18deg] rounded-full bg-[#c98c4f]"
-          style={{ left, top }}
-        />
-      ))}
-
-      {[
-        ["58%", "59%"],
-        ["62%", "66%"],
-        ["70%", "62%"],
-        ["75%", "70%"],
-        ["66%", "75%"],
-        ["81%", "63%"],
-      ].map(([left, top], index) => (
-        <span
-          key={`station-pepper-${index}`}
-          className="absolute h-2.5 w-2.5 rounded-full bg-[#65422d]"
-          style={{ left, top }}
-        />
-      ))}
-
-      <span className="absolute bottom-8 left-[45%] h-3 w-[72px] rotate-[52deg] rounded-full bg-[#85a765]" />
-      <span className="absolute bottom-6 left-[48%] h-3 w-20 rotate-[48deg] rounded-full bg-[#6f9651]" />
-
-      {!compact
-        ? ingredientLabels.map((item, index) => (
-            <div
-              key={item.name}
-              className="absolute text-[13px] leading-5 text-[#5f5043]"
-              style={ingredientLabelPositions[index]}
-            >
-              <p className="font-semibold">{item.name}</p>
-              <p className="text-[11px] text-[#9b8d80]">{item.note}</p>
-            </div>
-          ))
-        : null}
-    </div>
-  );
-}
 
 function RecipeCard({
   recipe,

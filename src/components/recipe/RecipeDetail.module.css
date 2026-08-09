@@ -45,22 +45,38 @@
 .heroPhoto {
   position: relative;
   align-self: stretch;
+  width: calc(100% + 8px);
   min-height: 190px;
-  overflow: hidden;
-  border-radius: 30px;
-  background: #eee4d6;
-  box-shadow:
-    0 18px 34px rgb(83 55 31 / 12%),
-    inset 0 1px 0 rgb(255 255 255 / 55%);
-}
-
-.heroPhotoImage,
-.ingredientPhotoImage {
-  object-fit: contain;
+  overflow: visible;
+  background: transparent;
+  transform: translateX(-8px);
 }
 
 .heroPhotoImage {
-  padding: 3px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 22% at 60% 50%,
+    #000 40%,
+    rgb(0 0 0 / 80%) 60%,
+    transparent 95%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 22% at 60% 50%,
+    #000 40%,
+    rgb(0 0 0 / 80%) 60%,
+    transparent 95%
+  );
+  object-fit: contain;
+  object-position: center center;
+  filter: drop-shadow(0 14px 20px rgb(83 55 31 / 10%));
+  mix-blend-mode: multiply;
+}
+
+.heroPhotoImage[data-asset-presentation="isolated"] {
+  -webkit-mask-image: none;
+  mask-image: none;
+  object-fit: cover;
+  filter: drop-shadow(0 14px 18px rgb(83 55 31 / 14%));
+  mix-blend-mode: normal;
 }
 
 .statsCard {
@@ -75,15 +91,43 @@
 
 .ingredientCard {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) 58px;
-  height: 158px;
+  grid-template-areas: "text image";
+  height: 176px;
   min-width: 0;
-  padding: 10px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.ingredientCard[data-layout-mode="compact"] {
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+}
+
+.ingredientCard[data-layout-mode="balanced"] {
+  grid-template-columns: minmax(0, 56%) minmax(0, 44%);
+}
+
+.ingredientCard[data-layout-mode="dense"] {
+  grid-template-columns: minmax(0, 66%) minmax(0, 34%);
+}
+
+.ingredientTextArea {
+  position: relative;
+  z-index: 1;
+  grid-area: text;
+  min-width: 0;
+  overflow: hidden;
+  padding: 11px 2px 10px 10px;
+}
+
+.ingredientTextArea h3 {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .ingredientText {
   min-height: 0;
-  margin-top: 6px;
+  margin-top: 5px;
   overflow: hidden;
 }
 
@@ -97,11 +141,191 @@
 }
 
 .ingredientPhoto {
-  position: relative;
+  display: flex;
+  grid-area: image;
+  align-items: flex-end;
+  justify-content: center;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
-  border-radius: 13px;
-  background: rgb(239 229 216 / 78%);
+  padding: 0 1px 9px;
+  border: 0;
+  background: transparent;
+}
+
+.ingredientArtworkSurface {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  align-self: end;
+  overflow: hidden;
+  transform-origin: center bottom;
+}
+
+.ingredientPhotoImage {
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(0.97) contrast(0.99) brightness(1.01);
+  transform: scale(1.55);
+  transform-origin: center bottom;
+}
+
+.ingredientCard[data-ingredient-type="main"] .ingredientArtworkSurface {
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 78% at 52% 60%,
+    #000 56%,
+    rgb(0 0 0 / 92%) 68%,
+    rgb(0 0 0 / 38%) 82%,
+    transparent 96%
+  );
+  mask-image: radial-gradient(
+    ellipse 84% 78% at 52% 60%,
+    #000 56%,
+    rgb(0 0 0 / 92%) 68%,
+    rgb(0 0 0 / 38%) 82%,
+    transparent 96%
+  );
+}
+
+.ingredientCard[data-ingredient-type="side"] .ingredientArtworkSurface {
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 82% at 50% 58%,
+    #000 54%,
+    rgb(0 0 0 / 92%) 68%,
+    rgb(0 0 0 / 36%) 83%,
+    transparent 96%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 82% at 50% 58%,
+    #000 54%,
+    rgb(0 0 0 / 92%) 68%,
+    rgb(0 0 0 / 36%) 83%,
+    transparent 96%
+  );
+}
+
+.ingredientCard[data-ingredient-type="seasoning"] .ingredientArtworkSurface {
+  -webkit-mask-image: radial-gradient(
+    ellipse 82% 86% at 50% 55%,
+    #000 58%,
+    rgb(0 0 0 / 94%) 70%,
+    rgb(0 0 0 / 40%) 84%,
+    transparent 97%
+  );
+  mask-image: radial-gradient(
+    ellipse 82% 86% at 50% 55%,
+    #000 58%,
+    rgb(0 0 0 / 94%) 70%,
+    rgb(0 0 0 / 40%) 84%,
+    transparent 97%
+  );
+}
+
+.ingredientPhoto:has(
+    .ingredientPhotoImage[data-asset-presentation="isolated"]
+  ) {
+  position: relative;
+  z-index: 0;
+  grid-area: 1 / 1 / -1 / -1;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ingredientArtworkSurface:has(
+    .ingredientPhotoImage[data-asset-presentation="isolated"]
+  ) {
+  --artwork-width: 70%;
+  --artwork-height: 62%;
+  --artwork-x: -3%;
+  --artwork-y: 4%;
+
+  width: var(--artwork-width);
+  height: var(--artwork-height);
+  flex: 0 0 var(--artwork-width);
+  aspect-ratio: auto;
+  align-self: center;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  translate: var(--artwork-x) var(--artwork-y);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.ingredientCard[data-ingredient-type="main"]
+  .ingredientArtworkSurface:has(
+    .ingredientPhotoImage[data-asset-presentation="isolated"]
+  ) {
+  --artwork-width: 80%;
+  --artwork-height: 64%;
+  --artwork-x: -4%;
+  --artwork-y: 1%;
+}
+
+.ingredientCard[data-ingredient-type="side"]
+  .ingredientArtworkSurface:has(
+    .ingredientPhotoImage[data-asset-presentation="isolated"]
+  ) {
+  --artwork-width: 76%;
+  --artwork-height: 54%;
+  --artwork-x: 2%;
+  --artwork-y: 10%;
+}
+
+.ingredientCard[data-ingredient-type="seasoning"]
+  .ingredientArtworkSurface:has(
+    .ingredientPhotoImage[data-asset-presentation="isolated"]
+  ) {
+  --artwork-width: 72%;
+  --artwork-height: 56%;
+  --artwork-x: -3%;
+  --artwork-y: 1%;
+}
+
+.ingredientPhotoImage[data-asset-presentation="isolated"] {
+  object-fit: contain;
+  object-position: center center;
+  opacity: 0.98;
+  filter:
+    drop-shadow(0 10px 12px rgb(75 53 34 / 14%))
+    drop-shadow(0 2px 3px rgb(75 53 34 / 9%));
+  transform: none;
+  animation: ingredientArtworkReveal 420ms ease-out both;
+}
+
+.ingredientCard[data-ingredient-type="main"]
+  .ingredientPhotoImage[data-asset-presentation="isolated"] {
+  object-position: 62% 72%;
+}
+
+.ingredientCard[data-ingredient-type="side"]
+  .ingredientPhotoImage[data-asset-presentation="isolated"] {
+  object-position: 54% 70%;
+  transform: scaleX(-1);
+}
+
+.ingredientCard[data-ingredient-type="seasoning"]
+  .ingredientPhotoImage[data-asset-presentation="isolated"] {
+  object-position: 60% center;
+}
+
+@keyframes ingredientArtworkReveal {
+  from {
+    opacity: 0.72;
+  }
+
+  to {
+    opacity: 0.98;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ingredientPhotoImage[data-asset-presentation="isolated"] {
+    animation: none;
+  }
 }
 
 .stepThumb {
@@ -150,8 +374,37 @@
   }
 
   .ingredientCard {
-    height: 156px;
-    padding: 8px;
+    height: 170px;
+  }
+
+  .ingredientTextArea {
+    padding: 10px 1px 9px 8px;
+  }
+
+  .ingredientTextArea h3 {
+    font-size: 12px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .ingredientLine {
+    font-size: 9px;
+    line-height: 12px;
+  }
+
+  .ingredientPhoto {
+    padding: 0 1px 8px;
+  }
+
+  .ingredientArtworkSurface {
+    transform: scale(.9);
+  }
+
+  .ingredientArtworkSurface:has(
+      .ingredientPhotoImage[data-asset-presentation="isolated"]
+    ) {
+    scale: .9;
+    transform: none;
   }
 
   .actionBar {

@@ -7,6 +7,7 @@ import {
   normalizeRecipeCategory,
   recipeCategoryLabels,
 } from "@/lib/classification/recipeCategories";
+import { enrichParsedRecipeDraftVisuals } from "@/lib/recipe-visual/assignment";
 
 export const LOCAL_GENERATED_RECIPE_SLUG = "my-generated-recipe";
 const LOCAL_GENERATED_RECIPE_PREFIX = "local-recipe-";
@@ -39,38 +40,48 @@ export function mapParsedDraftToLocalRecipe(
   draft: ParsedRecipeDraft,
   slug = LOCAL_GENERATED_RECIPE_SLUG,
 ): Recipe {
-  const foodIngredients = draft.ingredients.filter(
+  const visualDraft = enrichParsedRecipeDraftVisuals(draft, slug);
+  const foodIngredients = visualDraft.ingredients.filter(
     (ingredient) => ingredient.group !== "seasoning",
   );
   const seasoningIngredients = [
-    ...draft.ingredients.filter(
+    ...visualDraft.ingredients.filter(
       (ingredient) => ingredient.group === "seasoning",
     ),
-    ...draft.seasonings,
+    ...visualDraft.seasonings,
   ];
 
   return {
     id: slug,
     slug,
-    titleZh: draft.titleZh,
-    titleEn: draft.titleEn,
-    stationId: `station-${inferStationCategory(draft)}`,
+    titleZh: visualDraft.titleZh,
+    titleEn: visualDraft.titleEn,
+    stationId: `station-${inferStationCategory(visualDraft)}`,
     coverType: "ticket",
-    timeMinutes: draft.timeMinutes,
-    difficulty: draft.difficulty,
-    flavor: draft.flavor,
-    mainIngredient: draft.mainIngredient,
-    primaryCategory: normalizeRecipeCategory(draft.primaryCategory),
-    primaryIngredient: draft.primaryIngredient || draft.mainIngredient,
+    timeMinutes: visualDraft.timeMinutes,
+    difficulty: visualDraft.difficulty,
+    flavor: visualDraft.flavor,
+    mainIngredient: visualDraft.mainIngredient,
+    primaryCategory: normalizeRecipeCategory(visualDraft.primaryCategory),
+    primaryIngredient:
+      visualDraft.primaryIngredient || visualDraft.mainIngredient,
     classificationConfidence:
-      typeof draft.classificationConfidence === "number"
-        ? draft.classificationConfidence
+      typeof visualDraft.classificationConfidence === "number"
+        ? visualDraft.classificationConfidence
         : 0,
     classificationReason:
-      draft.classificationReason || "旧菜谱尚未完成分类，暂归入待整理",
-    classificationSource: draft.classificationSource || "rule",
-    tags: draft.tags,
-    description: draft.description,
+      visualDraft.classificationReason || "旧菜谱尚未完成分类，暂归入待整理",
+    classificationSource: visualDraft.classificationSource || "rule",
+    primaryIngredientTags: visualDraft.primaryIngredientTags ?? [],
+    ingredientImageTags: visualDraft.ingredientImageTags ?? [],
+    seasoningImageTags: visualDraft.seasoningImageTags ?? [],
+    stepActionTags: visualDraft.stepActionTags ?? [],
+    heroImagePromptData: visualDraft.heroImagePromptData ?? null,
+    heroImageUrl: visualDraft.heroImageUrl,
+    heroVisualTags: visualDraft.heroVisualTags,
+    visualAssets: visualDraft.visualAssets,
+    tags: visualDraft.tags,
+    description: visualDraft.description,
     ingredients: foodIngredients.map((ingredient, index) => ({
       id: `local-ingredient-${index + 1}`,
       name: ingredient.name,
@@ -85,7 +96,7 @@ export function mapParsedDraftToLocalRecipe(
       group: "seasoning",
       note: ingredient.note,
     })),
-    steps: draft.steps.map((step, index) => ({
+    steps: visualDraft.steps.map((step, index) => ({
       id: `local-step-${index + 1}`,
       title: step.title,
       description: step.description,
@@ -145,6 +156,7 @@ export function isLocalGeneratedRecipeSlug(slug: string) {
 
 export function saveLocalGeneratedRecipe(draft: ParsedRecipeDraft): Recipe {
   const slug = createLocalRecipeSlug();
+  const visualDraft = enrichParsedRecipeDraftVisuals(draft, slug);
 
   if (canUseLocalStorage()) {
     try {
@@ -152,18 +164,22 @@ export function saveLocalGeneratedRecipe(draft: ParsedRecipeDraft): Recipe {
       window.localStorage.setItem(
         LOCAL_GENERATED_RECIPES_KEY,
         JSON.stringify(
-          [{ createdAt: new Date().toISOString(), draft, slug }, ...recipes].slice(
-            0,
-            MAX_LOCAL_GENERATED_RECIPES,
-          ),
+          [
+            {
+              createdAt: new Date().toISOString(),
+              draft: visualDraft,
+              slug,
+            },
+            ...recipes,
+          ].slice(0, MAX_LOCAL_GENERATED_RECIPES),
         ),
       );
     } catch {
-      return mapParsedDraftToLocalRecipe(draft, slug);
+      return mapParsedDraftToLocalRecipe(visualDraft, slug);
     }
   }
 
-  return mapParsedDraftToLocalRecipe(draft, slug);
+  return mapParsedDraftToLocalRecipe(visualDraft, slug);
 }
 
 export function getLocalGeneratedDraftBySlug(
@@ -174,7 +190,26 @@ export function getLocalGeneratedDraftBySlug(
   );
 
   if (storedRecipe) {
-    return storedRecipe.draft;
+    const visualDraft = enrichParsedRecipeDraftVisuals(
+      storedRecipe.draft,
+      storedRecipe.slug,
+    );
+
+    if (
+      canUseLocalStorage() &&
+      (!storedRecipe.draft.visualAssets ||
+        !storedRecipe.draft.heroVisualTags)
+    ) {
+      const recipes = readStoredLocalRecipes().map((recipe) =>
+        recipe.slug === slug ? { ...recipe, draft: visualDraft } : recipe,
+      );
+      window.localStorage.setItem(
+        LOCAL_GENERATED_RECIPES_KEY,
+        JSON.stringify(recipes),
+      );
+    }
+
+    return visualDraft;
   }
 
   return slug === LOCAL_GENERATED_RECIPE_SLUG
@@ -234,13 +269,19 @@ export function updateLocalGeneratedRecipeCategory(
   const current = recipes[recipeIndex];
   recipes[recipeIndex] = {
     ...current,
-    draft: {
-      ...current.draft,
-      primaryCategory: category,
-      classificationConfidence: 1,
-      classificationReason: `用户手动修正为${recipeCategoryLabels[category]}`,
-      classificationSource: "user",
-    },
+    draft: enrichParsedRecipeDraftVisuals(
+      {
+        ...current.draft,
+        heroImageUrl: undefined,
+        heroVisualTags: undefined,
+        visualAssets: undefined,
+        primaryCategory: category,
+        classificationConfidence: 1,
+        classificationReason: `用户手动修正为${recipeCategoryLabels[category]}`,
+        classificationSource: "user",
+      },
+      slug,
+    ),
   };
   window.localStorage.setItem(
     LOCAL_GENERATED_RECIPES_KEY,

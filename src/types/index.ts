@@ -3,6 +3,11 @@ import type {
   ClassificationSource,
   RecipeCategoryId,
 } from "@/types/classification";
+import type {
+  HeroImagePromptData,
+  HeroVisualTags,
+  RecipeVisualAssets,
+} from "@/types/recipeVisual";
 
 export type {
   ChefCategoryViewModel,
@@ -70,6 +75,14 @@ export type Recipe = {
   classificationConfidence?: number;
   classificationReason?: string;
   classificationSource?: ClassificationSource;
+  primaryIngredientTags?: string[];
+  ingredientImageTags?: string[];
+  seasoningImageTags?: string[];
+  stepActionTags?: string[];
+  heroImagePromptData?: HeroImagePromptData | null;
+  heroImageUrl?: string;
+  heroVisualTags?: HeroVisualTags;
+  visualAssets?: RecipeVisualAssets;
   tags: string[];
   description: string;
   ingredients: Ingredient[];

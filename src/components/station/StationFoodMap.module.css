@@ -1,0 +1,53 @@
+.map {
+  isolation: isolate;
+}
+
+.imageFrame {
+  position: absolute;
+  inset: -5px -11px;
+  z-index: 2;
+  overflow: visible;
+  background: transparent;
+  mask-image: none;
+}
+
+.imageFrame[data-station-asset-presentation="photographic"] {
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(
+    ellipse 55% 52% at 50% 54%,
+    #000 35%,
+    rgb(0 0 0 / 70%) 55%,
+    transparent 82%
+  );
+  mask-image: radial-gradient(
+    ellipse 55% 52% at 50% 54%,
+    #000 35%,
+    rgb(0 0 0 / 70%) 55%,
+    transparent 82%
+  );
+}
+
+.image {
+  object-fit: contain;
+  filter:
+    drop-shadow(0 9px 10px rgba(68, 45, 27, 0.12))
+    saturate(0.93)
+    contrast(0.97);
+  transform: scale(0.94);
+  transform-origin: center;
+}
+
+.imageFrame[data-station-asset-presentation="photographic"] .image {
+  filter:
+    drop-shadow(0 9px 10px rgba(68, 45, 27, 0.1))
+    saturate(0.94)
+    contrast(0.98)
+    brightness(1.06);
+  mix-blend-mode: multiply;
+}
+
+.unavailable {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}

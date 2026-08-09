@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "rejected": [
+    {
+      "id": "protein-chicken-sliced-01",
+      "batch": 1,
+      "reason": "Cooked appearance was too strong for a main-ingredient asset.",
+      "archivedPath": "/images/recipe-library/rejected/batch-1/protein-chicken-sliced-01.webp"
+    },
+    {
+      "id": "protein-duck-breast-01",
+      "batch": 1,
+      "reason": "Rendered as a cooked sliced duck dish instead of clean raw duck breast.",
+      "archivedPath": "/images/recipe-library/rejected/batch-1/protein-duck-breast-01.webp"
+    },
+    {
+      "id": "protein-duck-pieces-01",
+      "batch": 1,
+      "reason": "Rendered as roasted duck pieces and did not match ingredient-card semantics.",
+      "archivedPath": "/images/recipe-library/rejected/batch-1/protein-duck-pieces-01.webp"
+    },
+    {
+      "id": "protein-pork-trotter-01",
+      "batch": 1,
+      "reason": "The subject shape was ambiguous and resembled mushrooms or root vegetables.",
+      "archivedPath": "/images/recipe-library/rejected/batch-1/protein-pork-trotter-01.webp"
+    },
+    {
+      "id": "protein-beef-shredded-01",
+      "batch": 1,
+      "reason": "The fine strands resembled cooked noodles rather than shredded beef.",
+      "archivedPath": "/images/recipe-library/rejected/batch-1/protein-beef-shredded-01.webp"
+    },
+    {
+      "id": "protein-squid-01",
+      "batch": 2,
+      "reason": "The white pieces were too ambiguous and did not clearly read as scored squid.",
+      "archivedPath": "/images/recipe-library/rejected/batch-2/protein-squid-01.webp"
+    },
+    {
+      "id": "protein-crab-01",
+      "batch": 2,
+      "reason": "Rendered as an orange cooked crab rather than a clean main-ingredient asset.",
+      "archivedPath": "/images/recipe-library/rejected/batch-2/protein-crab-01.webp"
+    },
+    {
+      "id": "protein-mixed-seafood-01",
+      "batch": 2,
+      "reason": "Composition resembled a finished seafood salad and included plated garnish.",
+      "archivedPath": "/images/recipe-library/rejected/batch-2/protein-mixed-seafood-01.webp"
+    },
+    {
+      "id": "ingredient-mushroom-vegetable-02",
+      "batch": 2,
+      "reason": "Rendered as a cooked dish instead of a clean raw ingredient combination.",
+      "archivedPath": "/images/recipe-library/rejected/batch-2/ingredient-mushroom-vegetable-02.webp"
+    },
+    {
+      "id": "step-braising-pork-02",
+      "batch": 2,
+      "reason": "The braise showed pork belly instead of the required pork ribs.",
+      "archivedPath": "/images/recipe-library/rejected/batch-2/step-braising-pork-02.webp"
+    },
+    {
+      "id": "step-slicing-duck-01",
+      "batch": 3,
+      "reason": "The sliced subject resembled sausage rather than identifiable duck breast.",
+      "archivedPath": "/images/recipe-library/rejected/batch-3/step-slicing-duck-01.webp"
+    },
+    {
+      "id": "step-shredding-pork-01",
+      "batch": 3,
+      "reason": "Rendered as hand-pulled cooked pork instead of knife-cut raw pork shreds.",
+      "archivedPath": "/images/recipe-library/rejected/batch-3/step-shredding-pork-01.webp"
+    }
+  ]
+}

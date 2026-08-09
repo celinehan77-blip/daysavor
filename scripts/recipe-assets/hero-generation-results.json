@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "total": 24,
+  "acceptedCount": 24,
+  "failedCount": 0,
+  "results": [
+    {
+      "id": "kung-pao-chicken",
+      "src": "/images/recipe-library/hero/kung-pao-chicken.webp",
+      "kind": "recipe",
+      "category": "chicken",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "yellow-braised-chicken",
+      "src": "/images/recipe-library/hero/yellow-braised-chicken.webp",
+      "kind": "recipe",
+      "category": "chicken",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "laziji-chicken",
+      "src": "/images/recipe-library/hero/laziji-chicken.webp",
+      "kind": "recipe",
+      "category": "chicken",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "beer-duck",
+      "src": "/images/recipe-library/hero/beer-duck.webp",
+      "kind": "recipe",
+      "category": "duck",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "ginger-duck",
+      "src": "/images/recipe-library/hero/ginger-duck.webp",
+      "kind": "recipe",
+      "category": "duck",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "red-braised-pork",
+      "src": "/images/recipe-library/hero/red-braised-pork.webp",
+      "kind": "recipe",
+      "category": "pork",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fish-fragrant-pork",
+      "src": "/images/recipe-library/hero/fish-fragrant-pork.webp",
+      "kind": "recipe",
+      "category": "pork",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "sweet-sour-ribs",
+      "src": "/images/recipe-library/hero/sweet-sour-ribs.webp",
+      "kind": "recipe",
+      "category": "pork",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "beef-stew",
+      "src": "/images/recipe-library/hero/beef-stew.webp",
+      "kind": "recipe",
+      "category": "beef",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "black-pepper-beef",
+      "src": "/images/recipe-library/hero/black-pepper-beef.webp",
+      "kind": "recipe",
+      "category": "beef",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "tomato-beef-brisket",
+      "src": "/images/recipe-library/hero/tomato-beef-brisket.webp",
+      "kind": "recipe",
+      "category": "beef",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "steamed-fish",
+      "src": "/images/recipe-library/hero/steamed-fish.webp",
+      "kind": "recipe",
+      "category": "fish",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "boiled-fish",
+      "src": "/images/recipe-library/hero/boiled-fish.webp",
+      "kind": "recipe",
+      "category": "fish",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "pan-fried-fish",
+      "src": "/images/recipe-library/hero/pan-fried-fish.webp",
+      "kind": "recipe",
+      "category": "fish",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "garlic-vermicelli-shrimp",
+      "src": "/images/recipe-library/hero/garlic-vermicelli-shrimp.webp",
+      "kind": "recipe",
+      "category": "seafood",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "spicy-squid",
+      "src": "/images/recipe-library/hero/spicy-squid.webp",
+      "kind": "recipe",
+      "category": "seafood",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "steamed-crab",
+      "src": "/images/recipe-library/hero/steamed-crab.webp",
+      "kind": "recipe",
+      "category": "seafood",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/chicken",
+      "src": "/images/recipe-library/hero/fallback/chicken.webp",
+      "kind": "category-fallback",
+      "category": "chicken",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/duck",
+      "src": "/images/recipe-library/hero/fallback/duck.webp",
+      "kind": "category-fallback",
+      "category": "duck",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/pork",
+      "src": "/images/recipe-library/hero/fallback/pork.webp",
+      "kind": "category-fallback",
+      "category": "pork",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/beef",
+      "src": "/images/recipe-library/hero/fallback/beef.webp",
+      "kind": "category-fallback",
+      "category": "beef",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/fish",
+      "src": "/images/recipe-library/hero/fallback/fish.webp",
+      "kind": "category-fallback",
+      "category": "fish",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/seafood",
+      "src": "/images/recipe-library/hero/fallback/seafood.webp",
+      "kind": "category-fallback",
+      "category": "seafood",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "id": "fallback/other",
+      "src": "/images/recipe-library/hero/fallback/other.webp",
+      "kind": "category-fallback",
+      "category": "other",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "issues": []
+    }
+  ]
+}

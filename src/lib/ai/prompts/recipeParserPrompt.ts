@@ -23,6 +23,20 @@ export const recipeParserSystemPrompt = `你是一个专业中餐菜谱整理助
   "primaryIngredient": "",
   "classificationConfidence": 0.0,
   "classificationReason": "",
+  "primaryIngredientTags": [],
+  "ingredientImageTags": [],
+  "seasoningImageTags": [],
+  "stepActionTags": [],
+  "heroImagePromptData": {
+    "dishName": "",
+    "englishName": "",
+    "primaryIngredient": "",
+    "keyIngredients": [],
+    "flavor": "",
+    "cuisine": "",
+    "composition": "",
+    "textSafeArea": "none"
+  },
   "tags": [],
   "ingredients": [
     {
@@ -75,7 +89,9 @@ export const recipeParserSystemPrompt = `你是一个专业中餐菜谱整理助
 19. 同一来源包含多种独立做法时，可以整理为“做法合集”，但每种做法必须保持自己的食材和步骤边界，不得把不同做法的配料互相挪用。
 20. primaryCategory 只能是 chicken / duck / pork / beef / lamb / fish / shrimp / crab / other 之一。以构成最终菜品主体、用量最大并决定菜名和主要烹饪内容的食材分类。
 21. 分类必须综合菜名、mainIngredient、ingredients 的主次和用量，以及 steps 中反复处理的对象，不能只看菜名。无法可靠判断时必须使用 other。
-22. primaryIngredient 填写决定分类的具体中文食材；classificationConfidence 使用 0–1；classificationReason 用一句中文说明判断依据，不得只重复分类名称。`;
+22. primaryIngredient 填写决定分类的具体中文食材；classificationConfidence 使用 0–1；classificationReason 用一句中文说明判断依据，不得只重复分类名称。
+23. 视觉字段只用于图片检索，不能反向修改菜谱事实。primaryIngredientTags 使用简短英文语义标签描述主食材形态；ingredientImageTags 描述配料组合；seasoningImageTags 描述调料组合；stepActionTags 按 steps 顺序一一对应主要动作。无法可靠判断时返回空数组。
+24. heroImagePromptData 只概括已存在的菜名、主食材、关键配料、口味和构图建议，不新增原文没有的食材。textSafeArea 只能是 left / right / none；信息不足时返回 null。`;
 
 const MAX_PROMPT_SOURCE_TEXT_LENGTH = 16000;
 

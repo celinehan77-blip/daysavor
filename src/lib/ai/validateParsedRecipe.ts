@@ -4,6 +4,10 @@ import type {
   ParsedStep,
 } from "@/types/ai";
 import type { IngredientGroup } from "@/types";
+import type {
+  HeroImagePromptData,
+  RecipeVisualTextSafeArea,
+} from "@/types/recipeVisual";
 import {
   classifyRecipeContent,
   isRecipeCategoryId,
@@ -15,14 +19,54 @@ function asString(value: unknown, fallback = "", maxLength = 240) {
     : fallback;
 }
 
-function asStringArray(value: unknown): string[] {
+function asStringArray(
+  value: unknown,
+  maxItems = Number.POSITIVE_INFINITY,
+  maxLength = 240,
+): string[] {
   if (!Array.isArray(value)) {
     return [];
   }
 
-  return value
-    .map((item) => asString(item))
-    .filter((item) => item.length > 0);
+  return Array.from(
+    new Set(
+      value
+        .map((item) => asString(item, "", maxLength))
+        .filter((item) => item.length > 0),
+    ),
+  ).slice(0, maxItems);
+}
+
+function asTextSafeArea(value: unknown): RecipeVisualTextSafeArea {
+  return value === "left" || value === "right" || value === "none"
+    ? value
+    : "none";
+}
+
+function normalizeHeroImagePromptData(
+  value: unknown,
+): HeroImagePromptData | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const data = value as Partial<HeroImagePromptData>;
+  const dishName = asString(data.dishName, "", 80);
+
+  if (!dishName) {
+    return null;
+  }
+
+  return {
+    dishName,
+    englishName: asString(data.englishName, "", 120),
+    primaryIngredient: asString(data.primaryIngredient, "", 80),
+    keyIngredients: asStringArray(data.keyIngredients, 8, 64),
+    flavor: asString(data.flavor, "", 64),
+    cuisine: asString(data.cuisine, "", 64),
+    composition: asString(data.composition, "", 160),
+    textSafeArea: asTextSafeArea(data.textSafeArea),
+  };
 }
 
 function asNumber(value: unknown, fallback: number) {
@@ -254,7 +298,7 @@ export function validateParsedRecipeDraft(
           draft.classificationReason,
           "AI 根据菜名、食材和步骤判断主要分类",
         ),
-        classificationSource: "ai" as const,
+    classificationSource: "ai" as const,
       }
     : fallbackClassification;
 
@@ -267,6 +311,17 @@ export function validateParsedRecipeDraft(
     flavor: asString(draft.flavor, "家常"),
     mainIngredient,
     ...classification,
+    primaryIngredientTags: asStringArray(
+      draft.primaryIngredientTags,
+      12,
+      48,
+    ),
+    ingredientImageTags: asStringArray(draft.ingredientImageTags, 16, 48),
+    seasoningImageTags: asStringArray(draft.seasoningImageTags, 16, 48),
+    stepActionTags: asStringArray(draft.stepActionTags, 20, 48),
+    heroImagePromptData: normalizeHeroImagePromptData(
+      draft.heroImagePromptData,
+    ),
     tags: Array.from(new Set(asStringArray(draft.tags))).slice(0, 6),
     ingredients,
     seasonings,

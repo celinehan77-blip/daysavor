@@ -59,14 +59,14 @@ test("ingredient text and photography use independent card regions", () => {
 
   assert.match(
     styles,
-    /\.ingredientCard\s*\{[\s\S]*grid-template-rows:\s*auto minmax\(0, 1fr\) 58px/,
+    /\.ingredientCard\s*\{[\s\S]*grid-template-areas:\s*"text image"/,
   );
   assert.match(styles, /\.ingredientText\s*\{[\s\S]*overflow:\s*hidden/);
   assert.match(
     styles,
     /\.ingredientPhotoImage\s*\{[\s\S]*object-fit:\s*contain/,
   );
-  assert.match(screen, /<IngredientArt[\s\S]*src=\{group\.image\}/);
+  assert.match(screen, /<IngredientPrepCard[\s\S]*image=\{group\.image\}/);
 });
 
 test("bottom bar removes notes and gives the primary save action more room", () => {

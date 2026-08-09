@@ -24,6 +24,7 @@ import {
   getLocalGeneratedRecipes,
   saveLocalGeneratedRecipe,
 } from "@/lib/data/localGeneratedRecipe";
+import { enrichRecipeVisuals } from "@/lib/recipe-visual/assignment";
 
 export type RecipeCardData = Pick<
   Recipe,
@@ -112,13 +113,15 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
       : null;
 
     if (recipe) {
-      return recipe;
+      return enrichRecipeVisuals(recipe);
     }
   } catch {
-    return getMockRecipeBySlug(slug);
+    const recipe = getMockRecipeBySlug(slug);
+    return recipe ? enrichRecipeVisuals(recipe) : null;
   }
 
-  return getMockRecipeBySlug(slug);
+  const recipe = getMockRecipeBySlug(slug);
+  return recipe ? enrichRecipeVisuals(recipe) : null;
 }
 
 export async function getRecipesByStationId(stationId: string): Promise<Recipe[]> {
@@ -155,13 +158,15 @@ export async function getRecipeDetailBySlug(
       : null;
 
     if (recipe) {
-      return recipe;
+      return enrichRecipeVisuals(recipe);
     }
   } catch {
-    return getMockRecipeDetailBySlug(slug);
+    const recipe = getMockRecipeDetailBySlug(slug);
+    return recipe ? enrichRecipeVisuals(recipe) : null;
   }
 
-  return getMockRecipeDetailBySlug(slug);
+  const recipe = getMockRecipeDetailBySlug(slug);
+  return recipe ? enrichRecipeVisuals(recipe) : null;
 }
 
 export async function getRecipeCardData(

@@ -4,7 +4,7 @@
 
 > **开发前必读：所有开发开始前必须先阅读 [`docs/AI_PROJECT_DIRECTOR.md`](docs/AI_PROJECT_DIRECTOR.md)，再继续规划、编码、调试或部署。**
 >
-> 项目阶段与变更记录：[`docs/ROADMAP.md`](docs/ROADMAP.md) · [`docs/CHANGELOG.md`](docs/CHANGELOG.md)
+> 项目阶段与变更记录：[`docs/ROADMAP.md`](docs/ROADMAP.md) · [`docs/CHANGELOG.md`](docs/CHANGELOG.md) · [`docs/RECIPE_VISUAL_LIBRARY.md`](docs/RECIPE_VISUAL_LIBRARY.md)
 >
 > 产品战略最高层：[`MASTER_PLAN.md`](MASTER_PLAN.md)
 
@@ -19,6 +19,7 @@ Android Beta 下载：[日食笔记 Android 0.3.0-beta.4](https://github.com/cel
 - 首页粘贴菜谱正文、字幕或公开小红书做饭视频链接，使用真实语音识别和 DeepSeek 生成菜谱
 - Loading 票根生成页
 - 动态菜谱详情页
+- 165 张生产级菜谱视觉素材库、显式语义评分、稳定变体选择与 24 张离线成菜 Hero 缓存
 - 本地收藏
 - 收藏页
 - 风味地图

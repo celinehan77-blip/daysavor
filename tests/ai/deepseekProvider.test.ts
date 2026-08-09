@@ -62,9 +62,11 @@ test("DeepSeek success returns normalized draft and diagnostics", async () => {
   assert.equal(result.diagnostics?.attemptCount, 1);
   assert.equal(result.diagnostics?.usage?.totalTokens, 800);
   assert.equal(result.draft?.steps[0]?.heat, "未说明");
-  assert.deepEqual(requestBody?.response_format, { type: "json_object" });
-  assert.deepEqual(requestBody?.thinking, { type: "disabled" });
-  assert.equal(requestBody?.temperature, 0.2);
+  const sentBody = requestBody as Record<string, unknown> | null;
+  assert.ok(sentBody);
+  assert.deepEqual(sentBody.response_format, { type: "json_object" });
+  assert.deepEqual(sentBody.thinking, { type: "disabled" });
+  assert.equal(sentBody.temperature, 0.2);
 });
 
 test("DeepSeek retries a truncated response once", async () => {

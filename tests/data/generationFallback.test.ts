@@ -162,6 +162,37 @@ test("each saved local recipe keeps a unique slug and its own draft", () => {
   );
 });
 
+test("saved local recipes persist derived Hero tags and stable visual assets", () => {
+  const recipe = saveLocalGeneratedRecipe({
+    ...draft,
+    titleZh: "宫保鸡丁",
+    titleEn: "Kung Pao Chicken",
+    flavor: "酸甜微辣",
+    mainIngredient: "鸡腿肉",
+    primaryCategory: "chicken",
+    primaryIngredient: "鸡腿肉",
+    primaryIngredientTags: ["diced-chicken"],
+    ingredientImageTags: ["dried-chili-peppercorn", "peanuts-nuts"],
+    seasoningImageTags: ["kung-pao-sauce"],
+    stepActionTags: ["stir-frying-chicken"],
+  });
+  const stored = getLocalGeneratedDraftBySlug(recipe.slug);
+
+  assert.equal(
+    recipe.visualAssets?.heroImageUrl,
+    "/images/recipe-library/hero/kung-pao-chicken.png",
+  );
+  assert.equal(stored?.heroVisualTags?.dishName, "宫保鸡丁");
+  assert.equal(
+    stored?.visualAssets?.heroImageUrl,
+    recipe.visualAssets?.heroImageUrl,
+  );
+  assert.deepEqual(
+    getLocalGeneratedRecipeBySlug(recipe.slug)?.visualAssets,
+    recipe.visualAssets,
+  );
+});
+
 test("local user correction persists the category and user source", () => {
   const chickenRecipe = saveLocalGeneratedRecipe({
     ...draft,

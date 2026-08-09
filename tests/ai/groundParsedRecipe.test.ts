@@ -13,6 +13,11 @@ function makeDraft(): ParsedRecipeDraft {
     difficulty: "简单",
     flavor: "家常",
     mainIngredient: "鸡肉",
+    primaryCategory: "chicken",
+    primaryIngredient: "鸡肉",
+    classificationConfidence: 0.9,
+    classificationReason: "主食材为鸡肉",
+    classificationSource: "rule",
     tags: ["鸡肉"],
     ingredients: [
       { name: "鸡肉", amount: "适量", group: "main", note: "" },

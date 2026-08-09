@@ -1,0 +1,3757 @@
+{
+  "schemaVersion": 1,
+  "targetGenericAssetCount": 165,
+  "targetAllocation": {
+    "protein": 42,
+    "ingredient": 38,
+    "seasoning": 24,
+    "step": 53,
+    "fallback": 8
+  },
+  "batches": {
+    "pilot": 24,
+    "batch1": 50,
+    "batch2": 50,
+    "batch3": 41
+  },
+  "assets": [
+    {
+      "id": "protein-chicken-diced",
+      "src": "/images/recipe-library/proteins/chicken/chicken-thigh-diced-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "chicken-thigh",
+        "diced-chicken",
+        "鸡",
+        "鸡腿肉",
+        "鸡丁"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-duck-sliced",
+      "src": "/images/recipe-library/proteins/duck/duck-slices-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "duck-slices",
+        "鸭",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "braising",
+        "roasting"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.9,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-pork-belly",
+      "src": "/images/recipe-library/proteins/pork/pork-belly-slices-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "pork-belly",
+        "pork-slices",
+        "猪",
+        "猪肉",
+        "五花肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-beef-cubes",
+      "src": "/images/recipe-library/proteins/beef/beef-cubes-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "beef-cubes",
+        "beef-brisket",
+        "牛",
+        "牛肉",
+        "牛腩"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "blanching",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.93,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-fish-fillets",
+      "src": "/images/recipe-library/proteins/fish/fish-fillets-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "fresh-fish",
+        "fish-fillets",
+        "鱼",
+        "鲜鱼",
+        "鱼片"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.9,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-seafood-shrimp",
+      "src": "/images/recipe-library/proteins/seafood/shrimp-shellfish-01.webp",
+      "type": "protein",
+      "category": "shrimp",
+      "tags": [
+        "seafood",
+        "shrimp",
+        "shellfish",
+        "海鲜",
+        "虾",
+        "鲜虾"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.91,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-scallion-ginger-garlic",
+      "src": "/images/recipe-library/ingredients/aromatics/scallion-ginger-garlic-01.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "scallion-ginger-garlic",
+        "aromatics",
+        "葱",
+        "姜",
+        "蒜",
+        "蒜蓉"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-dried-chili-peppercorn",
+      "src": "/images/recipe-library/ingredients/chili-pepper/dried-chili-peppercorn-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "dried-chili-peppercorn",
+        "chili-pepper",
+        "干辣椒",
+        "辣椒",
+        "花椒"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.86,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-fresh-chili",
+      "src": "/images/recipe-library/ingredients/chili-pepper/fresh-chili-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "fresh-chili",
+        "green-chili",
+        "red-chili",
+        "鲜辣椒",
+        "青椒",
+        "红椒"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.76,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-onion-pepper",
+      "src": "/images/recipe-library/ingredients/vegetables/onion-pepper-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "onion-pepper",
+        "vegetables",
+        "洋葱",
+        "彩椒",
+        "胡萝卜",
+        "土豆"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-mushroom-vegetables",
+      "src": "/images/recipe-library/ingredients/mushrooms/mushroom-vegetables-01.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "mushroom-vegetables",
+        "mushroom",
+        "greens",
+        "香菇",
+        "蘑菇",
+        "青菜"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.74,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "ingredient-peanuts-nuts",
+      "src": "/images/recipe-library/ingredients/nuts/peanuts-nuts-01.webp",
+      "type": "ingredient",
+      "category": "nuts",
+      "tags": [
+        "peanuts-nuts",
+        "peanuts",
+        "nuts",
+        "花生",
+        "坚果",
+        "芝麻"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.84,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "seasoning-soy-wine",
+      "src": "/images/recipe-library/seasonings/soy-sauce/light-dark-soy-wine-01.webp",
+      "type": "seasoning",
+      "category": "soy-sauce",
+      "tags": [
+        "light-dark-soy-wine",
+        "soy-sauce",
+        "cooking-wine",
+        "生抽",
+        "老抽",
+        "酱油",
+        "蒸鱼豉油",
+        "料酒"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.82,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "seasoning-vinegar-sugar",
+      "src": "/images/recipe-library/seasonings/vinegar-sugar/vinegar-sugar-salt-01.webp",
+      "type": "seasoning",
+      "category": "vinegar-sugar",
+      "tags": [
+        "vinegar-sugar-salt",
+        "vinegar",
+        "sugar",
+        "醋",
+        "糖",
+        "盐"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "seasoning"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.76,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "seasoning-starch-water",
+      "src": "/images/recipe-library/seasonings/starch/starch-water-01.webp",
+      "type": "seasoning",
+      "category": "starch",
+      "tags": [
+        "starch-water",
+        "starch",
+        "slurry",
+        "淀粉",
+        "水淀粉",
+        "清水"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce",
+        "thickening"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.7,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "seasoning-kung-pao-sauce",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/kung-pao-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "kung-pao-sauce",
+        "mixed-sauces",
+        "宫保汁",
+        "碗汁",
+        "调味汁"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.88,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-cutting-protein",
+      "src": "/images/recipe-library/steps/cutting/cutting-protein-01.webp",
+      "type": "step",
+      "category": "cutting",
+      "tags": [
+        "cutting",
+        "cutting-protein",
+        "切",
+        "切丁",
+        "改刀"
+      ],
+      "compatibleActions": [
+        "cutting"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.8,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-marinating-chicken",
+      "src": "/images/recipe-library/steps/marinating/marinating-chicken-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating",
+        "marinating-chicken",
+        "腌制",
+        "抓匀",
+        "上浆"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.88,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-preparing-seafood",
+      "src": "/images/recipe-library/steps/preparing/preparing-seafood-01.webp",
+      "type": "step",
+      "category": "preparing",
+      "tags": [
+        "preparing",
+        "preparing-seafood",
+        "处理",
+        "开背",
+        "去虾线",
+        "鱼身"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-frying-aromatics",
+      "src": "/images/recipe-library/steps/frying-aromatics/frying-aromatics-01.webp",
+      "type": "step",
+      "category": "frying-aromatics",
+      "tags": [
+        "frying-aromatics",
+        "爆香",
+        "炒香",
+        "激香",
+        "花椒",
+        "辣椒"
+      ],
+      "compatibleActions": [
+        "frying-aromatics"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.9,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-stir-frying-chicken",
+      "src": "/images/recipe-library/steps/stir-frying/stir-frying-chicken-01.webp",
+      "type": "step",
+      "category": "stir-frying",
+      "tags": [
+        "stir-frying",
+        "stir-frying-chicken",
+        "翻炒",
+        "合炒",
+        "鸡丁"
+      ],
+      "compatibleActions": [
+        "stir-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-simmering-beef",
+      "src": "/images/recipe-library/steps/simmering/simmering-beef-01.webp",
+      "type": "step",
+      "category": "simmering",
+      "tags": [
+        "simmering",
+        "simmering-beef",
+        "炖煮",
+        "慢炖",
+        "焖",
+        "牛肉"
+      ],
+      "compatibleActions": [
+        "simmering",
+        "braising"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.9,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-mixing-sauce",
+      "src": "/images/recipe-library/steps/mixing-sauce/mixing-sauce-01.webp",
+      "type": "step",
+      "category": "mixing-sauce",
+      "tags": [
+        "mixing-sauce",
+        "调汁",
+        "碗汁",
+        "调味汁",
+        "搅匀"
+      ],
+      "compatibleActions": [
+        "mixing-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.84,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "step-plating-dish",
+      "src": "/images/recipe-library/steps/plating/plating-dish-01.webp",
+      "type": "step",
+      "category": "plating",
+      "tags": [
+        "plating",
+        "plating-dish",
+        "装盘",
+        "出锅",
+        "盛出",
+        "收汁"
+      ],
+      "compatibleActions": [
+        "plating",
+        "thickening"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.86,
+      "batch": 0,
+      "status": "accepted",
+      "prompt": null,
+      "source": "phase-1-pilot"
+    },
+    {
+      "id": "protein-chicken-thigh-02",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-thigh-02.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "chicken-thigh",
+        "鸡肉",
+        "鸡腿肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean boneless chicken thighs in a shallow ivory ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-chicken-breast-01",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-breast-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "chicken-breast",
+        "鸡肉",
+        "鸡胸肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "slicing",
+        "marinating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean chicken breast pieces on a shallow ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-chicken-wings-01",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-wings-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "chicken-wings",
+        "鸡肉",
+        "鸡翅"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "braising",
+        "deep-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean chicken wings arranged in a shallow ivory ceramic dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-chicken-sliced-01",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-sliced-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "sliced-chicken",
+        "chicken-slices",
+        "鸡肉",
+        "鸡肉片"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "thin sliced chicken arranged loosely in a small ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-chicken-pieces-01",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-pieces-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "chicken-pieces",
+        "bone-in-chicken",
+        "鸡块",
+        "带骨鸡肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean bone-in chicken pieces on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-whole-chicken-01",
+      "src": "/images/recipe-library/proteins/chicken/protein-whole-chicken-01.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "whole-chicken",
+        "整鸡",
+        "鸡"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "a small clean whole chicken prepared for cooking on an ivory platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-chicken-diced-02",
+      "src": "/images/recipe-library/proteins/chicken/protein-chicken-diced-02.webp",
+      "type": "protein",
+      "category": "chicken",
+      "tags": [
+        "chicken",
+        "diced-chicken",
+        "chicken-thigh",
+        "鸡丁",
+        "鸡腿肉"
+      ],
+      "compatibleActions": [
+        "dicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "neatly diced chicken thigh in a shallow cream ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-duck-leg-01",
+      "src": "/images/recipe-library/proteins/duck/protein-duck-leg-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "duck-leg",
+        "鸭",
+        "鸭腿"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "braising",
+        "roasting"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean duck legs in a shallow cream ceramic dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-duck-breast-01",
+      "src": "/images/recipe-library/proteins/duck/protein-duck-breast-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "duck-breast",
+        "鸭",
+        "鸭胸肉"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "marinating",
+        "pan-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean duck breast on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-duck-diced-01",
+      "src": "/images/recipe-library/proteins/duck/protein-duck-diced-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "diced-duck",
+        "鸭",
+        "鸭肉丁"
+      ],
+      "compatibleActions": [
+        "dicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "diced duck meat in a small ivory ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-duck-pieces-01",
+      "src": "/images/recipe-library/proteins/duck/protein-duck-pieces-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "duck-pieces",
+        "鸭",
+        "鸭块"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean duck pieces arranged in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-whole-duck-01",
+      "src": "/images/recipe-library/proteins/duck/protein-whole-duck-01.webp",
+      "type": "protein",
+      "category": "duck",
+      "tags": [
+        "duck",
+        "whole-duck",
+        "鸭",
+        "整鸭"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "braising",
+        "roasting"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "a small clean whole duck prepared for cooking on an ivory platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-tenderloin-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-tenderloin-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "pork-tenderloin",
+        "猪肉",
+        "里脊肉"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "shredding",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean pork tenderloin strips on a shallow ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-ribs-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-ribs-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "pork-ribs",
+        "猪肉",
+        "排骨"
+      ],
+      "compatibleActions": [
+        "blanching",
+        "braising",
+        "sweet-sour"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean chopped pork ribs in a pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-sliced-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-sliced-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "sliced-pork",
+        "pork-slices",
+        "猪肉",
+        "肉片"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "thin sliced pork arranged in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-diced-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-diced-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "diced-pork",
+        "猪肉",
+        "猪肉丁"
+      ],
+      "compatibleActions": [
+        "dicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "neatly diced pork in a small ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-minced-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-minced-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "minced-pork",
+        "猪肉",
+        "猪肉末"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean minced pork in a small pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-pork-trotter-01",
+      "src": "/images/recipe-library/proteins/pork/protein-pork-trotter-01.webp",
+      "type": "protein",
+      "category": "pork",
+      "tags": [
+        "pork",
+        "pork-trotter",
+        "猪肉",
+        "猪蹄"
+      ],
+      "compatibleActions": [
+        "blanching",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean chopped pork trotter pieces on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-slices-01",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-slices-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "beef-slices",
+        "sliced-beef",
+        "牛肉",
+        "牛肉片"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "thin beef slices arranged in a shallow ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-brisket-02",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-brisket-02.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "beef-brisket",
+        "beef-cubes",
+        "牛肉",
+        "牛腩"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "blanching",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean beef brisket cubes in a pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-shredded-01",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-shredded-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "shredded-beef",
+        "牛肉",
+        "牛肉丝"
+      ],
+      "compatibleActions": [
+        "shredding",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "fine shredded beef on a shallow ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-minced-01",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-minced-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "minced-beef",
+        "牛肉",
+        "牛肉末"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean minced beef in a small cream ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-steak-01",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-steak-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "beef-steak",
+        "牛肉",
+        "牛排"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "pan-frying",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "a clean raw beef steak on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-beef-shank-01",
+      "src": "/images/recipe-library/proteins/beef/protein-beef-shank-01.webp",
+      "type": "protein",
+      "category": "beef",
+      "tags": [
+        "beef",
+        "beef-shank",
+        "牛肉",
+        "牛腱"
+      ],
+      "compatibleActions": [
+        "blanching",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "clean beef shank pieces in a shallow ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-ginger-garlic-01",
+      "src": "/images/recipe-library/ingredients/aromatics/ingredient-ginger-garlic-01.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "ginger-garlic",
+        "ginger",
+        "garlic",
+        "姜",
+        "蒜"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "sliced ginger and peeled garlic in two small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-chopped-scallion-01",
+      "src": "/images/recipe-library/ingredients/aromatics/ingredient-chopped-scallion-01.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "chopped-scallion",
+        "scallion",
+        "葱",
+        "葱花"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "preparing",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "finely chopped scallion in a tiny ivory ceramic dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-garlic-minced-01",
+      "src": "/images/recipe-library/ingredients/aromatics/ingredient-garlic-minced-01.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "garlic-minced",
+        "garlic",
+        "蒜",
+        "蒜蓉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "preparing",
+        "frying-aromatics"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "fresh minced garlic in a small pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-ginger-slices-01",
+      "src": "/images/recipe-library/ingredients/aromatics/ingredient-ginger-slices-01.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "ginger-slices",
+        "ginger",
+        "姜",
+        "姜片"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "preparing",
+        "frying-aromatics"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "thin ginger slices arranged in a tiny cream plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-dried-chili-peppercorn-02",
+      "src": "/images/recipe-library/ingredients/chili-pepper/ingredient-dried-chili-peppercorn-02.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "dried-chili-peppercorn",
+        "dried-chili",
+        "peppercorn",
+        "干辣椒",
+        "花椒"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "dried red chilies and Sichuan peppercorns loosely arranged in small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-fresh-red-chili-01",
+      "src": "/images/recipe-library/ingredients/chili-pepper/ingredient-fresh-red-chili-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "fresh-red-chili",
+        "fresh-chili",
+        "红辣椒",
+        "鲜辣椒"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "preparing",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "fresh red chilies on a small pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-millet-chili-01",
+      "src": "/images/recipe-library/ingredients/chili-pepper/ingredient-millet-chili-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "millet-chili",
+        "fresh-chili",
+        "小米辣",
+        "辣椒"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "preparing",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "small red millet chilies in a tiny ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-green-red-pepper-01",
+      "src": "/images/recipe-library/ingredients/chili-pepper/ingredient-green-red-pepper-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "green-red-pepper",
+        "green-chili",
+        "red-chili",
+        "青红椒",
+        "青椒",
+        "红椒"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "sliced green and red peppers in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-chili-garlic-01",
+      "src": "/images/recipe-library/ingredients/chili-pepper/ingredient-chili-garlic-01.webp",
+      "type": "ingredient",
+      "category": "chili-pepper",
+      "tags": [
+        "chili-garlic",
+        "fresh-chili",
+        "garlic",
+        "辣椒",
+        "蒜"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "frying-aromatics",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "chopped fresh chili and garlic in two small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-peanuts-02",
+      "src": "/images/recipe-library/ingredients/nuts/ingredient-peanuts-02.webp",
+      "type": "ingredient",
+      "category": "nuts",
+      "tags": [
+        "peanuts",
+        "peanuts-nuts",
+        "花生",
+        "花生米"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "roasted peanuts in a small matte ivory ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-light-dark-soy-wine-02",
+      "src": "/images/recipe-library/seasonings/soy-sauce/seasoning-light-dark-soy-wine-02.webp",
+      "type": "seasoning",
+      "category": "soy-sauce",
+      "tags": [
+        "light-soy-dark-soy-cooking-wine",
+        "light-dark-soy-wine",
+        "soy-sauce",
+        "cooking-wine",
+        "生抽",
+        "老抽",
+        "料酒"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "light soy dark soy and cooking wine in three small unbranded ceramic and glass dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-vinegar-sugar-salt-02",
+      "src": "/images/recipe-library/seasonings/vinegar-sugar/seasoning-vinegar-sugar-salt-02.webp",
+      "type": "seasoning",
+      "category": "vinegar-sugar",
+      "tags": [
+        "vinegar-sugar-salt",
+        "vinegar",
+        "sugar",
+        "salt",
+        "醋",
+        "糖",
+        "盐"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "seasoning"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "dark vinegar sugar and salt in three coordinated small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-salt-sugar-starch-01",
+      "src": "/images/recipe-library/seasonings/powders/seasoning-salt-sugar-starch-01.webp",
+      "type": "seasoning",
+      "category": "powders",
+      "tags": [
+        "salt-sugar-starch",
+        "salt",
+        "sugar",
+        "starch",
+        "盐",
+        "糖",
+        "淀粉"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "salt sugar and starch powders in three tiny ivory ceramic dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-starch-water-02",
+      "src": "/images/recipe-library/seasonings/starch/seasoning-starch-water-02.webp",
+      "type": "seasoning",
+      "category": "starch",
+      "tags": [
+        "starch-water",
+        "starch",
+        "slurry",
+        "淀粉",
+        "水淀粉"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce",
+        "thickening-sauce"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "starch slurry and dry starch in two small pale dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-soy-vinegar-sugar-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-soy-vinegar-sugar-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "soy-vinegar-sugar",
+        "soy-sauce",
+        "vinegar",
+        "sugar",
+        "酱油",
+        "醋",
+        "糖"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "soy sauce vinegar and sugar arranged in three small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-kung-pao-sauce-02",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-kung-pao-sauce-02.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "kung-pao-sauce",
+        "mixed-sauces",
+        "宫保汁",
+        "碗汁"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "a glossy but restrained kung pao sauce in a small ivory bowl with separate soy vinegar and starch dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-cutting-chicken-01",
+      "src": "/images/recipe-library/steps/cutting/step-cutting-chicken-01.webp",
+      "type": "step",
+      "category": "cutting",
+      "tags": [
+        "cutting-chicken",
+        "chicken",
+        "切鸡肉",
+        "鸡肉"
+      ],
+      "compatibleActions": [
+        "cutting"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "overhead close crop of chicken being cut into clean pieces on a pale board, only hands and knife visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-cutting-beef-01",
+      "src": "/images/recipe-library/steps/cutting/step-cutting-beef-01.webp",
+      "type": "step",
+      "category": "cutting",
+      "tags": [
+        "cutting-beef",
+        "beef",
+        "切牛肉",
+        "牛肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "slicing"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "overhead close crop of beef being sliced on a pale board, only hands and knife visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-cutting-pork-01",
+      "src": "/images/recipe-library/steps/cutting/step-cutting-pork-01.webp",
+      "type": "step",
+      "category": "cutting",
+      "tags": [
+        "cutting-pork",
+        "pork",
+        "切猪肉",
+        "猪肉"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "slicing"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "overhead close crop of pork being sliced on a pale board, only hands and knife visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-chicken-02",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-chicken-02.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-chicken",
+        "chicken",
+        "腌制鸡肉",
+        "鸡肉"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "chicken pieces being gently mixed with a pale marinade in an ivory bowl, only hands and chopsticks visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-beef-01",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-beef-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-beef",
+        "beef",
+        "腌制牛肉",
+        "牛肉"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "beef slices being coated with marinade in an ivory bowl, only chopsticks and hands visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-pork-01",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-pork-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-pork",
+        "pork",
+        "腌制猪肉",
+        "猪肉"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "pork strips being mixed with starch marinade in a cream bowl, only hands visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-frying-chili-peppercorn-01",
+      "src": "/images/recipe-library/steps/frying-aromatics/step-frying-chili-peppercorn-01.webp",
+      "type": "step",
+      "category": "frying-aromatics",
+      "tags": [
+        "frying-chili-peppercorn",
+        "dried-chili-peppercorn",
+        "干辣椒",
+        "花椒",
+        "爆香"
+      ],
+      "compatibleActions": [
+        "frying-aromatics"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "dried chilies and Sichuan peppercorns blooming in a pale wok, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-frying-scallion-ginger-garlic-01",
+      "src": "/images/recipe-library/steps/frying-aromatics/step-frying-scallion-ginger-garlic-01.webp",
+      "type": "step",
+      "category": "frying-aromatics",
+      "tags": [
+        "frying-scallion-ginger-garlic",
+        "scallion-ginger-garlic",
+        "葱姜蒜",
+        "爆香"
+      ],
+      "compatibleActions": [
+        "frying-aromatics"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "scallion ginger and garlic gently sizzling in a light colored wok, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-stir-frying-beef-01",
+      "src": "/images/recipe-library/steps/stir-frying/step-stir-frying-beef-01.webp",
+      "type": "step",
+      "category": "stir-frying",
+      "tags": [
+        "stir-frying-beef",
+        "beef",
+        "翻炒牛肉",
+        "牛肉"
+      ],
+      "compatibleActions": [
+        "stir-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "beef slices being quickly stir fried in a light wok with a wooden spatula, close crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-stir-frying-pork-01",
+      "src": "/images/recipe-library/steps/stir-frying/step-stir-frying-pork-01.webp",
+      "type": "step",
+      "category": "stir-frying",
+      "tags": [
+        "stir-frying-pork",
+        "pork",
+        "翻炒猪肉",
+        "猪肉"
+      ],
+      "compatibleActions": [
+        "stir-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 1,
+      "status": "accepted",
+      "prompt": "pork strips being quickly stir fried in a light wok, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-whole-fish-01",
+      "src": "/images/recipe-library/proteins/fish/protein-whole-fish-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "whole-fish",
+        "freshwater-fish",
+        "鱼",
+        "整鱼"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "pan-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a clean whole freshwater fish on a long ivory ceramic platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-fish-slices-01",
+      "src": "/images/recipe-library/proteins/fish/protein-fish-slices-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "fish-slices",
+        "鱼",
+        "鱼片"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "marinating",
+        "boiling"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "thin white fish slices in a shallow pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-fish-cubes-01",
+      "src": "/images/recipe-library/proteins/fish/protein-fish-cubes-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "fish-cubes",
+        "鱼",
+        "鱼块"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "marinating",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean fish cubes in a shallow ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-fish-steak-01",
+      "src": "/images/recipe-library/proteins/fish/protein-fish-steak-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "fish-steak",
+        "鱼",
+        "鱼排"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "pan-frying",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean white fish steaks on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-white-fish-01",
+      "src": "/images/recipe-library/proteins/fish/protein-white-fish-01.webp",
+      "type": "protein",
+      "category": "fish",
+      "tags": [
+        "fish",
+        "white-fish",
+        "fish-fillets",
+        "鱼",
+        "白身鱼"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "pan-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean white fish fillets on an ivory platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-peeled-shrimp-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-peeled-shrimp-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "shrimp",
+        "peeled-shrimp",
+        "海鲜",
+        "虾仁"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "peeled shrimp in a shallow ivory ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-squid-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-squid-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "squid",
+        "海鲜",
+        "鱿鱼"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "blanching",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean scored squid pieces on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-scallops-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-scallops-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "scallops",
+        "海鲜",
+        "扇贝"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "pan-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean scallops in pale shells on an ivory platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-shellfish-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-shellfish-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "shellfish",
+        "clam",
+        "海鲜",
+        "贝类"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "boiling",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean mixed clams and shellfish in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-crab-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-crab-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "crab",
+        "海鲜",
+        "螃蟹"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a clean whole crab on a large ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-mixed-seafood-01",
+      "src": "/images/recipe-library/proteins/seafood/protein-mixed-seafood-01.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "mixed-seafood",
+        "海鲜",
+        "海鲜拼盘"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "boiling"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a restrained mix of shrimp squid and scallops on an ivory platter, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "protein-whole-shrimp-02",
+      "src": "/images/recipe-library/proteins/seafood/protein-whole-shrimp-02.webp",
+      "type": "protein",
+      "category": "seafood",
+      "tags": [
+        "seafood",
+        "shrimp",
+        "whole-shrimp",
+        "海鲜",
+        "鲜虾"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "whole fresh shrimp arranged in a shallow cream ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-onion-bell-pepper-02",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-onion-bell-pepper-02.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "onion-bell-pepper",
+        "onion",
+        "bell-pepper",
+        "洋葱",
+        "彩椒"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "sliced onion and bell peppers in a shallow ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-potato-carrot-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-potato-carrot-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "potato-carrot",
+        "potato",
+        "carrot",
+        "土豆",
+        "胡萝卜"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "simmering",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "peeled potato and carrot chunks in a cream ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-celery-garlic-sprout-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-celery-garlic-sprout-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "celery-garlic-sprout",
+        "celery",
+        "garlic-sprout",
+        "芹菜",
+        "蒜苗"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "cut celery and garlic sprouts on a shallow ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-tomato-onion-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-tomato-onion-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "tomato-onion",
+        "tomato",
+        "onion",
+        "番茄",
+        "洋葱"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "tomato wedges and sliced onion in a pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-broccoli-carrot-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-broccoli-carrot-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "broccoli-carrot",
+        "broccoli",
+        "carrot",
+        "西兰花",
+        "胡萝卜"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "blanching",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "broccoli florets and carrot slices in an ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-cabbage-vegetables-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-cabbage-vegetables-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "cabbage-vegetables",
+        "cabbage",
+        "vegetables",
+        "卷心菜",
+        "蔬菜"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean torn cabbage and a few pale vegetables in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-leafy-vegetables-01",
+      "src": "/images/recipe-library/ingredients/vegetables/ingredient-leafy-vegetables-01.webp",
+      "type": "ingredient",
+      "category": "vegetables",
+      "tags": [
+        "leafy-vegetables",
+        "greens",
+        "青菜",
+        "叶菜"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "blanching",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "fresh leafy greens gathered in a shallow ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-mixed-mushrooms-01",
+      "src": "/images/recipe-library/ingredients/mushrooms/ingredient-mixed-mushrooms-01.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "mixed-mushrooms",
+        "mushroom",
+        "菌菇",
+        "蘑菇"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a restrained selection of shiitake oyster and brown mushrooms on an ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-shiitake-mushroom-01",
+      "src": "/images/recipe-library/ingredients/mushrooms/ingredient-shiitake-mushroom-01.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "shiitake-mushroom",
+        "mushroom",
+        "香菇",
+        "冬菇"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "fresh shiitake mushrooms in a shallow pale ceramic bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-wood-ear-bamboo-shoot-01",
+      "src": "/images/recipe-library/ingredients/mushrooms/ingredient-wood-ear-bamboo-shoot-01.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "wood-ear-bamboo-shoot",
+        "wood-ear",
+        "bamboo-shoot",
+        "木耳",
+        "笋"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "blanching",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "wood ear mushrooms and bamboo shoot slices in two ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-enoki-mushroom-01",
+      "src": "/images/recipe-library/ingredients/mushrooms/ingredient-enoki-mushroom-01.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "enoki-mushroom",
+        "mushroom",
+        "金针菇",
+        "菌菇"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "steaming",
+        "boiling"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean enoki mushrooms arranged in a shallow cream dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-mushroom-vegetable-02",
+      "src": "/images/recipe-library/ingredients/mushrooms/ingredient-mushroom-vegetable-02.webp",
+      "type": "ingredient",
+      "category": "mushrooms",
+      "tags": [
+        "mushroom-vegetable",
+        "mushroom",
+        "greens",
+        "蘑菇",
+        "青菜"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "mushrooms with a small amount of leafy greens on an ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-star-anise-cinnamon-bay-leaf-01",
+      "src": "/images/recipe-library/ingredients/spices/ingredient-star-anise-cinnamon-bay-leaf-01.webp",
+      "type": "ingredient",
+      "category": "spices",
+      "tags": [
+        "star-anise-cinnamon-bay-leaf",
+        "star-anise",
+        "cinnamon",
+        "bay-leaf",
+        "八角",
+        "桂皮",
+        "香叶"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "star anise cinnamon and bay leaves loosely arranged on a tiny ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-peppercorn-spices-01",
+      "src": "/images/recipe-library/ingredients/spices/ingredient-peppercorn-spices-01.webp",
+      "type": "ingredient",
+      "category": "spices",
+      "tags": [
+        "peppercorn-spices",
+        "peppercorn",
+        "spices",
+        "花椒",
+        "香料"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "Sichuan peppercorns and a few dry spices in small pale dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-braising-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-braising-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "braising-sauce",
+        "soy-sauce",
+        "sugar",
+        "红烧汁",
+        "酱油",
+        "糖"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "deep amber Chinese braising sauce with soy and rock sugar in small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-sweet-sour-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-sweet-sour-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "sweet-sour-sauce",
+        "vinegar",
+        "sugar",
+        "糖醋汁",
+        "醋",
+        "糖"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "warm amber sweet sour sauce with vinegar and sugar in coordinated tiny dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-garlic-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-garlic-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "garlic-sauce",
+        "garlic",
+        "soy-sauce",
+        "蒜蓉汁",
+        "蒜",
+        "酱油"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "steaming",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "pale garlic sauce with minced garlic and soy in small ivory ceramic dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-spicy-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-spicy-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "spicy-sauce",
+        "chili-sauce",
+        "辣酱",
+        "香辣汁"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "restrained red chili sauce and chili flakes in two small pale ceramic dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-oyster-soy-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-oyster-soy-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "oyster-soy-sauce",
+        "oyster-sauce",
+        "soy-sauce",
+        "蚝油",
+        "生抽"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "oyster sauce and light soy in two small unbranded ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-doubanjiang-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-doubanjiang-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "doubanjiang-sauce",
+        "doubanjiang",
+        "豆瓣酱",
+        "郫县豆瓣"
+      ],
+      "compatibleActions": [
+        "frying-aromatics",
+        "mixing-sauce",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a small portion of red fermented broad bean chili paste in an ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-black-pepper-sauce-01",
+      "src": "/images/recipe-library/seasonings/mixed-sauces/seasoning-black-pepper-sauce-01.webp",
+      "type": "seasoning",
+      "category": "mixed-sauces",
+      "tags": [
+        "black-pepper-sauce",
+        "black-pepper",
+        "黑椒汁",
+        "黑胡椒"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "pan-frying",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "black pepper sauce with cracked black pepper in two small pale dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-cutting-fish-01",
+      "src": "/images/recipe-library/steps/cutting/step-cutting-fish-01.webp",
+      "type": "step",
+      "category": "cutting",
+      "tags": [
+        "cutting-fish",
+        "fish",
+        "切鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "slicing"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "white fish being cut cleanly on a pale board, only hands and knife visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-fish-01",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-fish-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-fish",
+        "fish",
+        "腌鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "fish fillets being lightly seasoned in an ivory dish, only chopsticks visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-shrimp-01",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-shrimp-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-shrimp",
+        "shrimp",
+        "腌虾",
+        "虾"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "peeled shrimp being coated in a light marinade in a cream bowl, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-blanching-meat-01",
+      "src": "/images/recipe-library/steps/blanching/step-blanching-meat-01.webp",
+      "type": "step",
+      "category": "blanching",
+      "tags": [
+        "blanching-meat",
+        "meat",
+        "焯肉",
+        "焯水"
+      ],
+      "compatibleActions": [
+        "blanching"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "clean meat pieces being briefly blanched in a pale pot, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-blanching-vegetables-01",
+      "src": "/images/recipe-library/steps/blanching/step-blanching-vegetables-01.webp",
+      "type": "step",
+      "category": "blanching",
+      "tags": [
+        "blanching-vegetables",
+        "vegetables",
+        "焯蔬菜",
+        "焯水"
+      ],
+      "compatibleActions": [
+        "blanching"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "green vegetables being briefly blanched in a pale pot, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-preparing-fish-01",
+      "src": "/images/recipe-library/steps/preparing/step-preparing-fish-01.webp",
+      "type": "step",
+      "category": "preparing",
+      "tags": [
+        "preparing-fish",
+        "fish",
+        "处理鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "preparing"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a whole fish being neatly scored and prepared on a pale board, only hands visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-preparing-seafood-02",
+      "src": "/images/recipe-library/steps/preparing/step-preparing-seafood-02.webp",
+      "type": "step",
+      "category": "preparing",
+      "tags": [
+        "preparing-seafood",
+        "seafood",
+        "处理海鲜",
+        "海鲜"
+      ],
+      "compatibleActions": [
+        "preparing"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "shrimp and squid being cleaned on an ivory work surface, only hands visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-stir-frying-seafood-01",
+      "src": "/images/recipe-library/steps/stir-frying/step-stir-frying-seafood-01.webp",
+      "type": "step",
+      "category": "stir-frying",
+      "tags": [
+        "stir-frying-seafood",
+        "seafood",
+        "翻炒海鲜",
+        "海鲜"
+      ],
+      "compatibleActions": [
+        "stir-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "shrimp and squid being quickly stir fried in a light wok, close crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-pan-frying-fish-01",
+      "src": "/images/recipe-library/steps/pan-frying/step-pan-frying-fish-01.webp",
+      "type": "step",
+      "category": "pan-frying",
+      "tags": [
+        "pan-frying-fish",
+        "fish",
+        "煎鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "pan-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a whole fish gently pan frying in a pale skillet, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-pan-frying-fish-02",
+      "src": "/images/recipe-library/steps/pan-frying/step-pan-frying-fish-02.webp",
+      "type": "step",
+      "category": "pan-frying",
+      "tags": [
+        "pan-frying-fish",
+        "fish",
+        "香煎鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "pan-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "fish fillets developing a light golden crust in a cream skillet, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-deep-frying-meat-01",
+      "src": "/images/recipe-library/steps/deep-frying/step-deep-frying-meat-01.webp",
+      "type": "step",
+      "category": "deep-frying",
+      "tags": [
+        "deep-frying-meat",
+        "meat",
+        "炸肉",
+        "油炸"
+      ],
+      "compatibleActions": [
+        "deep-frying"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "small battered meat pieces frying golden in a light pot, close crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-simmering-beef-02",
+      "src": "/images/recipe-library/steps/simmering/step-simmering-beef-02.webp",
+      "type": "step",
+      "category": "simmering",
+      "tags": [
+        "simmering-beef",
+        "beef",
+        "炖牛肉",
+        "牛肉"
+      ],
+      "compatibleActions": [
+        "simmering"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "beef and root vegetables gently simmering in a pale ceramic pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-braising-pork-01",
+      "src": "/images/recipe-library/steps/braising/step-braising-pork-01.webp",
+      "type": "step",
+      "category": "braising",
+      "tags": [
+        "braising-pork",
+        "pork",
+        "红烧猪肉",
+        "猪肉"
+      ],
+      "compatibleActions": [
+        "braising"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "pork belly pieces braising in an amber sauce in a cream pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-braising-pork-02",
+      "src": "/images/recipe-library/steps/braising/step-braising-pork-02.webp",
+      "type": "step",
+      "category": "braising",
+      "tags": [
+        "braising-pork",
+        "pork-ribs",
+        "焖排骨",
+        "排骨"
+      ],
+      "compatibleActions": [
+        "braising"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "pork ribs gently braising in a warm amber sauce in a pale pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-steaming-fish-01",
+      "src": "/images/recipe-library/steps/steaming/step-steaming-fish-01.webp",
+      "type": "step",
+      "category": "steaming",
+      "tags": [
+        "steaming-fish",
+        "fish",
+        "蒸鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "steaming"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "a whole fish on an ivory platter inside a pale steamer, gentle steam, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-steaming-fish-02",
+      "src": "/images/recipe-library/steps/steaming/step-steaming-fish-02.webp",
+      "type": "step",
+      "category": "steaming",
+      "tags": [
+        "steaming-fish",
+        "fish",
+        "清蒸鱼",
+        "鱼"
+      ],
+      "compatibleActions": [
+        "steaming"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "white fish fillets steaming with ginger and scallion on an ivory plate, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-boiling-seafood-01",
+      "src": "/images/recipe-library/steps/boiling/step-boiling-seafood-01.webp",
+      "type": "step",
+      "category": "boiling",
+      "tags": [
+        "boiling-seafood",
+        "seafood",
+        "煮海鲜",
+        "海鲜"
+      ],
+      "compatibleActions": [
+        "boiling"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 2,
+      "status": "accepted",
+      "prompt": "shellfish and shrimp gently boiling in a pale pot, close overhead crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-mixed-nuts-01",
+      "src": "/images/recipe-library/ingredients/nuts/ingredient-mixed-nuts-01.webp",
+      "type": "ingredient",
+      "category": "nuts",
+      "tags": [
+        "mixed-nuts",
+        "nuts",
+        "坚果",
+        "混合坚果"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "stir-frying",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a restrained mix of cashew peanuts and walnut pieces in a small ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-sesame-seeds-01",
+      "src": "/images/recipe-library/ingredients/nuts/ingredient-sesame-seeds-01.webp",
+      "type": "ingredient",
+      "category": "nuts",
+      "tags": [
+        "sesame-seeds",
+        "sesame",
+        "芝麻",
+        "白芝麻"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "white and black sesame seeds in two tiny pale ceramic dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-tofu-beans-01",
+      "src": "/images/recipe-library/ingredients/beans/ingredient-tofu-beans-01.webp",
+      "type": "ingredient",
+      "category": "beans",
+      "tags": [
+        "tofu-beans",
+        "tofu",
+        "beans",
+        "豆腐",
+        "豆类"
+      ],
+      "compatibleActions": [
+        "cutting",
+        "preparing",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "clean tofu cubes with a few cooked beans on an ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-edamame-peas-01",
+      "src": "/images/recipe-library/ingredients/beans/ingredient-edamame-peas-01.webp",
+      "type": "ingredient",
+      "category": "beans",
+      "tags": [
+        "edamame-peas",
+        "edamame",
+        "peas",
+        "毛豆",
+        "豌豆"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "blanching",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "shelled edamame and green peas in a shallow cream bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-coriander-scallion-01",
+      "src": "/images/recipe-library/ingredients/herbs/ingredient-coriander-scallion-01.webp",
+      "type": "ingredient",
+      "category": "herbs",
+      "tags": [
+        "coriander-scallion",
+        "coriander",
+        "scallion",
+        "香菜",
+        "葱"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "fresh coriander and scallion arranged loosely on an ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-parsley-herbs-01",
+      "src": "/images/recipe-library/ingredients/herbs/ingredient-parsley-herbs-01.webp",
+      "type": "ingredient",
+      "category": "herbs",
+      "tags": [
+        "parsley-herbs",
+        "parsley",
+        "herbs",
+        "欧芹",
+        "香草"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a small bundle of fresh parsley and soft herbs on a pale ceramic dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-mixed-dry-spices-01",
+      "src": "/images/recipe-library/ingredients/spices/ingredient-mixed-dry-spices-01.webp",
+      "type": "ingredient",
+      "category": "spices",
+      "tags": [
+        "mixed-dry-spices",
+        "dry-spices",
+        "spices",
+        "干香料",
+        "香料"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "braising",
+        "simmering"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a restrained assortment of dry Chinese spices in tiny ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "ingredient-scallion-ginger-garlic-02",
+      "src": "/images/recipe-library/ingredients/aromatics/ingredient-scallion-ginger-garlic-02.webp",
+      "type": "ingredient",
+      "category": "aromatics",
+      "tags": [
+        "scallion-ginger-garlic",
+        "aromatics",
+        "葱",
+        "姜",
+        "蒜"
+      ],
+      "compatibleActions": [
+        "preparing",
+        "frying-aromatics"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "scallion sections ginger slices and garlic cloves arranged naturally on a pale ceramic plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-chili-oil-sesame-oil-01",
+      "src": "/images/recipe-library/seasonings/oils/seasoning-chili-oil-sesame-oil-01.webp",
+      "type": "seasoning",
+      "category": "oils",
+      "tags": [
+        "chili-oil-sesame-oil",
+        "chili-oil",
+        "sesame-oil",
+        "辣椒油",
+        "香油"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "chili oil and sesame oil in two small clear and ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-cooking-oil-sesame-oil-01",
+      "src": "/images/recipe-library/seasonings/oils/seasoning-cooking-oil-sesame-oil-01.webp",
+      "type": "seasoning",
+      "category": "oils",
+      "tags": [
+        "cooking-oil-sesame-oil",
+        "cooking-oil",
+        "sesame-oil",
+        "食用油",
+        "香油"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "clear cooking oil and amber sesame oil in two small unbranded dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-scallion-oil-01",
+      "src": "/images/recipe-library/seasonings/oils/seasoning-scallion-oil-01.webp",
+      "type": "seasoning",
+      "category": "oils",
+      "tags": [
+        "scallion-oil",
+        "scallion",
+        "葱油",
+        "葱"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "plating"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "pale scallion oil with a few scallion rings in a small ivory dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-pepper-oil-01",
+      "src": "/images/recipe-library/seasonings/oils/seasoning-pepper-oil-01.webp",
+      "type": "seasoning",
+      "category": "oils",
+      "tags": [
+        "pepper-oil",
+        "peppercorn",
+        "花椒油",
+        "花椒"
+      ],
+      "compatibleActions": [
+        "mixing-sauce",
+        "stir-frying"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "clear amber Sichuan pepper oil with a few peppercorns in a small pale dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-salt-white-pepper-01",
+      "src": "/images/recipe-library/seasonings/powders/seasoning-salt-white-pepper-01.webp",
+      "type": "seasoning",
+      "category": "powders",
+      "tags": [
+        "salt-white-pepper",
+        "salt",
+        "white-pepper",
+        "盐",
+        "白胡椒"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "seasoning"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "salt and white pepper powder in two tiny ivory ceramic dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-five-spice-powder-01",
+      "src": "/images/recipe-library/seasonings/powders/seasoning-five-spice-powder-01.webp",
+      "type": "seasoning",
+      "category": "powders",
+      "tags": [
+        "five-spice-powder",
+        "five-spice",
+        "五香粉",
+        "香料粉"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "braising"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "warm brown five spice powder in a tiny pale ceramic dish, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "seasoning-mixed-powders-01",
+      "src": "/images/recipe-library/seasonings/powders/seasoning-mixed-powders-01.webp",
+      "type": "seasoning",
+      "category": "powders",
+      "tags": [
+        "mixed-powders",
+        "starch-seasoning",
+        "powders",
+        "调味粉",
+        "淀粉"
+      ],
+      "compatibleActions": [
+        "marinating",
+        "mixing-sauce"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "three restrained pale seasoning powders in coordinated tiny ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-slicing-duck-01",
+      "src": "/images/recipe-library/steps/slicing/step-slicing-duck-01.webp",
+      "type": "step",
+      "category": "slicing",
+      "tags": [
+        "slicing-duck",
+        "duck",
+        "切鸭肉",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "slicing",
+        "cutting"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "duck breast being sliced neatly on a pale board, only hands and knife visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-dicing-duck-01",
+      "src": "/images/recipe-library/steps/dicing/step-dicing-duck-01.webp",
+      "type": "step",
+      "category": "dicing",
+      "tags": [
+        "dicing-duck",
+        "duck",
+        "鸭肉丁",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "dicing",
+        "cutting"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "duck meat being diced into even pieces on a pale board, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-shredding-pork-01",
+      "src": "/images/recipe-library/steps/shredding/step-shredding-pork-01.webp",
+      "type": "step",
+      "category": "shredding",
+      "tags": [
+        "shredding-pork",
+        "pork",
+        "猪肉丝",
+        "猪肉"
+      ],
+      "compatibleActions": [
+        "shredding",
+        "cutting"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "pork tenderloin being cut into fine shreds on a pale board, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-marinating-duck-01",
+      "src": "/images/recipe-library/steps/marinating/step-marinating-duck-01.webp",
+      "type": "step",
+      "category": "marinating",
+      "tags": [
+        "marinating-duck",
+        "duck",
+        "腌制鸭肉",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "marinating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "duck pieces being mixed with a light marinade in an ivory bowl, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-braising-chicken-01",
+      "src": "/images/recipe-library/steps/braising/step-braising-chicken-01.webp",
+      "type": "step",
+      "category": "braising",
+      "tags": [
+        "braising-chicken",
+        "chicken",
+        "焖鸡",
+        "鸡肉"
+      ],
+      "compatibleActions": [
+        "braising"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "recognizable chicken pieces gently braising in a restrained amber sauce in a pale cream pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-braising-duck-01",
+      "src": "/images/recipe-library/steps/braising/step-braising-duck-01.webp",
+      "type": "step",
+      "category": "braising",
+      "tags": [
+        "braising-duck",
+        "duck",
+        "焖鸭",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "braising"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "recognizable duck pieces gently braising with ginger in a restrained amber sauce in a pale cream pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-simmering-duck-01",
+      "src": "/images/recipe-library/steps/simmering/step-simmering-duck-01.webp",
+      "type": "step",
+      "category": "simmering",
+      "tags": [
+        "simmering-duck",
+        "duck",
+        "炖鸭",
+        "鸭肉"
+      ],
+      "compatibleActions": [
+        "simmering"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "recognizable duck pieces gently simmering with ginger in a pale ceramic pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-boiling-fish-01",
+      "src": "/images/recipe-library/steps/boiling/step-boiling-fish-01.webp",
+      "type": "step",
+      "category": "boiling",
+      "tags": [
+        "boiling-fish",
+        "fish",
+        "煮鱼",
+        "鱼片"
+      ],
+      "compatibleActions": [
+        "boiling"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "white fish slices gently cooking in a pale broth in an ivory pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-steaming-seafood-01",
+      "src": "/images/recipe-library/steps/steaming/step-steaming-seafood-01.webp",
+      "type": "step",
+      "category": "steaming",
+      "tags": [
+        "steaming-seafood",
+        "seafood",
+        "蒸海鲜",
+        "虾",
+        "螃蟹"
+      ],
+      "compatibleActions": [
+        "steaming"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "whole shrimp and a small crab steaming on an ivory plate inside a pale steamer, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-mixing-kung-pao-sauce-01",
+      "src": "/images/recipe-library/steps/mixing-sauce/step-mixing-kung-pao-sauce-01.webp",
+      "type": "step",
+      "category": "mixing-sauce",
+      "tags": [
+        "mixing-kung-pao-sauce",
+        "kung-pao-sauce",
+        "宫保汁",
+        "调汁"
+      ],
+      "compatibleActions": [
+        "mixing-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "kung pao sauce being whisked in a small ivory bowl, close crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-mixing-braising-sauce-01",
+      "src": "/images/recipe-library/steps/mixing-sauce/step-mixing-braising-sauce-01.webp",
+      "type": "step",
+      "category": "mixing-sauce",
+      "tags": [
+        "mixing-braising-sauce",
+        "braising-sauce",
+        "红烧汁",
+        "调汁"
+      ],
+      "compatibleActions": [
+        "mixing-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "amber braising sauce being stirred in a small pale ceramic bowl, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-thickening-sauce-01",
+      "src": "/images/recipe-library/steps/thickening-sauce/step-thickening-sauce-01.webp",
+      "type": "step",
+      "category": "thickening-sauce",
+      "tags": [
+        "thickening-sauce",
+        "starch-water",
+        "勾芡",
+        "水淀粉"
+      ],
+      "compatibleActions": [
+        "thickening-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a thin stream of starch slurry thickening sauce in a light wok, close crop, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-thickening-sauce-02",
+      "src": "/images/recipe-library/steps/thickening-sauce/step-thickening-sauce-02.webp",
+      "type": "step",
+      "category": "thickening-sauce",
+      "tags": [
+        "thickening-sauce",
+        "slurry",
+        "勾芡",
+        "收浓"
+      ],
+      "compatibleActions": [
+        "thickening-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "glossy sauce gently thickening around ingredients in a pale pan, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-reducing-sauce-01",
+      "src": "/images/recipe-library/steps/reducing-sauce/step-reducing-sauce-01.webp",
+      "type": "step",
+      "category": "reducing-sauce",
+      "tags": [
+        "reducing-sauce",
+        "收汁",
+        "浓缩酱汁"
+      ],
+      "compatibleActions": [
+        "reducing-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "amber sauce reducing to a gentle sheen in a cream skillet, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-reducing-sauce-02",
+      "src": "/images/recipe-library/steps/reducing-sauce/step-reducing-sauce-02.webp",
+      "type": "step",
+      "category": "reducing-sauce",
+      "tags": [
+        "reducing-sauce",
+        "收汁",
+        "浓缩"
+      ],
+      "compatibleActions": [
+        "reducing-sauce"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a small amount of sauce reducing around meat in a pale pot, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-adding-ingredients-01",
+      "src": "/images/recipe-library/steps/adding-ingredients/step-adding-ingredients-01.webp",
+      "type": "step",
+      "category": "adding-ingredients",
+      "tags": [
+        "adding-ingredients",
+        "下料",
+        "加入配料"
+      ],
+      "compatibleActions": [
+        "adding-ingredients"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "prepared vegetables being added from a small ivory bowl into a light wok, only hands visible, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-plating-fish-01",
+      "src": "/images/recipe-library/steps/plating/step-plating-fish-01.webp",
+      "type": "step",
+      "category": "plating",
+      "tags": [
+        "plating-fish",
+        "fish",
+        "鱼",
+        "装盘"
+      ],
+      "compatibleActions": [
+        "plating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "cooked fish being gently arranged on a long ivory platter, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "step-plating-seafood-01",
+      "src": "/images/recipe-library/steps/plating/step-plating-seafood-01.webp",
+      "type": "step",
+      "category": "plating",
+      "tags": [
+        "plating-seafood",
+        "seafood",
+        "海鲜",
+        "装盘"
+      ],
+      "compatibleActions": [
+        "plating"
+      ],
+      "aspectRatio": "1:1",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "cooked shrimp and seafood being neatly plated on an ivory dish, high-end Chinese cookbook editorial process photography, natural soft morning light, warm cream-white kitchen surface and pale cookware, low saturation and restrained contrast, one clear cooking action only, tight overhead or slight overhead crop, no face, no text, no logo, no brand, square composition readable at thumbnail size",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-protein-poultry-01",
+      "src": "/images/recipe-library/fallback/production/chicken/fallback-protein-poultry-01.webp",
+      "type": "fallback",
+      "category": "chicken",
+      "tags": [
+        "type:protein",
+        "poultry",
+        "chicken",
+        "duck"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral clean poultry pieces in a shallow ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-protein-red-meat-01",
+      "src": "/images/recipe-library/fallback/production/beef/fallback-protein-red-meat-01.webp",
+      "type": "fallback",
+      "category": "beef",
+      "tags": [
+        "type:protein",
+        "red-meat",
+        "beef",
+        "pork"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral clean red meat pieces in a shallow ivory bowl, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-protein-seafood-01",
+      "src": "/images/recipe-library/fallback/production/fish/fallback-protein-seafood-01.webp",
+      "type": "fallback",
+      "category": "fish",
+      "tags": [
+        "type:protein",
+        "seafood",
+        "fish",
+        "shrimp"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral clean fish and shellfish on an ivory plate, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-ingredient-general-01",
+      "src": "/images/recipe-library/fallback/production/other/fallback-ingredient-general-01.webp",
+      "type": "fallback",
+      "category": "other",
+      "tags": [
+        "type:ingredient",
+        "vegetables",
+        "aromatics"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.885,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "a restrained neutral assortment of common Chinese aromatics and vegetables, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-seasoning-general-01",
+      "src": "/images/recipe-library/fallback/production/other/fallback-seasoning-general-01.webp",
+      "type": "fallback",
+      "category": "other",
+      "tags": [
+        "type:seasoning",
+        "seasoning",
+        "sauce"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.92,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "three neutral Chinese sauces and powders in small ivory dishes, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-step-preparing-01",
+      "src": "/images/recipe-library/fallback/production/preparing/fallback-step-preparing-01.webp",
+      "type": "fallback",
+      "category": "preparing",
+      "tags": [
+        "type:step",
+        "preparing"
+      ],
+      "compatibleActions": [
+        "preparing"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.78,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral food preparation scene on a pale work surface, only utensils visible, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-step-cooking-01",
+      "src": "/images/recipe-library/fallback/production/other/fallback-step-cooking-01.webp",
+      "type": "fallback",
+      "category": "other",
+      "tags": [
+        "type:step",
+        "cooking"
+      ],
+      "compatibleActions": [
+        "stir-frying",
+        "simmering",
+        "steaming"
+      ],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.815,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral close overhead cooking scene in a light colored pan, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    },
+    {
+      "id": "fallback-general-food-01",
+      "src": "/images/recipe-library/fallback/production/other/fallback-general-food-01.webp",
+      "type": "fallback",
+      "category": "other",
+      "tags": [
+        "type:protein",
+        "type:ingredient",
+        "type:seasoning",
+        "type:step"
+      ],
+      "compatibleActions": [],
+      "aspectRatio": "4:3",
+      "visualWeight": 0.85,
+      "batch": 3,
+      "status": "accepted",
+      "prompt": "neutral refined Chinese cooking ingredients arranged on a warm ivory surface, high-end Chinese cookbook editorial photography, natural soft morning light, warm cream-white seamless background matching an ivory recipe card, low saturation and restrained contrast, realistic clean food texture, soft shadow, no text, no logo, no brand, no packaging, no face, subject concentrated in the lower half with generous clean space above, 4:3 landscape composition",
+      "source": "phase-2-generation"
+    }
+  ]
+}

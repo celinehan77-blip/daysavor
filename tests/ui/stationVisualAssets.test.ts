@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, open } from "node:fs/promises";
 import test from "node:test";
+import type { StationVisualAsset } from "../../src/lib/station-visual/types";
 
 const manifestPath = "../../src/lib/station-visual/manifest";
 
@@ -48,7 +49,12 @@ test("every Station visual path resolves to a real WebP or transparent PNG", asy
     "/images/recipe-library/station-covers/spicy-chicken-cover.png",
   ];
   for (const src of finalChickenCovers) {
-    assert.ok(stationVisualManifest.some((asset) => asset.src === src), src);
+    assert.ok(
+      stationVisualManifest.some(
+        (asset: StationVisualAsset) => asset.src === src,
+      ),
+      src,
+    );
   }
 
   for (const asset of stationVisualManifest) {

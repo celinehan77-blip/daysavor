@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-10 - Android 系统栏与页面入场动画精修
+
+- Android 原生主题显式使用应用浅米色作为窗口、状态栏与导航栏背景，并启用深色系统图标，消除系统灰色回退形成的顶部暗带。
+- Web viewport 同步发布浅色主题色与 light color scheme，使浏览器外壳、页面根背景和原生容器保持一致。
+- 风味地图和“我的”页面统一为逐项、连续、从上到下的 transform + opacity 入场节奏，移除批量同时合成和父子叠加动画造成的顿挫。
+- 支持 prefers-reduced-motion；新增原生系统栏与页面动画回归测试。
+- QA：96 项完整测试、68 项 UI 测试、lint、Next.js production build 与 Android debug APK 构建通过；320px / 390px 浏览器复核无横向溢出或控制台错误。
+
 ## 2026-07-30 - 菜谱视觉素材库生产化
 
 - 菜谱详情页 Hero 默认改为容器内自然居中；食材准备卡片按有效条目稳定切换 compact / balanced / dense 三档左右分区，并用贴底透明素材画布与分类差异化边缘羽化消除矩形照片感。

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Bookmark,
   ChevronRight,
@@ -27,6 +27,7 @@ import {
   syncLocalFavoritesToSupabase,
 } from "@/lib/data";
 import type { Recipe } from "@/types";
+import { getPageRevealMotion } from "@/lib/motion/pageReveal";
 
 type LocalProfileState = {
   favoriteSlugs: string[];
@@ -112,6 +113,7 @@ async function loadProfileState(): Promise<LocalProfileState> {
 }
 
 export function MeScreen() {
+  const reducedMotion = Boolean(useReducedMotion());
   const [localProfile, setLocalProfile] = useState<LocalProfileState>(
     defaultLocalProfileState,
   );
@@ -234,9 +236,7 @@ export function MeScreen() {
 
       <div className="app-content tab-page-content px-5 pt-3">
         <motion.header
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+          {...getPageRevealMotion(0, reducedMotion)}
           className="pt-2"
         >
           <p className="text-[13px] font-semibold tracking-[0.22em] text-[#8a5a35]/75">
@@ -250,13 +250,11 @@ export function MeScreen() {
           </p>
         </motion.header>
 
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08, duration: 0.45 }}
-          className="mt-7 space-y-2.5"
-        >
-          <section className="flex items-center gap-3 rounded-[24px] border border-[#d8cabb]/70 bg-[#fffaf2]/42 px-4 py-3">
+        <div className="mt-7 space-y-2.5">
+          <motion.section
+            {...getPageRevealMotion(1, reducedMotion)}
+            className="flex items-center gap-3 rounded-[24px] border border-[#d8cabb]/70 bg-[#fffaf2]/42 px-4 py-3"
+          >
             <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#fffaf2]/78 text-[#8a5a35] shadow-[0_12px_28px_rgba(78,52,29,0.1)]">
               <Heart size={24} className="fill-[#8a5a35]/12" />
             </div>
@@ -268,12 +266,10 @@ export function MeScreen() {
                 本地演示账号
               </p>
             </div>
-          </section>
+          </motion.section>
 
           <motion.section
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.38 }}
+            {...getPageRevealMotion(2, reducedMotion)}
             className="paper-card rounded-[24px] px-3.5 py-3"
           >
             <div className="relative z-10">
@@ -361,9 +357,7 @@ export function MeScreen() {
             return (
               <motion.article
                 key={section.title}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12 + index * 0.05, duration: 0.38 }}
+                {...getPageRevealMotion(index + 3, reducedMotion)}
                 className="paper-card rounded-[24px] px-3.5 py-3"
               >
                 <div className="relative z-10">
@@ -395,9 +389,7 @@ export function MeScreen() {
           })}
 
           <motion.section
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, duration: 0.38 }}
+            {...getPageRevealMotion(3 + profileSections.length, reducedMotion)}
             className="paper-card rounded-[24px] px-3.5 py-3"
           >
             <div className="relative z-10">
@@ -438,7 +430,7 @@ export function MeScreen() {
               </div>
             </div>
           </motion.section>
-        </motion.div>
+        </div>
       </div>
 
       <TabBar current="profile" />

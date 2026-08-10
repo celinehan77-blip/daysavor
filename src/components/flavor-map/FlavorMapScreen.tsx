@@ -1,15 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Feather, Plane } from "lucide-react";
 import { ChefTicket } from "@/components/flavor-map/ChefTicket";
 import styles from "@/components/flavor-map/FlavorMap.module.css";
 import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { useChefCategories } from "@/hooks/useChefCategories";
+import { getPageRevealMotion } from "@/lib/motion/pageReveal";
 
 export function FlavorMapScreen() {
   const { categories, error, isLoading } = useChefCategories();
+  const reducedMotion = Boolean(useReducedMotion());
 
   return (
     <AppViewport>
@@ -17,9 +19,7 @@ export function FlavorMapScreen() {
         className={`${styles.screen} app-content tab-page-content overflow-x-hidden px-5 pt-7`}
       >
         <motion.header
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          {...getPageRevealMotion(0, reducedMotion)}
           className="relative z-20"
         >
           <h1 className="font-display text-[38px] leading-none tracking-[0.06em] text-[#3a2a1d]">
@@ -53,9 +53,7 @@ export function FlavorMapScreen() {
         </motion.header>
 
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08, duration: 0.5 }}
+          {...getPageRevealMotion(1, reducedMotion)}
           className="relative z-20 mt-8"
         >
           <p className="text-[20px] font-medium leading-[1.5] tracking-[0.045em] text-[#4b392b]">
@@ -81,12 +79,7 @@ export function FlavorMapScreen() {
           {categories.map((category, index) => (
             <motion.div
               key={category.id}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.16 + Math.min(index, 5) * 0.065,
-                duration: 0.42,
-              }}
+              {...getPageRevealMotion(index + 2, reducedMotion)}
               className={index > 0 ? "relative -mt-[18px]" : "relative"}
               style={{ zIndex: categories.length - index }}
             >

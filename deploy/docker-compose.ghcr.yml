@@ -1,6 +1,6 @@
 services:
   web:
-    image: ${WEB_IMAGE:-ghcr.io/celinehan77-blip/recipe-ticket-app-v2:main}
+    image: ${WEB_IMAGE:-ghcr.io/celinehan77-blip/daysavor:main}
     container_name: recipe-ticket-web
     restart: unless-stopped
     init: true

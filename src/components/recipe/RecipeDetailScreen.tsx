@@ -22,11 +22,10 @@ import { resolveHeroObjectPosition } from "@/components/recipe/ingredientCardLay
 import styles from "@/components/recipe/RecipeDetail.module.css";
 import {
   getHeroVisualSelection,
-  getIngredientVisual,
   getProteinVisual,
-  getSeasoningVisual,
   getStepImage,
 } from "@/lib/recipe-visual/matcher";
+import { getIngredientPrepVisuals } from "@/lib/recipe-visual/ingredientPrepVisuals";
 import {
   getRecipeDetailBySlug,
   getLocalGeneratedRecipeBySlug,
@@ -292,9 +291,8 @@ export function RecipeDetailScreen({
   const sideIngredients = recipe.ingredients.filter(
     (item) => item.group === "side",
   );
-  const proteinVisual = getProteinVisual(recipe);
-  const ingredientVisual = getIngredientVisual(recipe);
-  const seasoningVisual = getSeasoningVisual(recipe);
+  const prepVisuals = getIngredientPrepVisuals(recipe.primaryCategory);
+  const proteinVisual = prepVisuals.main ?? getProteinVisual(recipe);
   const ingredientGroups: {
     id: IngredientGroup;
     image: string;
@@ -311,15 +309,15 @@ export function RecipeDetailScreen({
     },
     {
       id: "side",
-      image: ingredientVisual.src,
-      presentation: ingredientVisual.presentation,
+      image: prepVisuals.side.src,
+      presentation: prepVisuals.side.presentation,
       title: "配料",
       items: sideIngredients,
     },
     {
       id: "seasoning",
-      image: seasoningVisual.src,
-      presentation: seasoningVisual.presentation,
+      image: prepVisuals.seasoning.src,
+      presentation: prepVisuals.seasoning.presentation,
       title: "调味料",
       items: recipe.seasonings,
     },

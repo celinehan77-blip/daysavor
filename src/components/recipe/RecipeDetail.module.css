@@ -100,20 +100,43 @@
 
 .ingredientCard[data-layout-mode="compact"] {
   grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+  min-height: 144px;
 }
 
 .ingredientCard[data-layout-mode="balanced"] {
   grid-template-columns: minmax(0, 56%) minmax(0, 44%);
+  min-height: 150px;
 }
 
 .ingredientCard[data-layout-mode="dense"] {
   grid-template-columns: minmax(0, 66%) minmax(0, 34%);
+  min-height: 176px;
+}
+
+.ingredientCard[data-layout-mode="compact"] .ingredientTextArea {
+  padding-bottom: 34px;
+}
+
+.ingredientCard[data-layout-mode="balanced"] .ingredientTextArea {
+  padding-bottom: 30px;
+}
+
+.ingredientCard[data-layout-mode="dense"] .ingredientTextArea {
+  padding-bottom: 58px;
 }
 
 .ingredientCard:has(
     .ingredientPhotoImage[data-asset-presentation="isolated"]
   ) {
   grid-template-columns: minmax(0, 1fr);
+}
+
+.ingredientCard:has(
+    .ingredientPhotoImage[data-asset-presentation="photographic"]
+  ) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "text" "image";
+  grid-template-rows: auto 68px;
 }
 
 .ingredientTextArea {
@@ -129,6 +152,12 @@
     .ingredientPhotoImage[data-asset-presentation="isolated"]
   ) .ingredientTextArea {
   padding-right: 10px;
+}
+
+.ingredientCard:has(
+    .ingredientPhotoImage[data-asset-presentation="photographic"]
+  ) .ingredientTextArea {
+  padding: 11px 10px 0;
 }
 
 .ingredientTextArea h3 {
@@ -178,6 +207,13 @@
   background: transparent;
 }
 
+.ingredientCard:has(
+    .ingredientPhotoImage[data-asset-presentation="photographic"]
+  ) .ingredientPhoto {
+  min-height: 68px;
+  padding: 0 8px 8px;
+}
+
 .ingredientArtworkSurface {
   position: relative;
   width: 100%;
@@ -185,6 +221,14 @@
   align-self: end;
   overflow: hidden;
   transform-origin: center bottom;
+}
+
+.ingredientArtworkSurface:has(
+    .ingredientPhotoImage[data-asset-presentation="photographic"]
+  ) {
+  width: 78%;
+  height: 68px;
+  aspect-ratio: auto;
 }
 
 .ingredientPhotoImage {
@@ -255,6 +299,7 @@
   align-items: flex-end;
   justify-content: flex-end;
   overflow: visible;
+  padding: 8px 6px 10px;
   pointer-events: none;
 }
 
@@ -284,19 +329,19 @@
   .ingredientArtworkSurface:has(
     .ingredientPhotoImage[data-asset-presentation="isolated"]
   ) {
-  --artwork-width: 80%;
-  --artwork-height: 64%;
-  --artwork-x: -4%;
-  --artwork-y: 1%;
+  --artwork-width: 88%;
+  --artwork-height: 70%;
+  --artwork-x: -2%;
+  --artwork-y: 15%;
 }
 
 .ingredientCard[data-ingredient-type="side"]
   .ingredientArtworkSurface:has(
     .ingredientPhotoImage[data-asset-presentation="isolated"]
   ) {
-  --artwork-width: 76%;
-  --artwork-height: 54%;
-  --artwork-x: 2%;
+  --artwork-width: 58%;
+  --artwork-height: 76%;
+  --artwork-x: -12%;
   --artwork-y: 10%;
 }
 
@@ -304,15 +349,15 @@
   .ingredientArtworkSurface:has(
     .ingredientPhotoImage[data-asset-presentation="isolated"]
   ) {
-  --artwork-width: 72%;
-  --artwork-height: 56%;
-  --artwork-x: -3%;
-  --artwork-y: 1%;
+  --artwork-width: 54%;
+  --artwork-height: 72%;
+  --artwork-x: -11%;
+  --artwork-y: 8%;
 }
 
 .ingredientPhotoImage[data-asset-presentation="isolated"] {
   object-fit: contain;
-  object-position: center center;
+  object-position: center bottom;
   opacity: 0.98;
   filter:
     drop-shadow(0 10px 12px rgb(75 53 34 / 14%))
@@ -323,18 +368,18 @@
 
 .ingredientCard[data-ingredient-type="main"]
   .ingredientPhotoImage[data-asset-presentation="isolated"] {
-  object-position: 62% 72%;
+  object-position: center bottom;
 }
 
 .ingredientCard[data-ingredient-type="side"]
   .ingredientPhotoImage[data-asset-presentation="isolated"] {
-  object-position: 54% 70%;
+  object-position: center bottom;
   transform: scaleX(-1);
 }
 
 .ingredientCard[data-ingredient-type="seasoning"]
   .ingredientPhotoImage[data-asset-presentation="isolated"] {
-  object-position: 60% center;
+  object-position: center bottom;
 }
 
 @keyframes ingredientArtworkReveal {
@@ -411,6 +456,18 @@
   }
 
   .ingredientCard {
+    min-height: 170px;
+  }
+
+  .ingredientCard[data-layout-mode="compact"] {
+    min-height: 140px;
+  }
+
+  .ingredientCard[data-layout-mode="balanced"] {
+    min-height: 148px;
+  }
+
+  .ingredientCard[data-layout-mode="dense"] {
     min-height: 170px;
   }
 

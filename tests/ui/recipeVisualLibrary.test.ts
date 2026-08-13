@@ -291,6 +291,24 @@ test("ingredient cards reserve separate text and image regions", () => {
   );
 });
 
+test("Recipe Detail uses category-safe cutouts without changing recipe classification", () => {
+  const detailScreen = readFileSync(
+    new URL("src/components/recipe/RecipeDetailScreen.tsx", projectRoot),
+    "utf8",
+  );
+
+  assert.match(
+    detailScreen,
+    /getIngredientPrepVisuals\(recipe\.primaryCategory\)/,
+  );
+  assert.doesNotMatch(detailScreen, /getIngredientVisual\(recipe\)/);
+  assert.doesNotMatch(detailScreen, /getSeasoningVisual\(recipe\)/);
+  assert.doesNotMatch(
+    detailScreen,
+    /updateRecipeClassification\([^)]*getIngredientPrepVisuals/,
+  );
+});
+
 test("recipe detail keeps ingredient amounts and step instructions fully readable", () => {
   const styles = readFileSync(
     new URL("src/components/recipe/RecipeDetail.module.css", projectRoot),

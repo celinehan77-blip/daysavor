@@ -33,7 +33,7 @@ export type RecipeQualityScore = {
 };
 
 const measurableAmountPattern =
-  /\d|适量|少许|一把|半|若干|按需|克|毫升|汤匙|茶匙|勺|杯|个|只|颗|片|块|根/;
+  /\d|少许|一把|半|克|毫升|汤匙|茶匙|勺|杯|个|只|颗|片|块|根|瓣/;
 
 function addIssue(
   issues: RecipeQualityIssue[],

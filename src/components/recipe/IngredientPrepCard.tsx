@@ -76,13 +76,14 @@ export function IngredientPrepCard({
         </h3>
         <div className={styles.ingredientText}>
           {normalizedItems.map((item) => (
-            <p
+            <div
               key={`${type}-${item.id}`}
               className={styles.ingredientLine}
               title={`${item.name} ${item.amount}`}
             >
-              {item.name} {item.amount}
-            </p>
+              <span className={styles.ingredientName}>{item.name}</span>
+              <span className={styles.ingredientAmount}>{item.amount}</span>
+            </div>
           ))}
         </div>
       </div>

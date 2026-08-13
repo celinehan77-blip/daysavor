@@ -6,6 +6,9 @@ const heatPattern =
   /(中小火|中大火|中高火|最小火|小火|中火|大火|高火|低火|\d{2,3}度)/g;
 const durationPattern =
   /(\d+(?:\.\d+)?(?:[-到至~]\d+(?:\.\d+)?)?(?:秒|分钟|小时|天)|半小时|过夜|一晚上)/g;
+const explicitAmountPattern =
+  /(\d+(?:\.\d+)?|\d+\/\d+|半|一|二|两|三|四|五|六|七|八|九|十)\s*(克|千克|公斤|毫升|升|个|只|颗|粒|片|块|根|把|瓣|汤匙|茶匙|勺|杯|滴)/;
+const vagueAmountPattern = /^(适量|按需|若干|酌量)$/;
 
 function normalizeEvidence(value: string) {
   return value
@@ -44,12 +47,85 @@ function normalizeAmountEvidence(value: string) {
     .replace(/(\d+(?:\.\d+)?)ml\b/g, "$1毫升");
 }
 
-function markEstimatedAmounts(draft: ParsedRecipeDraft, source: string) {
+function formatAmount(value: string) {
+  return value
+    .replace(/\s+/g, "")
+    .replace(explicitAmountPattern, "$1 $2")
+    .replace(/^一 /, "1 ")
+    .replace(/^二 |^两 /, "2 ")
+    .replace(/^三 /, "3 ")
+    .replace(/^四 /, "4 ")
+    .replace(/^五 /, "5 ")
+    .replace(/^六 /, "6 ")
+    .replace(/^七 /, "7 ")
+    .replace(/^八 /, "8 ")
+    .replace(/^九 /, "9 ")
+    .replace(/^十 /, "10 ")
+    .replace(/^半 /, "1/2 ");
+}
+
+function findSourceAmount(name: string, source: string) {
+  const clauses = source.split(/[，。！？；、\n]/);
+
+  for (const clause of clauses) {
+    const nameIndex = clause.indexOf(name);
+
+    if (nameIndex < 0) {
+      continue;
+    }
+
+    const nearbyText = clause.slice(nameIndex + name.length, nameIndex + name.length + 14);
+    const match = nearbyText.match(explicitAmountPattern);
+
+    if (match?.[0]) {
+      return formatAmount(match[0]);
+    }
+  }
+
+  return null;
+}
+
+function estimateTwoServingAmount(
+  name: string,
+  group: ParsedRecipeDraft["ingredients"][number]["group"],
+) {
+  if (/(盐|食盐)/.test(name)) return "2 克";
+  if (/(生抽|老抽|酱油|蚝油|醋|料酒|黄酒)/.test(name)) return "1 汤匙";
+  if (/(油|香油)/.test(name)) return "1 汤匙";
+  if (/(糖|白糖|冰糖|淀粉|胡椒粉|花椒粉|辣椒粉)/.test(name)) return "1 茶匙";
+  if (/姜/.test(name)) return "3 片";
+  if (/(蒜|大蒜)/.test(name)) return "3 瓣";
+  if (/(葱|香菜)/.test(name)) return "2 根";
+  if (/(干辣椒|辣椒)/.test(name)) return "3 个";
+  if (/(花椒|八角|桂皮|香叶)/.test(name)) return "1 茶匙";
+  if (group === "main") return "300 克";
+  if (group === "seasoning") return "1 茶匙";
+  return "100 克";
+}
+
+function completeIngredientAmounts(draft: ParsedRecipeDraft, source: string) {
   let markedEstimate = false;
   const normalizedClauses = source
     .split(/[。！？；\n]/)
     .map(normalizeAmountEvidence);
   const markItem = <T extends ParsedRecipeDraft["ingredients"][number]>(item: T) => {
+    const sourceAmount = findSourceAmount(item.name, source);
+    const sourceKeepsMinorAmount = source
+      .split(/[，。！？；、\n]/)
+      .some((clause) => clause.includes(item.name) && clause.includes("少许"));
+
+    if (sourceAmount) {
+      return {
+        ...item,
+        amount: sourceAmount,
+        note: item.note.replace(/(?:；)?AI估算（按2人份）/g, ""),
+      };
+    }
+
+    if (item.amount.trim() === "少许" && sourceKeepsMinorAmount) {
+      return item;
+    }
+
     const normalizedAmount = normalizeAmountEvidence(item.amount);
     const normalizedName = normalizeAmountEvidence(item.name);
     const isVague = /^(适量|少许|按需|若干)$/.test(normalizedAmount);
@@ -59,13 +135,17 @@ function markEstimatedAmounts(draft: ParsedRecipeDraft, source: string) {
         clause.includes(normalizedName) && clause.includes(normalizedAmount),
     );
 
-    if (isVague || !hasNumber || isGrounded) {
+    if (isGrounded && !isVague && hasNumber) {
       return item;
     }
 
+    const amount = isVague || vagueAmountPattern.test(item.amount.trim()) || !hasNumber
+      ? estimateTwoServingAmount(item.name, item.group)
+      : item.amount;
     markedEstimate = true;
     return {
       ...item,
+      amount,
       note: [item.note, "AI估算（按2人份）"].filter(Boolean).join("；"),
     };
   };
@@ -74,6 +154,19 @@ function markEstimatedAmounts(draft: ParsedRecipeDraft, source: string) {
   const seasonings = draft.seasonings.map(markItem);
 
   return { ingredients, markedEstimate, seasonings };
+}
+
+function estimateStepDuration(title: string, description: string) {
+  const context = `${title} ${description}`;
+
+  if (/(腌|浸泡|泡发|醒面)/.test(context)) return "15 分钟";
+  if (/(炖|焖|煲|熬|煮汤)/.test(context)) return "30 分钟";
+  if (/(蒸|烤)/.test(context)) return "15 分钟";
+  if (/(煎|炸)/.test(context)) return "5 分钟";
+  if (/(炒|煸|爆香|翻炒|收汁)/.test(context)) return "2 分钟";
+  if (/(焯|汆)/.test(context)) return "1 分钟";
+
+  return "未说明";
 }
 
 function uniqueMatches(value: string, pattern: RegExp) {
@@ -169,16 +262,19 @@ export function groundParsedRecipeDraft(
 
     return {
       ...step,
-      duration: groundedDuration ? step.duration : "未说明",
+      duration:
+        groundedDuration && step.duration !== "未说明"
+          ? step.duration
+          : estimateStepDuration(step.title, step.description),
       heat: groundedHeat ? step.heat : "未说明",
       tips: groundedTip ? step.tips : "",
     };
   });
   const warnings = [...draft.warnings];
-  const estimatedAmounts = markEstimatedAmounts(draft, sourceText);
+  const estimatedAmounts = completeIngredientAmounts(draft, sourceText);
 
   if (removedDuration) {
-    warnings.push("原文未明确的步骤时间已标记为未说明。");
+    warnings.push("原文未明确的关键步骤时间已按常规烹饪时长估算。");
   }
 
   if (removedHeat) {

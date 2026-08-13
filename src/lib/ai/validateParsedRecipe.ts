@@ -208,6 +208,30 @@ function normalizeSteps(value: unknown) {
     .filter((item): item is ParsedStep => Boolean(item));
 }
 
+function normalizeTotalTime(
+  value: unknown,
+  context: string,
+  warnings: string[],
+) {
+  const timeMinutes = Math.max(1, Math.round(asNumber(value, 30)));
+
+  if (timeMinutes <= 240) {
+    return timeMinutes;
+  }
+
+  warnings.push("AI 输出的总用时异常，已按常规烹饪时长修正。");
+
+  if (/(炖|焖|煲|汤|熬|卤)/.test(context)) {
+    return 60;
+  }
+
+  if (/(烤|蒸)/.test(context)) {
+    return 40;
+  }
+
+  return 30;
+}
+
 export function validateParsedRecipeDraft(
   data: unknown,
 ): ParsedRecipeDraft | null {
@@ -301,12 +325,17 @@ export function validateParsedRecipeDraft(
     classificationSource: "ai" as const,
       }
     : fallbackClassification;
+  const timeMinutes = normalizeTotalTime(
+    draft.timeMinutes,
+    `${titleZh} ${mainIngredient} ${steps.map((step) => `${step.title} ${step.description}`).join(" ")}`,
+    warnings,
+  );
 
   return {
     titleZh,
     titleEn: asString(draft.titleEn, titleZh),
     description: asString(draft.description, `${titleZh} 的结构化菜谱草稿。`),
-    timeMinutes: Math.min(1440, Math.max(1, asNumber(draft.timeMinutes, 30))),
+    timeMinutes,
     difficulty: asDifficulty(draft.difficulty),
     flavor: asString(draft.flavor, "家常"),
     mainIngredient,

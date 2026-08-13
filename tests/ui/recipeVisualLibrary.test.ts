@@ -290,3 +290,56 @@ test("ingredient cards reserve separate text and image regions", () => {
     /\.ingredientPhoto\s*\{[^}]*(?:mask-image|position:\s*absolute)/,
   );
 });
+
+test("Recipe Detail uses category-safe cutouts without changing recipe classification", () => {
+  const detailScreen = readFileSync(
+    new URL("src/components/recipe/RecipeDetailScreen.tsx", projectRoot),
+    "utf8",
+  );
+
+  assert.match(
+    detailScreen,
+    /getIngredientPrepVisuals\(recipe\.primaryCategory\)/,
+  );
+  assert.doesNotMatch(detailScreen, /getIngredientVisual\(recipe\)/);
+  assert.doesNotMatch(detailScreen, /getSeasoningVisual\(recipe\)/);
+  assert.doesNotMatch(
+    detailScreen,
+    /updateRecipeClassification\([^)]*getIngredientPrepVisuals/,
+  );
+});
+
+test("recipe detail keeps ingredient amounts and step instructions fully readable", () => {
+  const styles = readFileSync(
+    new URL("src/components/recipe/RecipeDetail.module.css", projectRoot),
+    "utf8",
+  );
+  const ingredientCard = readFileSync(
+    new URL("src/components/recipe/IngredientPrepCard.tsx", projectRoot),
+    "utf8",
+  );
+  const detailScreen = readFileSync(
+    new URL("src/components/recipe/RecipeDetailScreen.tsx", projectRoot),
+    "utf8",
+  );
+
+  assert.doesNotMatch(
+    styles,
+    /\.ingredientLine\s*\{[^}]*text-overflow:\s*ellipsis/,
+  );
+  assert.match(ingredientCard, /ingredientName/);
+  assert.match(ingredientCard, /ingredientAmount/);
+  assert.match(
+    styles,
+    /\.ingredientCard:has\([\s\S]*data-asset-presentation="isolated"[\s\S]*\)\s*\{[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/,
+  );
+  assert.doesNotMatch(
+    detailScreen,
+    /className="[^"]*truncate[^"]*"[^>]*>[\s\S]*?\{step\.(?:title|description)\}/,
+  );
+  assert.match(detailScreen, /className=\{styles\.stepDescription\}/);
+  assert.doesNotMatch(
+    styles,
+    /\.stepDescription\s*\{[^}]*-webkit-line-clamp/,
+  );
+});

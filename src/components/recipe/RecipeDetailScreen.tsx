@@ -22,11 +22,10 @@ import { resolveHeroObjectPosition } from "@/components/recipe/ingredientCardLay
 import styles from "@/components/recipe/RecipeDetail.module.css";
 import {
   getHeroVisualSelection,
-  getIngredientVisual,
   getProteinVisual,
-  getSeasoningVisual,
   getStepImage,
 } from "@/lib/recipe-visual/matcher";
+import { getIngredientPrepVisuals } from "@/lib/recipe-visual/ingredientPrepVisuals";
 import {
   getRecipeDetailBySlug,
   getLocalGeneratedRecipeBySlug,
@@ -292,9 +291,8 @@ export function RecipeDetailScreen({
   const sideIngredients = recipe.ingredients.filter(
     (item) => item.group === "side",
   );
-  const proteinVisual = getProteinVisual(recipe);
-  const ingredientVisual = getIngredientVisual(recipe);
-  const seasoningVisual = getSeasoningVisual(recipe);
+  const prepVisuals = getIngredientPrepVisuals(recipe.primaryCategory);
+  const proteinVisual = prepVisuals.main ?? getProteinVisual(recipe);
   const ingredientGroups: {
     id: IngredientGroup;
     image: string;
@@ -311,15 +309,15 @@ export function RecipeDetailScreen({
     },
     {
       id: "side",
-      image: ingredientVisual.src,
-      presentation: ingredientVisual.presentation,
+      image: prepVisuals.side.src,
+      presentation: prepVisuals.side.presentation,
       title: "配料",
       items: sideIngredients,
     },
     {
       id: "seasoning",
-      image: seasoningVisual.src,
-      presentation: seasoningVisual.presentation,
+      image: prepVisuals.seasoning.src,
+      presentation: prepVisuals.seasoning.presentation,
       title: "调味料",
       items: recipe.seasonings,
     },
@@ -507,7 +505,7 @@ export function RecipeDetailScreen({
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ delay: index * 0.05, duration: 0.42 }}
-                className="relative flex min-h-[58px] items-center gap-2.5 border-b border-[#dfd1c1]/70 py-1 last:border-b-0"
+                className="relative flex min-h-[66px] items-center gap-2.5 border-b border-[#dfd1c1]/70 py-2 last:border-b-0"
               >
                 {index < recipe.steps.length - 1 ? (
                   <span className="absolute left-[13px] top-[38px] h-[28px] border-l border-dashed border-[#c9bcae]" />
@@ -521,14 +519,14 @@ export function RecipeDetailScreen({
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="truncate font-display text-[15px] leading-5 text-[#3a2a1d]">
+                    <h3 className={`${styles.stepTitle} font-display text-[15px] leading-5 text-[#3a2a1d]`}>
                       {step.title}
                     </h3>
                     <span className="h-7 shrink-0 rounded-full bg-[#f4eadc] px-2.5 text-[11px] font-medium leading-7 text-[#6a5748]">
                       {step.duration}
                     </span>
                   </div>
-                  <p className="mt-0.5 truncate text-[11px] leading-4 text-[#8a8178]">
+                  <p className={styles.stepDescription}>
                     {step.description}
                   </p>
                 </div>

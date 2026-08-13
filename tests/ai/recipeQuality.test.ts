@@ -57,6 +57,25 @@ test("validator normalizes units, groups, heat and decimal confidence", () => {
   assert.equal(shortDraft?.confidence, 0.58);
 });
 
+test("validator repairs impossible all-day cooking times to a normal recipe range", () => {
+  const sample = samples.find((item) => item.id === "mixed-units-and-groups");
+  const candidate = structuredClone(sample?.candidate ?? {});
+
+  Object.assign(candidate, {
+    titleZh: "湖北糍粑鱼",
+    mainIngredient: "草鱼",
+    timeMinutes: 1440,
+  });
+
+  const draft = validateParsedRecipeDraft(candidate);
+
+  assert.ok(draft);
+  assert.ok(draft.timeMinutes >= 20);
+  assert.ok(draft.timeMinutes <= 60);
+  assert.notEqual(draft.timeMinutes, 1440);
+  assert.ok(draft.warnings.some((warning) => warning.includes("总用时")));
+});
+
 test("prompt compacts repeated and oversized source text", () => {
   const repeated = Array.from({ length: 100 }, () => "鸡肉切丁").join("\n");
   const compactedRepeated = compactRecipeSourceText(repeated);
@@ -78,11 +97,13 @@ test("prompt requires unified recipe structure and treats input as data", () => 
   });
 
   assert.match(recipeParserSystemPrompt, /amount 统一使用/);
-  assert.match(recipeParserSystemPrompt, /原文没有用量时优先按 2 人份给出实用估算/);
+  assert.match(recipeParserSystemPrompt, /必须按 2 人份给出不过咸、可直接执行的保守估算/);
   assert.match(recipeParserSystemPrompt, /AI估算（按2人份）/);
   assert.match(recipeParserSystemPrompt, /heat 只能引用/);
   assert.match(recipeParserSystemPrompt, /原文没有明确强调时 tips 保持空字符串/);
-  assert.match(recipeParserSystemPrompt, /禁止根据常识估算/);
+  assert.match(recipeParserSystemPrompt, /关键烹饪步骤.*合理估算/);
+  assert.match(recipeParserSystemPrompt, /不得输出[“\"]?适量/);
+  assert.match(recipeParserSystemPrompt, /timeMinutes 必须是 1[–-]240/);
   assert.match(recipeParserSystemPrompt, /禁止根据.*动作自行推断火候/);
   assert.match(recipeParserSystemPrompt, /不得补充原文没有说出的/);
   assert.match(recipeParserSystemPrompt, /primaryCategory 只能是 chicken/);

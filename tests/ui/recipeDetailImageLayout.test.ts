@@ -85,11 +85,11 @@ test("isolated artwork is unmasked, uncropped, and shadowed by its transparent s
   );
   assert.match(
     styles,
-    /\.ingredientCard\[data-ingredient-type="main"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*80%;[\s\S]*--artwork-x:\s*-4%;[\s\S]*--artwork-y:\s*1%;/,
+    /\.ingredientCard\[data-ingredient-type="main"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*88%;[\s\S]*--artwork-height:\s*70%;[\s\S]*--artwork-x:\s*-2%;[\s\S]*--artwork-y:\s*15%;/,
   );
   assert.match(
     styles,
-    /\.ingredientCard\[data-ingredient-type="side"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*76%;[\s\S]*--artwork-x:\s*2%;[\s\S]*--artwork-y:\s*10%;/,
+    /\.ingredientCard\[data-ingredient-type="side"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*58%;[\s\S]*--artwork-height:\s*76%;[\s\S]*--artwork-x:\s*-12%;[\s\S]*--artwork-y:\s*10%;/,
   );
   assert.match(
     styles,
@@ -97,11 +97,26 @@ test("isolated artwork is unmasked, uncropped, and shadowed by its transparent s
   );
   assert.match(
     styles,
-    /\.ingredientCard\[data-ingredient-type="seasoning"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*72%;[\s\S]*--artwork-x:\s*-3%;[\s\S]*--artwork-y:\s*1%;/,
+    /\.ingredientCard\[data-ingredient-type="seasoning"\][\s\S]*data-asset-presentation="isolated"[\s\S]*--artwork-width:\s*54%;[\s\S]*--artwork-height:\s*72%;[\s\S]*--artwork-x:\s*-11%;[\s\S]*--artwork-y:\s*8%;/,
   );
   assert.match(
     styles,
     /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*data-asset-presentation="isolated"[\s\S]*animation:\s*none;/,
+  );
+});
+
+test("isolated ingredient subjects keep an inner safe area and contain the complete cutout", () => {
+  const styles = readProjectFile(
+    "src/components/recipe/RecipeDetail.module.css",
+  );
+
+  assert.match(
+    styles,
+    /\.ingredientPhoto:has\([\s\S]*data-asset-presentation="isolated"[\s\S]*\)\s*\{[\s\S]*padding:\s*8px\s+6px\s+10px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientPhotoImage\[data-asset-presentation="isolated"\]\s*\{[\s\S]*object-fit:\s*contain;[\s\S]*object-position:\s*center bottom;/,
   );
 });
 
@@ -189,5 +204,59 @@ test("narrow screens keep the two-column card structure without a bottom banner"
   assert.doesNotMatch(
     styles,
     /\.ingredientCard\s*\{[\s\S]*grid-template-rows:\s*auto minmax\(0,\s*1fr\) \d+px/,
+  );
+});
+
+test("ingredient card height follows content density without collapsing dense lists", () => {
+  const styles = readProjectFile(
+    "src/components/recipe/RecipeDetail.module.css",
+  );
+
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="compact"\]\s*\{[\s\S]*min-height:\s*144px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="balanced"\]\s*\{[\s\S]*min-height:\s*150px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="dense"\]\s*\{[\s\S]*min-height:\s*176px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="compact"\][\s\S]*\.ingredientTextArea\s*\{[\s\S]*padding-bottom:\s*34px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="balanced"\][\s\S]*\.ingredientTextArea\s*\{[\s\S]*padding-bottom:\s*30px;/,
+  );
+  assert.match(
+    styles,
+    /\.ingredientCard\[data-layout-mode="dense"\][\s\S]*\.ingredientTextArea\s*\{[\s\S]*padding-bottom:\s*58px;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width:\s*340px\)[\s\S]*\.ingredientCard\[data-layout-mode="compact"\]\s*\{[\s\S]*min-height:\s*140px;[\s\S]*\.ingredientCard\[data-layout-mode="balanced"\]\s*\{[\s\S]*min-height:\s*148px;[\s\S]*\.ingredientCard\[data-layout-mode="dense"\]\s*\{[\s\S]*min-height:\s*170px;/,
+  );
+});
+
+test("photographic ingredient assets keep full-width copy above a blended image region", () => {
+  const styles = readProjectFile(
+    "src/components/recipe/RecipeDetail.module.css",
+  );
+
+  assert.match(
+    styles,
+    /\.ingredientCard:has\([\s\S]*data-asset-presentation="photographic"[\s\S]*\)\s*\{[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\);[\s\S]*grid-template-areas:\s*"text"\s*"image";[\s\S]*grid-template-rows:\s*auto\s+68px;/,
+  );
+  assert.match(
+    styles,
+    /data-asset-presentation="photographic"[\s\S]*\)\s+\.ingredientTextArea\s*\{[\s\S]*padding:\s*11px\s+10px\s+0;/,
+  );
+  assert.match(
+    styles,
+    /data-asset-presentation="photographic"[\s\S]*\)\s+\.ingredientPhoto\s*\{[\s\S]*min-height:\s*68px;[\s\S]*padding:\s*0\s+8px\s+8px;/,
   );
 });

@@ -39,7 +39,7 @@ export type ExtractedAudio = {
   platform: PublicSourcePlatform;
 };
 
-type MediaMetadata = {
+export type MediaMetadata = {
   duration?: number;
   filesize?: number;
   filesize_approx?: number;
@@ -266,6 +266,56 @@ async function readMetadata(sourceUrl: string) {
   }
 }
 
+type NormalizedShareUrl = ReturnType<typeof normalizeShareUrl>;
+
+type ShareMediaResolution = {
+  resolvedMedia: Awaited<ReturnType<typeof resolveAlapiMedia>> | null;
+  metadata: MediaMetadata | null;
+};
+
+type ShareMediaResolutionDependencies = {
+  resolveProviderMedia: typeof resolveAlapiMedia;
+  readYtDlpMetadata: typeof readMetadata;
+};
+
+export async function resolveShareMedia(
+  normalized: NormalizedShareUrl,
+  dependencies: ShareMediaResolutionDependencies = {
+    resolveProviderMedia: resolveAlapiMedia,
+    readYtDlpMetadata: readMetadata,
+  },
+): Promise<ShareMediaResolution> {
+  if (normalized.platform === "douyin") {
+    return {
+      resolvedMedia: await dependencies.resolveProviderMedia(
+        normalized.canonicalUrl,
+      ),
+      metadata: null,
+    };
+  }
+
+  try {
+    return {
+      resolvedMedia: await dependencies.resolveProviderMedia(
+        normalized.canonicalUrl,
+      ),
+      metadata: null,
+    };
+  } catch (error) {
+    if (
+      error instanceof AudioExtractionError &&
+      error.code === "image_post_unsupported"
+    ) {
+      throw error;
+    }
+
+    return {
+      resolvedMedia: null,
+      metadata: await dependencies.readYtDlpMetadata(normalized.canonicalUrl),
+    };
+  }
+}
+
 async function streamAudio(sourceUrl: string, outputPath: string) {
   const ytDlp = spawn(
     resolveYtDlpPath(),
@@ -369,10 +419,7 @@ export async function getMediaRuntimeDiagnostics() {
 
 export async function extractAudioFromShareLink(sharedValue: string): Promise<ExtractedAudio> {
   const normalized = normalizeShareUrl(sharedValue);
-  const resolvedMedia = normalized.platform === "douyin"
-    ? await resolveAlapiMedia(normalized.canonicalUrl)
-    : null;
-  const metadata = resolvedMedia ? null : await readMetadata(normalized.canonicalUrl);
+  const { metadata, resolvedMedia } = await resolveShareMedia(normalized);
   const durationSeconds = resolvedMedia?.durationSeconds ?? Number(metadata?.duration ?? 0);
   const mediaBytes = Number(metadata?.filesize ?? metadata?.filesize_approx ?? 0);
 

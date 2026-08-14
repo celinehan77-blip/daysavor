@@ -7,7 +7,10 @@ import styles from "@/components/flavor-map/FlavorMap.module.css";
 import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { useChefCategories } from "@/hooks/useChefCategories";
-import { getPageRevealMotion } from "@/lib/motion/pageReveal";
+import {
+  getPageRevealMotion,
+  getSurfaceRevealMotion,
+} from "@/lib/motion/pageReveal";
 
 export function FlavorMapScreen() {
   const { categories, error, isLoading } = useChefCategories();
@@ -79,7 +82,7 @@ export function FlavorMapScreen() {
           {categories.map((category, index) => (
             <motion.div
               key={category.id}
-              {...getPageRevealMotion(index + 2, reducedMotion)}
+              {...getSurfaceRevealMotion(index, reducedMotion)}
               className={index > 0 ? "relative -mt-[18px]" : "relative"}
               style={{ zIndex: categories.length - index }}
             >

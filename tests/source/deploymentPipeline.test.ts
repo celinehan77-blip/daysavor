@@ -25,7 +25,7 @@ test("production compose pulls a registry image instead of building on the serve
 
   assert.match(
     compose,
-    /image:\s*\$\{WEB_IMAGE:-ghcr\.io\/celinehan77-blip\/recipe-ticket-app-v2:main\}/,
+    /image:\s*\$\{WEB_IMAGE:-ghcr\.io\/celinehan77-blip\/daysavor:main\}/,
   );
   assert.doesNotMatch(compose, /^\s+build:/m);
   assert.match(compose, /condition:\s*service_healthy/);

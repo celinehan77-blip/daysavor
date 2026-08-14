@@ -43,3 +43,28 @@ export function getPageRevealMotion(
     },
   };
 }
+
+export function getSurfaceRevealMotion(
+  index: number,
+  reducedMotion: boolean,
+): PageRevealMotion {
+  if (reducedMotion) {
+    return {
+      initial: visibleTarget,
+      animate: visibleTarget,
+      transition: { delay: 0, duration: 0.01, ease: revealEase },
+    };
+  }
+
+  const sequenceIndex = Math.min(4, Math.max(0, Math.floor(index)));
+
+  return {
+    initial: { opacity: 0, y: 12, scale: 1 },
+    animate: visibleTarget,
+    transition: {
+      delay: Number((0.04 + sequenceIndex * 0.055).toFixed(3)),
+      duration: 0.44,
+      ease: revealEase,
+    },
+  };
+}

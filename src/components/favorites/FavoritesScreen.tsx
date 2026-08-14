@@ -2,31 +2,41 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight, Compass, Flame, Search, Star } from "lucide-react";
 import { AppViewport } from "@/components/layout/AppViewport";
 import { TabBar } from "@/components/layout/TabBar";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getFavoriteRecipes } from "@/lib/data";
+import {
+  getPageRevealMotion,
+  getSurfaceRevealMotion,
+} from "@/lib/motion/pageReveal";
 import type { Recipe } from "@/types";
 
 export function FavoritesScreen() {
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const reducedMotion = Boolean(useReducedMotion());
 
   useEffect(() => {
     let active = true;
     const timer = window.setTimeout(() => {
       void (async () => {
-        const [user, recipes] = await Promise.all([
-          getCurrentUser(),
-          getFavoriteRecipes(),
-        ]);
+        try {
+          const [user, recipes] = await Promise.all([
+            getCurrentUser(),
+            getFavoriteRecipes(),
+          ]);
 
-        if (!active) return;
+          if (!active) return;
 
-        setIsLoggedIn(Boolean(user));
-        setFavoriteRecipes(recipes);
+          setIsLoggedIn(Boolean(user));
+          setFavoriteRecipes(recipes);
+        } finally {
+          if (active) setIsLoading(false);
+        }
       })();
     }, 0);
 
@@ -41,9 +51,7 @@ export function FavoritesScreen() {
 
       <div className="app-content tab-page-content px-5 pt-3">
         <motion.header
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+          {...getPageRevealMotion(0, reducedMotion)}
           className="pt-2"
         >
           <p className="text-[13px] font-semibold tracking-[0.22em] text-[#8a5a35]/75">
@@ -70,14 +78,12 @@ export function FavoritesScreen() {
           搜索已收藏的菜谱
         </Link>
 
-        {favoriteRecipes.length > 0 ? (
+        {!isLoading && favoriteRecipes.length > 0 ? (
           <section className="mt-5 space-y-3">
             {favoriteRecipes.map((recipe, index) => (
               <motion.article
                 key={recipe.slug}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.06, duration: 0.42 }}
+                {...getSurfaceRevealMotion(index, reducedMotion)}
               >
                 <Link
                   href={`/recipe/${recipe.slug}`}
@@ -135,11 +141,9 @@ export function FavoritesScreen() {
               </motion.article>
             ))}
           </section>
-        ) : (
+        ) : !isLoading ? (
           <motion.section
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.45 }}
+            {...getSurfaceRevealMotion(0, reducedMotion)}
             className="paper-card mt-9 rounded-[26px] px-5 py-7 text-center"
           >
             <div className="relative z-10">
@@ -161,7 +165,7 @@ export function FavoritesScreen() {
               </Link>
             </div>
           </motion.section>
-        )}
+        ) : null}
 
       </div>
 

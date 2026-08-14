@@ -65,6 +65,7 @@ test("the flavor map renders a scalable overlapping stack from category view mod
   assert.match(source, /useChefCategories\(\)/);
   assert.match(source, /const \{ categories, error, isLoading \}/);
   assert.match(source, /categories\.map/);
+  assert.match(source, /getSurfaceRevealMotion/);
   assert.match(source, /<ChefTicket/);
   assert.match(source, /category=\{category\}/);
   assert.match(source, /styles\.ticketStackInset/);
@@ -79,6 +80,19 @@ test("the flavor map renders a scalable overlapping stack from category view mod
     /getChefCategories|getPersonalRecipes|buildChefCategoryViewModels/,
   );
   assert.doesNotMatch(source, /IosStatusBar|9:41|Chicken Station/);
+});
+
+test("favorite cards use the lightweight surface reveal and avoid an empty-state flash", () => {
+  const source = readProjectFile(
+    "src/components/favorites/FavoritesScreen.tsx",
+  );
+
+  assert.match(source, /getSurfaceRevealMotion/);
+  assert.match(source, /useReducedMotion/);
+  assert.match(source, /const \[isLoading, setIsLoading\] = useState\(true\)/);
+  assert.match(source, /setIsLoading\(false\)/);
+  assert.match(source, /!isLoading && favoriteRecipes\.length > 0/);
+  assert.match(source, /!isLoading \?/);
 });
 
 test("ticket proportions, center shadow, and stamp match the refined visual spec", () => {

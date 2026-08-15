@@ -83,7 +83,8 @@ export function FavoritesScreen() {
             {favoriteRecipes.map((recipe, index) => (
               <motion.article
                 key={recipe.slug}
-                {...getSurfaceRevealMotion(index, reducedMotion)}
+                {...getSurfaceRevealMotion(index + 1, reducedMotion)}
+                className="[backface-visibility:hidden] will-change-[transform,opacity]"
               >
                 <Link
                   href={`/recipe/${recipe.slug}`}
@@ -143,7 +144,7 @@ export function FavoritesScreen() {
           </section>
         ) : !isLoading ? (
           <motion.section
-            {...getSurfaceRevealMotion(0, reducedMotion)}
+            {...getSurfaceRevealMotion(1, reducedMotion)}
             className="paper-card mt-9 rounded-[26px] px-5 py-7 text-center"
           >
             <div className="relative z-10">

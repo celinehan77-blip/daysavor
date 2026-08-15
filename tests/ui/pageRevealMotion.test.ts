@@ -47,29 +47,33 @@ test("page reveal becomes immediate when reduced motion is requested", () => {
   assert.equal(motion.transition.duration, 0.01);
 });
 
-test("complex paper surfaces reveal without scaling or expensive effects", () => {
+test("heavy paper surfaces reveal without scale rasterization", () => {
   const motion = getSurfaceRevealMotion(2, false);
 
-  assert.deepEqual(motion.initial, { opacity: 0, y: 12, scale: 1 });
-  assert.deepEqual(motion.animate, { opacity: 1, y: 0, scale: 1 });
-  assert.deepEqual(motion.transition.ease, [0.22, 1, 0.36, 1]);
-  assert.ok(motion.transition.duration >= 0.4);
-  assert.ok(motion.transition.duration <= 0.5);
-  assert.doesNotMatch(JSON.stringify(motion), /filter|blur|boxShadow/);
+  assert.deepEqual(motion.initial, { opacity: 0, y: 12 });
+  assert.deepEqual(motion.whileInView, { opacity: 1, y: 0 });
+  assert.deepEqual(motion.transition.ease, [0.16, 1, 0.3, 1]);
+  assert.ok(motion.transition.duration >= 0.5);
+  assert.ok(motion.transition.duration <= 0.56);
+  assert.doesNotMatch(JSON.stringify(motion), /scale|filter|blur|boxShadow/);
 });
 
-test("complex surface stagger is capped so long lists settle promptly", () => {
-  const fifth = getSurfaceRevealMotion(4, false).transition.delay;
-  const twentieth = getSurfaceRevealMotion(19, false).transition.delay;
+test("heavy paper surfaces only animate in view and cap their stagger", () => {
+  const first = getSurfaceRevealMotion(0, false);
+  const farBelowFold = getSurfaceRevealMotion(12, false);
 
-  assert.equal(twentieth, fifth);
-  assert.ok(twentieth <= 0.3);
+  assert.deepEqual(first.viewport, {
+    once: true,
+    amount: 0.16,
+    margin: "0px 0px -6% 0px",
+  });
+  assert.ok(farBelowFold.transition.delay <= 0.38);
 });
 
-test("complex surfaces respect reduced motion", () => {
-  const motion = getSurfaceRevealMotion(8, true);
+test("heavy surface reveal becomes immediate for reduced motion", () => {
+  const motion = getSurfaceRevealMotion(4, true);
 
-  assert.deepEqual(motion.initial, motion.animate);
+  assert.deepEqual(motion.initial, motion.whileInView);
   assert.equal(motion.transition.delay, 0);
   assert.equal(motion.transition.duration, 0.01);
 });

@@ -82,8 +82,8 @@ export function FlavorMapScreen() {
           {categories.map((category, index) => (
             <motion.div
               key={category.id}
-              {...getSurfaceRevealMotion(index, reducedMotion)}
-              className={index > 0 ? "relative -mt-[18px]" : "relative"}
+              {...getSurfaceRevealMotion(index + 2, reducedMotion)}
+              className={`${styles.ticketReveal} ${index > 0 ? "relative -mt-[18px]" : "relative"}`}
               style={{ zIndex: categories.length - index }}
             >
               <ChefTicket category={category} index={index} />

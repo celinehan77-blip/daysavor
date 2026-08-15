@@ -10,6 +10,19 @@ type RevealTransition = {
   ease: [number, number, number, number];
 };
 
+type SurfaceRevealTarget = Omit<RevealTarget, "scale">;
+
+export type SurfaceRevealMotion = {
+  initial: SurfaceRevealTarget;
+  whileInView: SurfaceRevealTarget;
+  viewport: {
+    once: true;
+    amount: 0.16;
+    margin: "0px 0px -6% 0px";
+  };
+  transition: RevealTransition;
+};
+
 export type PageRevealMotion = {
   initial: RevealTarget;
   animate: RevealTarget;
@@ -44,27 +57,42 @@ export function getPageRevealMotion(
   };
 }
 
+const visibleSurfaceTarget: SurfaceRevealTarget = { opacity: 1, y: 0 };
+const surfaceEase: RevealTransition["ease"] = [0.16, 1, 0.3, 1];
+const surfaceViewport: SurfaceRevealMotion["viewport"] = {
+  once: true,
+  amount: 0.16,
+  margin: "0px 0px -6% 0px",
+};
+
+/**
+ * Reveals paint-heavy paper surfaces only when they enter the viewport.
+ * Keeping scale out of this animation lets the browser reuse the ticket's
+ * already-rasterized texture and shadow instead of repainting it every frame.
+ */
 export function getSurfaceRevealMotion(
   index: number,
   reducedMotion: boolean,
-): PageRevealMotion {
+): SurfaceRevealMotion {
   if (reducedMotion) {
     return {
-      initial: visibleTarget,
-      animate: visibleTarget,
-      transition: { delay: 0, duration: 0.01, ease: revealEase },
+      initial: visibleSurfaceTarget,
+      whileInView: visibleSurfaceTarget,
+      viewport: surfaceViewport,
+      transition: { delay: 0, duration: 0.01, ease: surfaceEase },
     };
   }
 
-  const sequenceIndex = Math.min(4, Math.max(0, Math.floor(index)));
+  const sequenceIndex = Math.min(5, Math.max(0, Math.floor(index)));
 
   return {
-    initial: { opacity: 0, y: 12, scale: 1 },
-    animate: visibleTarget,
+    initial: { opacity: 0, y: 12 },
+    whileInView: visibleSurfaceTarget,
+    viewport: surfaceViewport,
     transition: {
-      delay: Number((0.04 + sequenceIndex * 0.055).toFixed(3)),
-      duration: 0.44,
-      ease: revealEase,
+      delay: Number((0.04 + sequenceIndex * 0.065).toFixed(3)),
+      duration: 0.52,
+      ease: surfaceEase,
     },
   };
 }

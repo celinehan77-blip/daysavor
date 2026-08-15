@@ -1,0 +1,507 @@
+.screen {
+  --loading-display-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "STSong", serif;
+  --loading-ui-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --loading-editorial-serif: "Times New Roman", Georgia, serif;
+  --loading-ticket-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
+  --ticket-width: min(74vw, 292px);
+  --ticket-height: calc(var(--ticket-width) / 2);
+  --stack-step: calc(var(--ticket-height) - 16px);
+  min-height: 100%;
+  overflow-x: hidden;
+  padding: 34px 22px calc(32px + env(safe-area-inset-bottom));
+  color: #3b2a1e;
+  font-family: var(--loading-ui-sans);
+  font-synthesis: none;
+  text-align: center;
+}
+
+.header {
+  position: relative;
+  z-index: 60;
+}
+
+.title {
+  font-family: var(--loading-display-serif);
+  font-size: clamp(28px, 7.7vw, 32px);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: 0.085em;
+  color: #3b291c;
+}
+
+.subtitle {
+  margin-top: 12px;
+  font-family: var(--loading-ui-sans);
+  font-size: clamp(13px, 3.65vw, 15px);
+  line-height: 1.5;
+  letter-spacing: 0.035em;
+  color: #8d7d70;
+}
+
+.ticketStack {
+  position: relative;
+  width: 100%;
+  height: calc(
+    var(--ticket-height) + var(--stack-step) + var(--stack-step) +
+      var(--stack-step) + 20px
+  );
+  margin: 27px auto 0;
+}
+
+.ticketLayer {
+  position: absolute;
+  left: 50%;
+  width: var(--ticket-width);
+  margin-left: calc(var(--ticket-width) / -2);
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.layerOne {
+  top: 0;
+  z-index: 40;
+}
+
+.layerTwo {
+  top: var(--stack-step);
+  z-index: 30;
+}
+
+.layerThree {
+  top: calc(var(--stack-step) + var(--stack-step));
+  z-index: 20;
+}
+
+.layerFour {
+  top: calc(
+    var(--stack-step) + var(--stack-step) + var(--stack-step)
+  );
+  z-index: 10;
+}
+
+.ticket {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  padding: clamp(13px, 3.8vw, 17px) clamp(17px, 4.8vw, 21px);
+  border: 1px solid rgb(129 95 61 / 14%);
+  border-radius: 17px;
+  background:
+    radial-gradient(ellipse at 11% 12%, rgb(255 255 255 / 45%), transparent 31%),
+    radial-gradient(ellipse at 92% 89%, rgb(139 100 61 / 6%), transparent 29%),
+    linear-gradient(112deg, rgb(255 253 247 / 98%), rgb(247 239 227 / 96%));
+  box-shadow:
+    0 13px 24px rgb(72 48 28 / 13%),
+    0 4px 9px rgb(72 48 28 / 9%),
+    inset 0 1px 0 rgb(255 255 255 / 78%),
+    inset 0 -1px 0 rgb(91 63 39 / 7%);
+  color: #3b2a1e;
+}
+
+.ticket::before {
+  position: absolute;
+  inset: 8px 10px;
+  z-index: 0;
+  border: 1px dashed rgb(115 82 49 / 13%);
+  border-radius: 12px;
+  content: "";
+}
+
+.ticket::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 24%, rgb(94 65 38 / 5%) 0 0.6px, transparent 0.8px),
+    radial-gradient(circle at 72% 66%, rgb(255 255 255 / 62%) 0 0.7px, transparent 0.9px),
+    linear-gradient(93deg, rgb(111 76 42 / 3%), transparent 22%, transparent 78%, rgb(111 76 42 / 3%));
+  background-size: 18px 19px, 23px 21px, auto;
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+  content: "";
+}
+
+.edgeDots {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  z-index: 2;
+  width: 6px;
+  background: radial-gradient(circle, #f8f2e9 0 2.1px, transparent 2.3px) center top / 6px 10px repeat-y;
+  opacity: 0.88;
+}
+
+.edgeDotsLeft {
+  left: -3px;
+}
+
+.edgeDotsRight {
+  right: -3px;
+}
+
+.ticketHeader,
+.ticketTitleBlock,
+.ticketRule,
+.ticketFooter,
+.stamp {
+  position: relative;
+  z-index: 3;
+}
+
+.ticketHeader {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--loading-ticket-sans);
+  font-size: clamp(7px, 2.1vw, 9px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  color: #4c392a;
+}
+
+.ticketTitleBlock {
+  margin-top: clamp(10px, 2.7vw, 13px);
+  text-align: center;
+}
+
+.ticketTitleBlock h2 {
+  font-family: var(--loading-display-serif);
+  font-size: clamp(22px, 6.1vw, 27px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: #36251a;
+}
+
+.ticketTitleBlock p {
+  margin-top: 5px;
+  font-family: var(--loading-editorial-serif);
+  font-size: clamp(11px, 3.2vw, 14px);
+  line-height: 1;
+  color: #4e3a2a;
+}
+
+.ticketRule {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 11px;
+  width: 60%;
+  margin: 8px auto 0;
+  color: #a36e3d;
+}
+
+.ticketRule span {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(142 101 61 / 19%));
+}
+
+.ticketRule span:last-child {
+  background: linear-gradient(90deg, rgb(142 101 61 / 19%), transparent);
+}
+
+.ticketRule svg {
+  transform: rotate(-28deg);
+}
+
+.ticketFooter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.ticketFooter > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.ticketFooter strong {
+  margin-top: 3px;
+  overflow: hidden;
+  font-family: var(--loading-display-serif);
+  font-size: clamp(10px, 3vw, 13px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #3f2d20;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metaLabel {
+  font-family: var(--loading-ticket-sans);
+  font-size: clamp(6px, 1.8vw, 8px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #a16c42;
+}
+
+.ticketPlus {
+  margin: 0 12px 1px;
+  color: #a86d31;
+}
+
+.destination {
+  align-items: flex-end;
+  padding-right: clamp(42px, 13vw, 54px);
+  text-align: right;
+}
+
+.statusContent {
+  position: absolute;
+  inset: clamp(34px, 9.8vw, 41px) clamp(58px, 17vw, 70px) 14px 18px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.statusTitle {
+  font-family: var(--loading-display-serif);
+  font-size: clamp(20px, 5.6vw, 23px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  color: #39281d;
+  white-space: nowrap;
+}
+
+.statusEnglish {
+  margin-top: 9px;
+  font-family: var(--loading-editorial-serif);
+  font-size: clamp(10px, 2.9vw, 12px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.11em;
+  color: #6e5542;
+  white-space: nowrap;
+}
+
+.stamp {
+  position: absolute;
+  right: clamp(9px, 3.1vw, 13px);
+  bottom: clamp(6px, 1.9vw, 9px);
+  display: grid;
+  width: clamp(43px, 13vw, 54px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1.4px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.88;
+  transform: rotate(-8deg);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 28%);
+}
+
+.stamp::before {
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed currentColor;
+  border-radius: inherit;
+  opacity: 0.58;
+  content: "";
+}
+
+.stamp span {
+  position: relative;
+  z-index: 2;
+  max-width: 86%;
+  font-size: clamp(4.5px, 1.45vw, 6px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.stamp svg {
+  position: relative;
+  z-index: 2;
+  margin: -2px 0;
+}
+
+.stampSage {
+  color: #4f8265;
+}
+
+.stampCaramel {
+  color: #b57525;
+  transform: rotate(7deg);
+}
+
+.stampTerracotta {
+  color: #bf4f2e;
+  transform: rotate(-7deg);
+}
+
+.stampUmber {
+  color: #76502e;
+  transform: rotate(6deg);
+}
+
+.progressList {
+  width: min(62vw, 242px);
+  margin: 12px auto 0;
+  text-align: left;
+}
+
+.progressItem {
+  position: relative;
+  display: grid;
+  min-height: 38px;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  column-gap: 15px;
+  font-family: var(--loading-ui-sans);
+  font-size: 14px;
+}
+
+.progressLine {
+  position: absolute;
+  top: 27px;
+  bottom: -11px;
+  left: 12.5px;
+  width: 1px;
+  background: #d7c9b8;
+}
+
+.progressDot {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.progressComplete {
+  background: #789680;
+  color: #fffdf8;
+  box-shadow: 0 5px 10px rgb(87 116 94 / 16%);
+}
+
+.progressCurrent {
+  border: 5px solid #b87935;
+  background: #fffaf3;
+  box-shadow: 0 0 0 0 rgb(184 121 53 / 22%);
+  animation: progressPulse 2.2s ease-out infinite;
+}
+
+.progressPending {
+  border: 1px solid #d7c9b8;
+  background: #fbf6ef;
+}
+
+.progressLabel,
+.progressLabelActive {
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.progressLabel {
+  color: #aa9d91;
+}
+
+.progressLabelActive {
+  color: #4a382b;
+}
+
+.aiHint {
+  display: grid;
+  width: min(90vw, 330px);
+  min-height: 58px;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+  margin: 27px auto 0;
+  padding: 10px 18px;
+  border: 1px solid rgb(141 102 63 / 17%);
+  border-radius: 22px;
+  background: rgb(249 240 228 / 78%);
+  box-shadow:
+    0 13px 28px rgb(83 55 31 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 72%);
+  backdrop-filter: blur(12px);
+  color: #513727;
+}
+
+.aiHint p {
+  font-family: var(--loading-ui-sans);
+  font-size: clamp(13px, 3.7vw, 15px);
+  line-height: 1.35;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+}
+
+.aiHint p span {
+  padding: 0 2px;
+  color: #8f6845;
+}
+
+.aiSparkles {
+  color: #704820;
+}
+
+.spinner {
+  color: #9a744e;
+  animation: spin 1.25s linear infinite;
+}
+
+@keyframes progressPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(184 121 53 / 20%);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(184 121 53 / 0%);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 340px) {
+  .screen {
+    --ticket-width: min(76vw, 248px);
+    --stack-step: calc(var(--ticket-height) - 13px);
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .ticketStack {
+    margin-top: 23px;
+  }
+
+  .destination {
+    padding-right: 42px;
+  }
+
+  .progressList {
+    width: min(72vw, 230px);
+    margin-top: 9px;
+  }
+
+  .aiHint {
+    width: min(94vw, 304px);
+    grid-template-columns: 24px 1fr 24px;
+    gap: 7px;
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressCurrent,
+  .spinner {
+    animation: none;
+  }
+}

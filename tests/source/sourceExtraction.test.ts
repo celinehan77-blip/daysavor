@@ -16,6 +16,7 @@ import {
 import {
   identifySourcePlatform,
   isPublicIpAddress,
+  lookupHostWithPublicDnsFallback,
   validateSourceUrl,
 } from "../../src/lib/source/urlSafety";
 
@@ -83,6 +84,29 @@ test("rejects private and reserved network addresses", () => {
   assert.equal(isPublicIpAddress("203.0.113.10"), false);
   assert.equal(isPublicIpAddress("::1"), false);
   assert.equal(isPublicIpAddress("fd00::1"), false);
+});
+
+test("revalidates proxy fake-IP DNS answers with public DNS", async () => {
+  const result = await lookupHostWithPublicDnsFallback("sns-bak-v1.xhscdn.com", {
+    systemLookup: async () => [
+      { address: "198.18.0.42", family: 4 },
+      { address: "::ffff:0:c612:2a", family: 6 },
+    ],
+    fetchImpl: async (input) => {
+      const type = new URL(String(input)).searchParams.get("type");
+      return Response.json({
+        Answer:
+          type === "A"
+            ? [{ data: "43.174.7.115", type: 1 }]
+            : [{ data: "2408:8756:f50:1001::10", type: 28 }],
+      });
+    },
+  });
+
+  assert.deepEqual(result, [
+    { address: "43.174.7.115", family: 4 },
+    { address: "2408:8756:f50:1001::10", family: 6 },
+  ]);
 });
 
 test("extracts a clean URL from copied share text", () => {

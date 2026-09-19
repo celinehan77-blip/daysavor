@@ -61,6 +61,55 @@ test("accepts Xiaohongshu share links in the ALAPI adapter", async () => {
   assert.match(result.mediaUrl, /xhs\.mp4/);
 });
 
+test("upgrades official Xiaohongshu CDN media URLs from HTTP to HTTPS", async () => {
+  const result = await resolveAlapiMedia("https://xhslink.cn/o/example", {
+    fetchImpl: async () =>
+      new Response(
+        JSON.stringify({
+          code: 200,
+          data: {
+            title: "盐水大鸡腿",
+            type: 1,
+            video_url:
+              "http://sns-bak-v1.xhscdn.com/stream/public-video.mp4",
+          },
+        }),
+        { status: 200 },
+      ),
+    lookupHost: async () => [{ address: "8.8.8.8", family: 4 }],
+    token: "test-token",
+  });
+
+  assert.equal(
+    result.mediaUrl,
+    "https://sns-bak-v1.xhscdn.com/stream/public-video.mp4",
+  );
+});
+
+test("does not upgrade HTTP media URLs from untrusted hosts", async () => {
+  await assert.rejects(
+    () =>
+      resolveAlapiMedia("https://xhslink.cn/o/example", {
+        fetchImpl: async () =>
+          new Response(
+            JSON.stringify({
+              code: 200,
+              data: {
+                title: "盐水大鸡腿",
+                type: 1,
+                video_url: "http://media.example.com/video.mp4",
+              },
+            }),
+            { status: 200 },
+          ),
+        lookupHost: async () => [{ address: "8.8.8.8", family: 4 }],
+        token: "test-token",
+      }),
+    (error: unknown) =>
+      error instanceof AudioExtractionError && error.code === "media_unavailable",
+  );
+});
+
 test("classifies image posts without attempting ASR", async () => {
   await assert.rejects(
     () =>

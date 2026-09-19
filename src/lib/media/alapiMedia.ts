@@ -38,9 +38,20 @@ function asHttpsUrl(value: unknown) {
   if (typeof value !== "string" || !value.trim()) return null;
   try {
     const url = new URL(value.trim());
-    return url.protocol === "https:" && !url.username && !url.password
-      ? url.toString()
-      : null;
+    if (url.username || url.password) return null;
+
+    if (url.protocol === "http:") {
+      const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
+      const isOfficialXiaohongshuCdn =
+        hostname === "xhscdn.com" || hostname.endsWith(".xhscdn.com");
+      if (!isOfficialXiaohongshuCdn || (url.port && url.port !== "80")) {
+        return null;
+      }
+      url.protocol = "https:";
+      url.port = "";
+    }
+
+    return url.protocol === "https:" ? url.toString() : null;
   } catch {
     return null;
   }

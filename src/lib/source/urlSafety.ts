@@ -11,6 +11,10 @@ export type HostLookup = (
   hostname: string,
 ) => Promise<Array<{ address: string; family: number }>>;
 
+type DnsJsonResponse = {
+  Answer?: Array<{ data?: unknown; type?: unknown }>;
+};
+
 export type ValidatedSourceUrl = {
   platform: PublicSourcePlatform;
   url: URL;
@@ -149,8 +153,72 @@ export function isPublicIpAddress(address: string) {
   return false;
 }
 
-export const defaultHostLookup: HostLookup = async (hostname) =>
-  lookup(hostname, { all: true, verbatim: true });
+function isProxyFakeIp(address: string) {
+  let normalized = address.toLowerCase().replace(/^::ffff:/, "");
+  if (normalized.startsWith("0:") && !normalized.includes(".")) {
+    const groups = normalized.split(":");
+    const high = Number.parseInt(groups.at(-2) ?? "", 16);
+    const low = Number.parseInt(groups.at(-1) ?? "", 16);
+    if (Number.isInteger(high) && Number.isInteger(low)) {
+      normalized = [high >> 8, high & 255, low >> 8, low & 255].join(".");
+    }
+  }
+  const octets = normalized.split(".").map(Number);
+  return (
+    octets.length === 4 &&
+    octets[0] === 198 &&
+    (octets[1] === 18 || octets[1] === 19)
+  );
+}
+
+export async function lookupHostWithPublicDnsFallback(
+  hostname: string,
+  options: {
+    fetchImpl?: typeof fetch;
+    systemLookup?: HostLookup;
+  } = {},
+) {
+  const systemAddresses = await (options.systemLookup ?? (async (host) =>
+    lookup(host, { all: true, verbatim: true })))(hostname);
+
+  if (
+    systemAddresses.length === 0 ||
+    !systemAddresses.every(({ address }) => isProxyFakeIp(address))
+  ) {
+    return systemAddresses;
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5_000);
+  try {
+    const answers = await Promise.all(
+      (["A", "AAAA"] as const).map(async (type) => {
+        const endpoint = new URL("https://cloudflare-dns.com/dns-query");
+        endpoint.searchParams.set("name", hostname);
+        endpoint.searchParams.set("type", type);
+        const response = await (options.fetchImpl ?? fetch)(endpoint, {
+          headers: { accept: "application/dns-json" },
+          signal: controller.signal,
+        });
+        if (!response.ok) return [];
+        const payload = (await response.json()) as DnsJsonResponse;
+        return (payload.Answer ?? [])
+          .filter((answer) => answer.type === (type === "A" ? 1 : 28))
+          .map((answer) => String(answer.data ?? ""))
+          .filter((address) => isIP(address) > 0)
+          .map((address) => ({ address, family: isIP(address) }));
+      }),
+    );
+    const publicDnsAddresses = answers.flat();
+    return publicDnsAddresses.length > 0 ? publicDnsAddresses : systemAddresses;
+  } catch {
+    return systemAddresses;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export const defaultHostLookup: HostLookup = lookupHostWithPublicDnsFallback;
 
 export async function hasOnlyPublicAddresses(
   hostname: string,

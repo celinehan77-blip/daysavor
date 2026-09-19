@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { isGroundedShareRecipeUsable } from "../../src/lib/generation/generateRecipeFromShareLink";
+import {
+  buildShareRecipeSource,
+  isGroundedShareRecipeUsable,
+} from "../../src/lib/generation/generateRecipeFromShareLink";
 import type { ParsedRecipeDraft } from "../../src/types/ai";
 
 const sparseButUsableRecipe: ParsedRecipeDraft = {
@@ -44,4 +47,42 @@ test("still rejects a recipe whose ingredients are not grounded in transcript", 
     "今天分享一道简单快手菜，先把食材处理好，然后下锅翻炒，最后装盘就可以了。";
 
   assert.equal(isGroundedShareRecipeUsable(sparseButUsableRecipe, transcript), false);
+});
+
+test("accepts one main ingredient when grounded seasonings make the recipe usable", () => {
+  const draft = {
+    ...sparseButUsableRecipe,
+    ingredients: [sparseButUsableRecipe.ingredients[0]],
+    seasonings: [
+      { amount: "6 克", group: "seasoning" as const, name: "盐", note: "" },
+      { amount: "1 汤匙", group: "seasoning" as const, name: "花椒", note: "" },
+    ],
+  };
+  const transcript =
+    "盐水鸡腿先把盐和花椒炒黄，抹到鸡腿上隔夜腌制，第二天洗净后小火煮二十分钟。";
+
+  assert.equal(isGroundedShareRecipeUsable(draft, transcript), true);
+});
+
+test("accepts a disclosed title-backed estimate but rejects an undisclosed one", () => {
+  const titleBacked = {
+    ...sparseButUsableRecipe,
+    ingredients: [
+      { amount: "500 克", group: "main" as const, name: "排骨", note: "AI估算（按2人份）" },
+    ],
+    seasonings: [
+      { amount: "2 汤匙", group: "seasoning" as const, name: "辣椒", note: "AI估算（按2人份）" },
+    ],
+    warnings: ["仅根据视频标题估算食材与步骤"],
+  };
+  const source = buildShareRecipeSource(
+    "香辣排骨教程",
+    "视频使用背景音乐，没有可用的步骤口播内容。",
+  );
+
+  assert.equal(isGroundedShareRecipeUsable(titleBacked, source), true);
+  assert.equal(
+    isGroundedShareRecipeUsable({ ...titleBacked, warnings: [] }, source),
+    false,
+  );
 });

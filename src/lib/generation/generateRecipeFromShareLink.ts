@@ -45,21 +45,28 @@ export type ShareLinkTranscriptionResult = Omit<
 
 export function isGroundedShareRecipeUsable(
   draft: ParsedRecipeDraft,
-  transcript: string,
+  sourceText: string,
 ) {
   const quality = scoreParsedRecipeDraft(draft);
   const namedItems = [...draft.ingredients, ...draft.seasonings].filter((item) =>
-    transcript.includes(item.name),
+    sourceText.includes(item.name),
   );
+  const titleBackedEstimate =
+    sourceText.includes("视频标题：") &&
+    namedItems.length >= 1 &&
+    draft.warnings.some(
+      (warning) => warning.includes("标题") && warning.includes("估算"),
+    );
   const repeatedTitleSteps = draft.steps.filter(
     (step) => step.description.trim() === draft.titleZh.trim(),
   );
+  const ingredientCount = draft.ingredients.length + draft.seasonings.length;
 
   return !(
-    transcript.trim().length < 30 ||
-    draft.ingredients.length < 2 ||
+    sourceText.trim().length < 30 ||
+    ingredientCount < 2 ||
     draft.steps.length < 3 ||
-    namedItems.length < 2 ||
+    (namedItems.length < 2 && !titleBackedEstimate) ||
     repeatedTitleSteps.length > 0 ||
     quality.score < 55
   );
@@ -69,6 +76,15 @@ function validateGroundedRecipe(draft: ParsedRecipeDraft, transcript: string) {
   if (!isGroundedShareRecipeUsable(draft, transcript)) {
     throw new ShareLinkGenerationError("recipe_quality_failed");
   }
+}
+
+export function buildShareRecipeSource(title: string | null, transcript: string) {
+  return [
+    title?.trim() ? `视频标题：${title.trim()}` : null,
+    `视频语音转写：${transcript.trim()}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 const globalCache = globalThis as typeof globalThis & {
@@ -152,8 +168,12 @@ async function generateUncachedRecipeFromShareLink(
   const startedAt = Date.now() - (transcribed.stages.at(-1)?.completedAtMs ?? 0);
   const stages = [...transcribed.stages];
 
+  const recipeSource = buildShareRecipeSource(
+    transcribed.title,
+    transcribed.transcript,
+  );
   const parsed = await parseRecipeWithDeepSeek({
-    rawText: transcribed.transcript,
+    rawText: recipeSource,
     sourcePlatform: transcribed.platform,
     sourceUrl: transcribed.canonicalUrl,
     userId: null,
@@ -164,7 +184,7 @@ async function generateUncachedRecipeFromShareLink(
     throw new ShareLinkGenerationError("deepseek_parse_failed");
   }
 
-  validateGroundedRecipe(parsed.draft, transcribed.transcript);
+  validateGroundedRecipe(parsed.draft, recipeSource);
   stages.push({ stage: "validating", completedAtMs: Date.now() - startedAt });
   stages.push({ stage: "completed", completedAtMs: Date.now() - startedAt });
 

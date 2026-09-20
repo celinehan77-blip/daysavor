@@ -1,6 +1,12 @@
 import { parseRecipeWithDeepSeek } from "@/lib/ai/providers/deepseek";
 import { scoreParsedRecipeDraft } from "@/lib/ai/scoreParsedRecipe";
-import { transcribeAudio, type TranscriptionResult } from "@/lib/asr/transcribeAudio";
+import {
+  transcribeAudio,
+  transcribeRemoteAudioUrl,
+  type TranscriptionResult,
+} from "@/lib/asr/transcribeAudio";
+import { resolveAlapiMedia } from "@/lib/media/alapiMedia";
+import { AudioExtractionError } from "@/lib/media/errors";
 import { extractAudioFromShareLink } from "@/lib/media/extractAudio";
 import { normalizeShareUrl } from "@/lib/media/extractAudio";
 import type { ParsedRecipeDraft } from "@/types/ai";
@@ -42,6 +48,11 @@ export type ShareLinkTranscriptionResult = Omit<
   ShareLinkGenerationResult,
   "diagnostics" | "draft"
 >;
+
+type RemoteTranscriptionDependencies = {
+  resolveProviderMedia: typeof resolveAlapiMedia;
+  transcribeRemoteMedia: typeof transcribeRemoteAudioUrl;
+};
 
 export function isGroundedShareRecipeUsable(
   draft: ParsedRecipeDraft,
@@ -101,9 +112,71 @@ const transcriptionJobs =
   globalCache.__recipeTicketTranscriptionJobs ??
   (globalCache.__recipeTicketTranscriptionJobs = new Map());
 
+export async function transcribeRemoteXiaohongshuMedia(
+  sourceUrl: string,
+  dependencies: RemoteTranscriptionDependencies = {
+    resolveProviderMedia: resolveAlapiMedia,
+    transcribeRemoteMedia: transcribeRemoteAudioUrl,
+  },
+): Promise<ShareLinkTranscriptionResult | null> {
+  const startedAt = Date.now();
+  const normalized = normalizeShareUrl(sourceUrl);
+  if (normalized.platform !== "xiaohongshu") return null;
+
+  let media: Awaited<ReturnType<typeof resolveAlapiMedia>>;
+  try {
+    media = await dependencies.resolveProviderMedia(sourceUrl);
+  } catch (error) {
+    if (
+      error instanceof AudioExtractionError &&
+      error.code === "image_post_unsupported"
+    ) {
+      throw error;
+    }
+    return null;
+  }
+
+  const resolvedAtMs = Date.now() - startedAt;
+  let asr: TranscriptionResult;
+  try {
+    asr = await dependencies.transcribeRemoteMedia(
+      media.fallbackMediaUrl ?? media.mediaUrl,
+    );
+  } catch {
+    return null;
+  }
+
+  const completedAtMs = Date.now() - startedAt;
+  return {
+    asr,
+    canonicalUrl: media.canonicalUrl,
+    durationSeconds: media.durationSeconds,
+    platform: normalized.platform,
+    sourceHash: normalized.sourceHash,
+    stages: [
+      { stage: "resolving_link", completedAtMs: 0 },
+      { stage: "extracting_audio", completedAtMs: resolvedAtMs },
+      { stage: "transcribing", completedAtMs },
+    ],
+    title: media.description,
+    transcript: asr.transcript,
+  };
+}
+
 async function transcribeUncachedShareLink(
   sourceUrl: string,
 ): Promise<ShareLinkTranscriptionResult> {
+  const remote = await transcribeRemoteXiaohongshuMedia(sourceUrl);
+  if (remote) {
+    console.info("[recipe-pipeline]", {
+      elapsedMs: remote.stages.at(-1)?.completedAtMs,
+      provider: remote.asr.provider,
+      stage: "transcribing_remote_media",
+      usedFallback: remote.asr.usedFallback,
+    });
+    return remote;
+  }
+
   const startedAt = Date.now();
   const stages: ShareLinkGenerationResult["stages"] = [
     { stage: "resolving_link", completedAtMs: 0 },

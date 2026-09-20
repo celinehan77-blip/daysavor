@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   buildShareRecipeSource,
   isGroundedShareRecipeUsable,
+  transcribeRemoteXiaohongshuMedia,
 } from "../../src/lib/generation/generateRecipeFromShareLink";
 import type { ParsedRecipeDraft } from "../../src/types/ai";
 
@@ -85,4 +86,63 @@ test("accepts a disclosed title-backed estimate but rejects an undisclosed one",
     isGroundedShareRecipeUsable({ ...titleBacked, warnings: [] }, source),
     false,
   );
+});
+
+test("uses real remote ASR text when the app server cannot download Xiaohongshu media", async () => {
+  let remoteUrl = "";
+  const result = await transcribeRemoteXiaohongshuMedia(
+    "https://xhslink.cn/o/example",
+    {
+      resolveProviderMedia: async () => ({
+        canonicalUrl: "https://xhslink.cn/o/example",
+        description: "无法更简单的西红柿鸡蛋做法",
+        durationSeconds: 0,
+        fallbackMediaUrl: "http://sns-video-qc.xhscdn.com/video.mp4",
+        imageUrls: [],
+        mediaType: "video",
+        mediaUrl: "https://sns-video-qc.xhscdn.com/video.mp4",
+      }),
+      transcribeRemoteMedia: async (mediaUrl) => {
+        remoteUrl = mediaUrl;
+        return {
+          model: "seed-asr-2.0-turbo",
+          processingTimeMs: 20,
+          provider: "volcengine",
+          transcript: "番茄切块炒出汤汁，再加入炒好的鸡蛋。",
+          usedFallback: false,
+          warnings: [],
+        };
+      },
+    },
+  );
+
+  assert.equal(remoteUrl, "http://sns-video-qc.xhscdn.com/video.mp4");
+  assert.equal(result?.title, "无法更简单的西红柿鸡蛋做法");
+  assert.match(result?.transcript ?? "", /番茄/);
+  assert.deepEqual(
+    result?.stages.map(({ stage }) => stage),
+    ["resolving_link", "extracting_audio", "transcribing"],
+  );
+});
+
+test("keeps the existing download pipeline available when remote ASR fails", async () => {
+  const result = await transcribeRemoteXiaohongshuMedia(
+    "https://xhslink.cn/o/example",
+    {
+      resolveProviderMedia: async () => ({
+        canonicalUrl: "https://xhslink.cn/o/example",
+        description: "盐水鸡腿",
+        durationSeconds: 0,
+        fallbackMediaUrl: null,
+        imageUrls: [],
+        mediaType: "video",
+        mediaUrl: "https://sns-video-qc.xhscdn.com/video.mp4",
+      }),
+      transcribeRemoteMedia: async () => {
+        throw new Error("remote ASR unavailable");
+      },
+    },
+  );
+
+  assert.equal(result, null);
 });

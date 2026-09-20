@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { transcribeAudio } from "../../src/lib/asr/transcribeAudio";
+import {
+  transcribeAudio,
+  transcribeRemoteAudioUrl,
+} from "../../src/lib/asr/transcribeAudio";
 
 const originalFetch = global.fetch;
 const originalEnv = { ...process.env };
@@ -33,6 +36,45 @@ test("uses Volcengine once when the primary provider succeeds", async () => {
   assert.equal(result.provider, "volcengine");
   assert.equal(result.usedFallback, false);
   assert.match(result.transcript, /鸡肉/);
+});
+
+test("lets Volcengine fetch a validated remote media URL", async () => {
+  process.env.VOLC_ASR_API_KEY = "test-key";
+  let requestBody: Record<string, unknown> = {};
+
+  const result = await transcribeRemoteAudioUrl(
+    "http://sns-video-qc.xhscdn.com/stream/video.mp4",
+    {
+      fetchImpl: async (_input, init) => {
+        requestBody = JSON.parse(String(init?.body));
+        return new Response(
+          JSON.stringify({ result: { text: "番茄炒出汤汁后加入鸡蛋。" } }),
+          { headers: { "X-Api-Status-Code": "20000000" } },
+        );
+      },
+    },
+  );
+
+  assert.deepEqual(requestBody.audio, {
+    url: "http://sns-video-qc.xhscdn.com/stream/video.mp4",
+  });
+  assert.equal(result.provider, "volcengine");
+  assert.match(result.transcript, /番茄/);
+});
+
+test("rejects unsafe remote media URL credentials before ASR", async () => {
+  let calls = 0;
+  await assert.rejects(
+    () =>
+      transcribeRemoteAudioUrl("https://user:pass@example.com/video.mp4", {
+        fetchImpl: async () => {
+          calls += 1;
+          return new Response();
+        },
+      }),
+    { code: "invalid_audio" },
+  );
+  assert.equal(calls, 0);
 });
 
 test("calls Qwen only after Volcengine explicitly fails", async () => {

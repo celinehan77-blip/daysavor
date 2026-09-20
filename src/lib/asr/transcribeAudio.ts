@@ -37,6 +37,7 @@ export type TranscriptionResult = {
 };
 
 type ProviderResult = Omit<TranscriptionResult, "usedFallback" | "warnings">;
+type VolcAudioInput = { data: string } | { url: string };
 
 function getTimeoutSignal() {
   return AbortSignal.timeout(DEFAULT_TIMEOUT_MS);
@@ -52,7 +53,10 @@ function classifyHttpError(provider: AsrProvider, status: number) {
   return new AsrProviderError(provider, "provider_unavailable", `ASR request failed (${status}).`);
 }
 
-async function transcribeWithVolcengine(audio: Buffer): Promise<ProviderResult> {
+async function transcribeWithVolcengineInput(
+  audio: VolcAudioInput,
+  fetchImpl: typeof fetch = fetch,
+): Promise<ProviderResult> {
   const apiKey = process.env.VOLC_ASR_API_KEY;
   const appId = process.env.VOLC_ASR_APP_ID;
   const legacyAccessToken = process.env.VOLC_ACCESS_KEY;
@@ -76,12 +80,12 @@ async function transcribeWithVolcengine(audio: Buffer): Promise<ProviderResult> 
   let response: Response;
 
   try {
-    response = await fetch(VOLC_ENDPOINT, {
+    response = await fetchImpl(VOLC_ENDPOINT, {
       method: "POST",
       headers,
       body: JSON.stringify({
         user: { uid: appId || "recipe-ticket" },
-        audio: { data: audio.toString("base64") },
+        audio,
         request: {
           model_name: "bigmodel",
           enable_itn: true,
@@ -127,6 +131,44 @@ async function transcribeWithVolcengine(audio: Buffer): Promise<ProviderResult> 
     model: "seed-asr-2.0-turbo",
     processingTimeMs: Date.now() - startedAt,
   };
+}
+
+async function transcribeWithVolcengine(audio: Buffer) {
+  return transcribeWithVolcengineInput({ data: audio.toString("base64") });
+}
+
+export async function transcribeRemoteAudioUrl(
+  mediaUrl: string,
+  options: { fetchImpl?: typeof fetch } = {},
+): Promise<TranscriptionResult> {
+  let url: URL;
+  try {
+    url = new URL(mediaUrl);
+  } catch {
+    throw new AsrProviderError(
+      "volcengine",
+      "invalid_audio",
+      "Remote media URL was invalid.",
+    );
+  }
+
+  if (
+    !["http:", "https:"].includes(url.protocol) ||
+    url.username ||
+    url.password
+  ) {
+    throw new AsrProviderError(
+      "volcengine",
+      "invalid_audio",
+      "Remote media URL was invalid.",
+    );
+  }
+
+  const result = await transcribeWithVolcengineInput(
+    { url: url.toString() },
+    options.fetchImpl,
+  );
+  return { ...result, usedFallback: false, warnings: [] };
 }
 
 function getQwenEndpoint() {

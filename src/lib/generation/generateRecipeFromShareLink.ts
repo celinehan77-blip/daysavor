@@ -9,6 +9,7 @@ import { resolveAlapiMedia } from "@/lib/media/alapiMedia";
 import { AudioExtractionError } from "@/lib/media/errors";
 import { extractAudioFromShareLink } from "@/lib/media/extractAudio";
 import { normalizeShareUrl } from "@/lib/media/extractAudio";
+import { extractRecipeTextFromVideo } from "@/lib/vision/extractRecipeTextFromVideo";
 import type { ParsedRecipeDraft } from "@/types/ai";
 import type { RecipeParseResult } from "@/types/ai";
 
@@ -50,9 +51,25 @@ export type ShareLinkTranscriptionResult = Omit<
 >;
 
 type RemoteTranscriptionDependencies = {
+  extractVisibleRecipeText: typeof extractRecipeTextFromVideo;
   resolveProviderMedia: typeof resolveAlapiMedia;
   transcribeRemoteMedia: typeof transcribeRemoteAudioUrl;
 };
+
+export function isLikelyRecipeTranscript(transcript: string) {
+  const normalized = transcript.trim();
+  const cookingSignals = [
+    /切|剁|拍|洗|焯|腌|抓匀/,
+    /加入|放入|倒入|下锅/,
+    /炒|煎|炸|蒸|煮|炖|焖|烤/,
+    /盐|糖|酱油|生抽|老抽|料酒|淀粉/,
+    /分钟|小时|火候|大火|小火|中火/,
+    /鸡|鸭|猪|排骨|牛|羊|鱼|虾|蛋|豆腐|蔬菜/,
+  ].filter((pattern) => pattern.test(normalized)).length;
+  const chineseCharacters = normalized.match(/[\u3400-\u9fff]/g)?.length ?? 0;
+
+  return normalized.length >= 12 && chineseCharacters >= 10 && cookingSignals >= 2;
+}
 
 export function isGroundedShareRecipeUsable(
   draft: ParsedRecipeDraft,
@@ -62,12 +79,6 @@ export function isGroundedShareRecipeUsable(
   const namedItems = [...draft.ingredients, ...draft.seasonings].filter((item) =>
     sourceText.includes(item.name),
   );
-  const titleBackedEstimate =
-    sourceText.includes("视频标题：") &&
-    namedItems.length >= 1 &&
-    draft.warnings.some(
-      (warning) => warning.includes("标题") && warning.includes("估算"),
-    );
   const repeatedTitleSteps = draft.steps.filter(
     (step) => step.description.trim() === draft.titleZh.trim(),
   );
@@ -77,7 +88,7 @@ export function isGroundedShareRecipeUsable(
     sourceText.trim().length < 30 ||
     ingredientCount < 2 ||
     draft.steps.length < 3 ||
-    (namedItems.length < 2 && !titleBackedEstimate) ||
+    namedItems.length < 2 ||
     repeatedTitleSteps.length > 0 ||
     quality.score < 55
   );
@@ -115,6 +126,7 @@ const transcriptionJobs =
 export async function transcribeRemoteXiaohongshuMedia(
   sourceUrl: string,
   dependencies: RemoteTranscriptionDependencies = {
+    extractVisibleRecipeText: extractRecipeTextFromVideo,
     resolveProviderMedia: resolveAlapiMedia,
     transcribeRemoteMedia: transcribeRemoteAudioUrl,
   },
@@ -137,13 +149,32 @@ export async function transcribeRemoteXiaohongshuMedia(
   }
 
   const resolvedAtMs = Date.now() - startedAt;
-  let asr: TranscriptionResult;
+  let asr: TranscriptionResult | null = null;
   try {
     asr = await dependencies.transcribeRemoteMedia(
       media.fallbackMediaUrl ?? media.mediaUrl,
     );
   } catch {
-    return null;
+    asr = null;
+  }
+
+  if (!asr || !isLikelyRecipeTranscript(asr.transcript)) {
+    try {
+      const vision = await dependencies.extractVisibleRecipeText(
+        media.mediaUrl,
+        media.description,
+      );
+      asr = {
+        model: vision.model,
+        processingTimeMs: vision.processingTimeMs,
+        provider: "aliyun_qwen_vision",
+        transcript: vision.text,
+        usedFallback: true,
+        warnings: ["视频语音不足，已读取画面中的真实菜谱文字。"],
+      };
+    } catch {
+      return null;
+    }
   }
 
   const completedAtMs = Date.now() - startedAt;

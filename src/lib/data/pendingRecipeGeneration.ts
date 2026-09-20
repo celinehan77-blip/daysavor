@@ -338,9 +338,11 @@ async function parseRecipeSource(
     if (!result?.ok || !isParsedRecipeDraft(result.draft)) {
       return {
         ok: false,
-        message: looksLikeUrl
-          ? "暂时无法读取这条分享链接，请粘贴正文或字幕。"
-          : "菜谱解析请求失败，请稍后重试。",
+        message:
+          result?.error ??
+          (looksLikeUrl
+            ? "暂时无法读取这条分享链接，请粘贴正文或字幕。"
+            : "菜谱解析请求失败，请稍后重试。"),
         shouldContinueWithFallback: !looksLikeUrl,
         taskErrorCode: getGenerationFailureCode(result, looksLikeUrl),
       };

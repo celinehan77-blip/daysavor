@@ -166,6 +166,8 @@ Checkpoint A3 已完成：新增 7 条从未使用的小红书公开样本，7 �
 
 Checkpoint B1 已完成为有限 MVP：ALAPI 路线有 2 条真实抖音视频完成生成、Supabase 写入和云端收藏。空音轨样本在火山与阿里备用均无有效转录，另一样本超过 100 MB 安全上限；图文笔记需要 OCR。按产品决策保留现有实现和记录，暂停这些边界优化，不阻塞 Beta 上线。
 
+2026-09-21 小红书稳定性补充：12 条新增公开视频全部通过 ALAPI 媒体解析；7 条使用火山远程 ASR，5 条无口播、纯音乐或识别超时样本已验证可由 Qwen-VL 读取画面中的真实菜谱文字。正式管线改为语音优先、画面文字兜底，并取消标题估算通过质量门槛的例外。
+
 Checkpoint C1 与 D1 已完成：登录会话刷新后恢复，当前账号 11 道生成、10 道收藏，两条抖音成功样本可从收藏页再次打开，动态详情刷新后收藏状态恢复。Vercel Production 核心路由、三个 Station、动态详情和部署健康接口均返回 200，Supabase 可读且 fallback 保留。Milestone 3 完成。
 
 每个 Checkpoint 必须依次完成 Architect Review、QA、Reviewer、Debug、Release、CHANGELOG 和 Git Commit。网络中断或新会话启动时，从本节最近一个已完成 Checkpoint 继续。

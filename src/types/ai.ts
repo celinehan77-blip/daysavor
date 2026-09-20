@@ -101,7 +101,7 @@ export type RecipeParseResult = {
     | null;
   generation?: {
     asrModel: string;
-    asrProvider: "volcengine" | "aliyun_qwen";
+    asrProvider: "volcengine" | "aliyun_qwen" | "aliyun_qwen_vision";
     durationSeconds: number;
     processingTimeMs: number;
     sourceHash: string;

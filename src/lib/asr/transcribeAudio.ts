@@ -1,4 +1,8 @@
 import { randomUUID } from "node:crypto";
+import {
+  getQwenApiKey,
+  getQwenCompatibleEndpoint,
+} from "@/lib/ai/providers/qwenConfig";
 
 const VOLC_ENDPOINT =
   "https://openspeech.bytedance.com/api/v3/auc/bigmodel/recognize/flash";
@@ -6,7 +10,10 @@ const VOLC_RESOURCE_ID = "volc.bigasr.auc_turbo";
 const DEFAULT_TIMEOUT_MS = 35_000;
 const DEFAULT_QWEN_MODEL = "qwen3-asr-flash";
 
-export type AsrProvider = "volcengine" | "aliyun_qwen";
+export type AsrProvider =
+  | "volcengine"
+  | "aliyun_qwen"
+  | "aliyun_qwen_vision";
 export type AsrErrorCode =
   | "not_configured"
   | "authentication_failed"
@@ -171,22 +178,9 @@ export async function transcribeRemoteAudioUrl(
   return { ...result, usedFallback: false, warnings: [] };
 }
 
-function getQwenEndpoint() {
-  const baseUrl =
-    process.env.ALIBABA_ASR_BASE_URL || process.env.ALIYUN_MAAS_ENDPOINT;
-  if (!baseUrl) {
-    return null;
-  }
-  const normalized = baseUrl.replace(/\/$/, "");
-  return normalized.endsWith("/chat/completions")
-    ? normalized
-    : `${normalized}/chat/completions`;
-}
-
 async function transcribeWithQwen(audio: Buffer): Promise<ProviderResult> {
-  const apiKey =
-    process.env.ALIBABA_ASR_API_KEY || process.env.ALIYUN_MAAS_API_KEY;
-  const endpoint = getQwenEndpoint();
+  const apiKey = getQwenApiKey();
+  const endpoint = getQwenCompatibleEndpoint();
   const model = process.env.ALIBABA_ASR_MODEL || DEFAULT_QWEN_MODEL;
 
   if (!apiKey || !endpoint) {

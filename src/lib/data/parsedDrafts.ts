@@ -10,7 +10,7 @@ const LATEST_PARSED_DRAFT_METADATA_KEY =
 export type ParsedDraftMetadata = {
   generation?: {
     asrModel: string;
-    asrProvider: "volcengine" | "aliyun_qwen";
+    asrProvider: "volcengine" | "aliyun_qwen" | "aliyun_qwen_vision";
     processingTimeMs: number;
     stages: Array<{ stage: string; completedAtMs: number }>;
     usedAsrFallback: boolean;

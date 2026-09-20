@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   buildShareRecipeSource,
   isGroundedShareRecipeUsable,
+  isLikelyRecipeTranscript,
   transcribeRemoteXiaohongshuMedia,
 } from "../../src/lib/generation/generateRecipeFromShareLink";
 import type { ParsedRecipeDraft } from "../../src/types/ai";
@@ -43,6 +44,17 @@ test("accepts a sparse but grounded short-video recipe for MVP", () => {
   assert.equal(isGroundedShareRecipeUsable(sparseButUsableRecipe, transcript), true);
 });
 
+test("distinguishes cooking narration from music lyrics or empty audio", () => {
+  assert.equal(
+    isLikelyRecipeTranscript(
+      "热锅放油，下入鸡腿煎到两面金黄，再加入生抽和盐，小火焖十五分钟后收汁出锅。",
+    ),
+    true,
+  );
+  assert.equal(isLikelyRecipeTranscript("Say that you love, say that you care."), false);
+  assert.equal(isLikelyRecipeTranscript(""), false);
+});
+
 test("still rejects a recipe whose ingredients are not grounded in transcript", () => {
   const transcript =
     "今天分享一道简单快手菜，先把食材处理好，然后下锅翻炒，最后装盘就可以了。";
@@ -65,7 +77,7 @@ test("accepts one main ingredient when grounded seasonings make the recipe usabl
   assert.equal(isGroundedShareRecipeUsable(draft, transcript), true);
 });
 
-test("accepts a disclosed title-backed estimate but rejects an undisclosed one", () => {
+test("rejects title-backed estimates even when they are disclosed", () => {
   const titleBacked = {
     ...sparseButUsableRecipe,
     ingredients: [
@@ -81,7 +93,7 @@ test("accepts a disclosed title-backed estimate but rejects an undisclosed one",
     "视频使用背景音乐，没有可用的步骤口播内容。",
   );
 
-  assert.equal(isGroundedShareRecipeUsable(titleBacked, source), true);
+  assert.equal(isGroundedShareRecipeUsable(titleBacked, source), false);
   assert.equal(
     isGroundedShareRecipeUsable({ ...titleBacked, warnings: [] }, source),
     false,
@@ -93,6 +105,9 @@ test("uses real remote ASR text when the app server cannot download Xiaohongshu 
   const result = await transcribeRemoteXiaohongshuMedia(
     "https://xhslink.cn/o/example",
     {
+      extractVisibleRecipeText: async () => {
+        throw new Error("vision should not run");
+      },
       resolveProviderMedia: async () => ({
         canonicalUrl: "https://xhslink.cn/o/example",
         description: "无法更简单的西红柿鸡蛋做法",
@@ -125,10 +140,46 @@ test("uses real remote ASR text when the app server cannot download Xiaohongshu 
   );
 });
 
-test("keeps the existing download pipeline available when remote ASR fails", async () => {
+test("uses real visible recipe text when remote ASR has no cooking narration", async () => {
   const result = await transcribeRemoteXiaohongshuMedia(
     "https://xhslink.cn/o/example",
     {
+      extractVisibleRecipeText: async (mediaUrl, title) => {
+        assert.equal(mediaUrl, "https://sns-video-qc.xhscdn.com/video.mp4");
+        assert.equal(title, "盐水鸡腿");
+        return {
+          model: "qwen-vl-plus",
+          processingTimeMs: 30,
+          text: "鸡腿加入盐和花椒腌制一晚，第二天洗净后小火煮二十分钟，再关火焖十分钟。",
+        };
+      },
+      resolveProviderMedia: async () => ({
+        canonicalUrl: "https://xhslink.cn/o/example",
+        description: "盐水鸡腿",
+        durationSeconds: 0,
+        fallbackMediaUrl: null,
+        imageUrls: [],
+        mediaType: "video",
+        mediaUrl: "https://sns-video-qc.xhscdn.com/video.mp4",
+      }),
+      transcribeRemoteMedia: async () => {
+        throw new Error("remote ASR unavailable");
+      },
+    },
+  );
+
+  assert.equal(result?.asr.provider, "aliyun_qwen_vision");
+  assert.equal(result?.asr.usedFallback, true);
+  assert.match(result?.transcript ?? "", /花椒/);
+});
+
+test("keeps the existing download pipeline when both remote providers fail", async () => {
+  const result = await transcribeRemoteXiaohongshuMedia(
+    "https://xhslink.cn/o/example",
+    {
+      extractVisibleRecipeText: async () => {
+        throw new Error("vision unavailable");
+      },
       resolveProviderMedia: async () => ({
         canonicalUrl: "https://xhslink.cn/o/example",
         description: "盐水鸡腿",

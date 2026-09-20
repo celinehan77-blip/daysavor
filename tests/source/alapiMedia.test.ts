@@ -84,6 +84,10 @@ test("upgrades official Xiaohongshu CDN media URLs from HTTP to HTTPS", async ()
     result.mediaUrl,
     "https://sns-bak-v1.xhscdn.com/stream/public-video.mp4",
   );
+  assert.equal(
+    result.fallbackMediaUrl,
+    "http://sns-bak-v1.xhscdn.com/stream/public-video.mp4",
+  );
 });
 
 test("does not upgrade HTTP media URLs from untrusted hosts", async () => {
@@ -155,6 +159,15 @@ test("requires provider configuration and rejects unsafe media URLs", async () =
       error instanceof AudioExtractionError && error.code === "media_provider_unavailable",
   );
   assert.equal(await validatePublicMediaUrl("http://media.example.com/video.mp4", publicLookup), null);
+  assert.equal(
+    (
+      await validatePublicMediaUrl(
+        "http://sns-bak-v1.xhscdn.com/video.mp4",
+        publicLookup,
+      )
+    )?.protocol,
+    "http:",
+  );
   assert.equal(
     await validatePublicMediaUrl("https://127.0.0.1/video.mp4", async () => [
       { address: "127.0.0.1", family: 4 },

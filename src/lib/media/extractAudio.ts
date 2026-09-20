@@ -436,7 +436,13 @@ export async function extractAudioFromShareLink(sharedValue: string): Promise<Ex
   await mkdir(tempDirectory, { recursive: true });
   try {
     if (resolvedMedia?.mediaUrl) {
-      await streamRemoteMediaAudio(resolvedMedia.mediaUrl, audioPath);
+      try {
+        await streamRemoteMediaAudio(resolvedMedia.mediaUrl, audioPath);
+      } catch (error) {
+        if (!resolvedMedia.fallbackMediaUrl) throw error;
+        await rm(audioPath, { force: true });
+        await streamRemoteMediaAudio(resolvedMedia.fallbackMediaUrl, audioPath);
+      }
     } else {
       await streamAudio(normalized.canonicalUrl, audioPath);
     }

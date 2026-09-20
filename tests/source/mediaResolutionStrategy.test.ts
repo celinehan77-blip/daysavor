@@ -10,6 +10,7 @@ const providerMedia = {
   canonicalUrl: "https://xhslink.cn/o/example",
   description: "醋蒸鸡",
   durationSeconds: 0,
+  fallbackMediaUrl: null,
   imageUrls: [],
   mediaType: "video" as const,
   mediaUrl: "https://media.example.com/video.mp4",

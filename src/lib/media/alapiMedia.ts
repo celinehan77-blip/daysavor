@@ -29,10 +29,19 @@ export type AlapiMedia = {
   canonicalUrl: string;
   description: string | null;
   durationSeconds: number;
+  fallbackMediaUrl: string | null;
   imageUrls: string[];
   mediaType: "video" | "image";
   mediaUrl: string;
 };
+
+function isOfficialXiaohongshuCdn(hostname: string) {
+  const normalizedHostname = hostname.toLowerCase().replace(/\.$/, "");
+  return (
+    normalizedHostname === "xhscdn.com" ||
+    normalizedHostname.endsWith(".xhscdn.com")
+  );
+}
 
 function asHttpsUrl(value: unknown) {
   if (typeof value !== "string" || !value.trim()) return null;
@@ -41,10 +50,10 @@ function asHttpsUrl(value: unknown) {
     if (url.username || url.password) return null;
 
     if (url.protocol === "http:") {
-      const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
-      const isOfficialXiaohongshuCdn =
-        hostname === "xhscdn.com" || hostname.endsWith(".xhscdn.com");
-      if (!isOfficialXiaohongshuCdn || (url.port && url.port !== "80")) {
+      if (
+        !isOfficialXiaohongshuCdn(url.hostname) ||
+        (url.port && url.port !== "80")
+      ) {
         return null;
       }
       url.protocol = "https:";
@@ -103,10 +112,15 @@ export async function validatePublicMediaUrl(
   }
 
   if (
-    url.protocol !== "https:" ||
+    (url.protocol !== "https:" &&
+      !(url.protocol === "http:" && isOfficialXiaohongshuCdn(url.hostname))) ||
     url.username ||
     url.password ||
-    (url.port && url.port !== "443") ||
+    (url.port &&
+      !(
+        (url.protocol === "https:" && url.port === "443") ||
+        (url.protocol === "http:" && url.port === "80")
+      )) ||
     !(await hasOnlyPublicAddresses(url.hostname, lookupHost))
   ) {
     return null;
@@ -194,7 +208,11 @@ export async function resolveAlapiMedia(
     );
   }
 
-  const mediaUrl = asHttpsUrl(data.audio) ?? asHttpsUrl(data.video_url);
+  const rawMediaUrl = [data.audio, data.video_url]
+    .filter((value): value is string => typeof value === "string")
+    .map((value) => value.trim())
+    .find((value) => Boolean(asHttpsUrl(value))) ?? "";
+  const mediaUrl = asHttpsUrl(rawMediaUrl);
   if (!mediaUrl || !(await validatePublicMediaUrl(mediaUrl, options.lookupHost))) {
     throw new AudioExtractionError("media_unavailable", "ALAPI media URL was unsafe.");
   }
@@ -204,6 +222,11 @@ export async function resolveAlapiMedia(
     description:
       typeof data.title === "string" ? data.title.trim().slice(0, 300) || null : null,
     durationSeconds: 0,
+    fallbackMediaUrl:
+      rawMediaUrl.startsWith("http://") &&
+      (await validatePublicMediaUrl(rawMediaUrl, options.lookupHost))
+        ? rawMediaUrl
+        : null,
     imageUrls,
     mediaType,
     mediaUrl,

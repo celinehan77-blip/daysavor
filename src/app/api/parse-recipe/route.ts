@@ -1,6 +1,6 @@
 import { parseRecipeInput } from "@/lib/ai";
 import type { RecipeParseInput, RecipeParseSourcePlatform } from "@/types/ai";
-import { checkRateLimit } from "@/lib/security/rateLimit";
+import { checkParseRecipeRateLimit } from "@/lib/security/parseRecipeRateLimit";
 import { extractPublicSource } from "@/lib/source";
 import {
   generateRecipeFromShareLink,
@@ -20,8 +20,6 @@ const allowedSourcePlatforms = new Set<RecipeParseSourcePlatform>([
 ]);
 const MAX_SOURCE_URL_LENGTH = 2048;
 const MAX_RAW_TEXT_LENGTH = 30000;
-const PARSE_RATE_LIMIT = 5;
-const PARSE_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
 function getClientKey(request: Request) {
   return (
@@ -103,10 +101,7 @@ async function shareLinkFailureResponse(error: unknown, sourceUrl: string) {
 }
 
 export async function POST(request: Request) {
-  const rateLimit = checkRateLimit(`parse:${getClientKey(request)}`, {
-    limit: PARSE_RATE_LIMIT,
-    windowMs: PARSE_RATE_LIMIT_WINDOW_MS,
-  });
+  const rateLimit = checkParseRecipeRateLimit(getClientKey(request));
 
   if (!rateLimit.allowed) {
     return Response.json(

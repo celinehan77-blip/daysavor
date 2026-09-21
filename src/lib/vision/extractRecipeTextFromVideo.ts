@@ -5,6 +5,7 @@ import {
 
 const DEFAULT_VISION_MODEL = "qwen-vl-plus";
 const VISION_TIMEOUT_MS = 45_000;
+const VISION_MAX_ATTEMPTS = 2;
 
 export class VideoVisionError extends Error {
   constructor(
@@ -69,82 +70,111 @@ export async function extractRecipeTextFromVideo(
 
   const model = process.env.QWEN_VISION_MODEL || DEFAULT_VISION_MODEL;
   const startedAt = Date.now();
-  let response: Response;
-  try {
-    response = await (options.fetchImpl ?? fetch)(endpoint, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "video_url",
-                video_url: { url: parsedUrl.toString(), fps: 1 },
-              },
-              {
-                type: "text",
-                text: [
-                  "请逐帧读取视频画面中真实可见的中文字幕和菜谱信息。",
-                  "只输出画面中明确出现的食材、用量、处理动作、烹饪步骤、时间和火候。",
-                  "不要根据标题、菜名或常识补充画面中没有的信息。",
-                  title?.trim()
-                    ? `视频标题（仅用于定位内容，不可作为菜谱事实）：${title.trim()}`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join("\n"),
-              },
-            ],
-          },
-        ],
-        temperature: 0,
-        max_tokens: 1800,
-      }),
-      signal: AbortSignal.timeout(VISION_TIMEOUT_MS),
-    });
-  } catch {
-    throw new VideoVisionError(
-      "provider_failed",
-      "Qwen video vision request failed.",
-    );
+  const fetchImpl = options.fetchImpl ?? fetch;
+
+  for (let attempt = 1; attempt <= VISION_MAX_ATTEMPTS; attempt += 1) {
+    let response: Response;
+    try {
+      response = await fetchImpl(endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "video_url",
+                  video_url: { url: parsedUrl.toString(), fps: 1 },
+                },
+                {
+                  type: "text",
+                  text: [
+                    "请逐帧读取视频画面中真实可见的中文字幕和菜谱信息。",
+                    "只输出画面中明确出现的食材、用量、处理动作、烹饪步骤、时间和火候。",
+                    "不要根据标题、菜名或常识补充画面中没有的信息。",
+                    title?.trim()
+                      ? `视频标题（仅用于定位内容，不可作为菜谱事实）：${title.trim()}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join("\n"),
+                },
+              ],
+            },
+          ],
+          temperature: 0,
+          max_tokens: 1800,
+        }),
+        signal: AbortSignal.timeout(VISION_TIMEOUT_MS),
+      });
+    } catch (error) {
+      const timedOut =
+        error instanceof Error &&
+        (error.name === "AbortError" || error.name === "TimeoutError");
+      if (attempt < VISION_MAX_ATTEMPTS && !timedOut) {
+        continue;
+      }
+      throw new VideoVisionError(
+        "provider_failed",
+        "Qwen video vision request failed.",
+      );
+    }
+
+    let payload: {
+      choices?: Array<{ message?: { content?: unknown } }>;
+      model?: string;
+    };
+    try {
+      payload = (await response.json()) as typeof payload;
+    } catch {
+      if (attempt < VISION_MAX_ATTEMPTS) {
+        continue;
+      }
+      throw new VideoVisionError(
+        "provider_failed",
+        "Qwen video vision returned invalid JSON.",
+      );
+    }
+
+    if (!response.ok) {
+      const retryable =
+        response.status === 408 ||
+        response.status === 429 ||
+        response.status >= 500;
+      if (attempt < VISION_MAX_ATTEMPTS && retryable) {
+        continue;
+      }
+      throw new VideoVisionError(
+        "provider_failed",
+        `Qwen video vision failed (${response.status}).`,
+      );
+    }
+
+    const text = readMessageText(payload.choices?.[0]?.message?.content);
+    if (text.length < 30) {
+      if (attempt < VISION_MAX_ATTEMPTS) {
+        continue;
+      }
+      throw new VideoVisionError(
+        "empty_result",
+        "Qwen video vision found no usable recipe text.",
+      );
+    }
+
+    return {
+      model: payload.model || model,
+      processingTimeMs: Date.now() - startedAt,
+      text,
+    };
   }
 
-  let payload: {
-    choices?: Array<{ message?: { content?: unknown } }>;
-    model?: string;
-  };
-  try {
-    payload = (await response.json()) as typeof payload;
-  } catch {
-    throw new VideoVisionError(
-      "provider_failed",
-      "Qwen video vision returned invalid JSON.",
-    );
-  }
-  if (!response.ok) {
-    throw new VideoVisionError(
-      "provider_failed",
-      `Qwen video vision failed (${response.status}).`,
-    );
-  }
-
-  const text = readMessageText(payload.choices?.[0]?.message?.content);
-  if (text.length < 30) {
-    throw new VideoVisionError(
-      "empty_result",
-      "Qwen video vision found no usable recipe text.",
-    );
-  }
-
-  return {
-    model: payload.model || model,
-    processingTimeMs: Date.now() - startedAt,
-    text,
-  };
+  throw new VideoVisionError(
+    "provider_failed",
+    "Qwen video vision request failed.",
+  );
 }

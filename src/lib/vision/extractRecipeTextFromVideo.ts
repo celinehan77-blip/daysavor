@@ -26,6 +26,10 @@ export type VideoRecipeTextResult = {
   text: string;
 };
 
+export type RecipeVisualMedia =
+  | { mediaType: "video"; mediaUrl: string }
+  | { imageUrls: string[]; mediaType: "image" };
+
 function readMessageText(value: unknown) {
   if (typeof value === "string") return value.trim();
   if (!Array.isArray(value)) return "";
@@ -40,8 +44,24 @@ function readMessageText(value: unknown) {
     .trim();
 }
 
-export async function extractRecipeTextFromVideo(
-  mediaUrl: string,
+function parsePublicVisualUrl(value: string) {
+  try {
+    const parsedUrl = new URL(value);
+    if (
+      !["http:", "https:"].includes(parsedUrl.protocol) ||
+      parsedUrl.username ||
+      parsedUrl.password
+    ) {
+      return null;
+    }
+    return parsedUrl.toString();
+  } catch {
+    return null;
+  }
+}
+
+export async function extractRecipeTextFromMedia(
+  media: RecipeVisualMedia,
   title: string | null,
   options: { fetchImpl?: typeof fetch } = {},
 ): Promise<VideoRecipeTextResult> {
@@ -54,18 +74,37 @@ export async function extractRecipeTextFromVideo(
     );
   }
 
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(mediaUrl);
-  } catch {
-    throw new VideoVisionError("provider_failed", "Video URL was invalid.");
-  }
-  if (
-    !["http:", "https:"].includes(parsedUrl.protocol) ||
-    parsedUrl.username ||
-    parsedUrl.password
-  ) {
-    throw new VideoVisionError("provider_failed", "Video URL was invalid.");
+  const visualContent =
+    media.mediaType === "video"
+      ? (() => {
+          const mediaUrl = parsePublicVisualUrl(media.mediaUrl);
+          if (!mediaUrl) {
+            throw new VideoVisionError(
+              "provider_failed",
+              "Video URL was invalid.",
+            );
+          }
+          return [
+            {
+              type: "video_url",
+              video_url: { url: mediaUrl, fps: 1 },
+            },
+          ];
+        })()
+      : media.imageUrls
+          .slice(0, 10)
+          .map(parsePublicVisualUrl)
+          .filter((imageUrl): imageUrl is string => Boolean(imageUrl))
+          .map((imageUrl) => ({
+            type: "image_url",
+            image_url: { url: imageUrl },
+          }));
+
+  if (visualContent.length === 0) {
+    throw new VideoVisionError(
+      "provider_failed",
+      "Visual media URL was invalid.",
+    );
   }
 
   const model = process.env.QWEN_VISION_MODEL || DEFAULT_VISION_MODEL;
@@ -87,18 +126,17 @@ export async function extractRecipeTextFromVideo(
             {
               role: "user",
               content: [
-                {
-                  type: "video_url",
-                  video_url: { url: parsedUrl.toString(), fps: 1 },
-                },
+                ...visualContent,
                 {
                   type: "text",
                   text: [
-                    "请逐帧读取视频画面中真实可见的中文字幕和菜谱信息。",
+                    media.mediaType === "video"
+                      ? "请逐帧读取视频画面中真实可见的中文字幕和菜谱信息。"
+                      : "请按图片顺序读取图文作品中真实可见的文字和菜谱信息。",
                     "只输出画面中明确出现的食材、用量、处理动作、烹饪步骤、时间和火候。",
                     "不要根据标题、菜名或常识补充画面中没有的信息。",
                     title?.trim()
-                      ? `视频标题（仅用于定位内容，不可作为菜谱事实）：${title.trim()}`
+                      ? `作品标题（仅用于定位内容，不可作为菜谱事实）：${title.trim()}`
                       : null,
                   ]
                     .filter(Boolean)
@@ -176,5 +214,17 @@ export async function extractRecipeTextFromVideo(
   throw new VideoVisionError(
     "provider_failed",
     "Qwen video vision request failed.",
+  );
+}
+
+export function extractRecipeTextFromVideo(
+  mediaUrl: string,
+  title: string | null,
+  options: { fetchImpl?: typeof fetch } = {},
+) {
+  return extractRecipeTextFromMedia(
+    { mediaType: "video", mediaUrl },
+    title,
+    options,
   );
 }

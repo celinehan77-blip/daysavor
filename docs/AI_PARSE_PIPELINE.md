@@ -3,10 +3,10 @@
 ## 1. 当前阶段目标
 
 - 普通正文继续使用 DeepSeek 结构化解析，并保留 Mock fallback。
-- 小红书公开做饭视频优先由 ALAPI 提供安全媒体 URL，再由火山 ASR 直接读取；语音为空、纯音乐或缺少菜谱特征时，使用 Qwen-VL 读取视频画面中的真实菜谱文字。
+- 小红书与抖音公开做饭作品优先由 ALAPI 提供安全媒体；视频先由火山 ASR 直接读取，语音为空、纯音乐或缺少菜谱特征时使用 Qwen-VL 读取画面文字，公开图文作品则按图片顺序直接读取真实菜谱文字。
 - 视频链路只接受真实 transcript，不允许根据标题生成常见菜谱。
 - `ParsedRecipeDraft` 可以保存到本地，登录后可以尝试写入 Supabase recipe。
-- 抖音公开视频已接入 ALAPI 媒体解析适配器；当前不支持 B 站、YouTube、用户上传或视频画面分析。
+- 抖音公开视频和图文作品已接入 ALAPI 媒体解析适配器；当前不支持 B 站、YouTube 或用户上传。
 
 ## 2. 输入
 
@@ -85,10 +85,9 @@ POST /api/parse-recipe
 ```text
 POST /api/parse-recipe
 -> normalizeShareUrl()
--> extractAudioWithYtDlp()
 -> 小红书与抖音优先由 ALAPI 取得公开媒体 URL
--> 火山 Seed ASR 直接读取远程媒体 URL
--> 语音为空、纯音乐或缺少菜谱特征时调用 Qwen-VL 读取画面文字
+-> 视频由火山 Seed ASR 直接读取远程媒体 URL
+-> 视频语音不足时调用 Qwen-VL 读取画面文字；图文作品直接按顺序读取安全图片
 -> 两个远程 Provider 均不可用时才回退本地 FFmpeg 临时音频与 Qwen ASR
 -> parseRecipeWithDeepSeek(transcript)
 -> 来源一致性与质量校验
@@ -112,7 +111,7 @@ Mock Parser 会根据输入文本中的关键词返回稳定草稿：
 - 只处理无需登录即可读取的公开小红书与抖音内容。
 - 不使用用户 Cookie，不模拟登录，不绕过验证码或访问控制。
 - 不永久保存视频；临时音频在成功或失败后删除。
-- 单条视频最多 5 分钟、媒体最多 100 MB、音频最多 8 MB。
+- 远程 ASR / 视觉链路不把完整视频下载到应用服务器；末级本地兼容链路仍限制单条视频最多 5 分钟、媒体最多 100 MB、音频最多 8 MB。
 - 没有真实语音或画面菜谱文字时返回中文提示，不调用 DeepSeek 生成无关内容；视频标题不能单独通过质量门槛。
 
 ## 6. 为什么 AI key 不能用 NEXT_PUBLIC
@@ -156,7 +155,7 @@ QWEN_VISION_MODEL=qwen-vl-plus
 
 ## 7. 当前真实验收
 
-- 两条公开小红书做饭视频已通过 yt-dlp 与 FFmpeg。
+- 小红书和抖音视频均已覆盖远程 ASR、画面文字兜底与安全本地兼容链路；抖音图文已补充按图读取能力。
 - 火山主 ASR 已使用真实样本成功返回口播：`provider=volcengine`、`usedFallback=false`；Qwen ASR 备用也已在火山明确失败场景通过。
 - DeepSeek 已生成“黄焖鸡”和“农家一碗香”动态菜谱，不是固定 Mock。
 - 游客动态详情、刷新持久化和本地收藏已通过浏览器验证。
@@ -184,7 +183,7 @@ QWEN_VISION_MODEL=qwen-vl-plus
 - 如果 DeepSeek 与 ASR 服务端变量配置正确，可以基于真实口播创建动态菜谱。
 - 当前会尝试写入 Supabase `recipes / ingredients / recipe_steps`。
 - 当前视频链路会在火山失败时调用 Qwen ASR，但不会调用 OpenAI。
-- 当前解析公开小红书与抖音视频；ALAPI Token 只在服务端读取，不进入浏览器代码。
+- 当前解析公开小红书与抖音视频、图文作品；ALAPI Token 只在服务端读取，不进入浏览器代码。
 - 当前 `ParsedRecipeDraft` 仍会保存在当前浏览器的 `localStorage`，作为 fallback。
 - 本地生成菜谱会随草稿保存 `heroVisualTags / visualAssets`；旧本地草稿首次读取时补齐并回写。
 - 云端菜谱因本阶段不新增 Supabase 字段，在详情读取时确定性推导视觉素材，不做额外数据库查询。

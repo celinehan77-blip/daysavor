@@ -5,6 +5,7 @@ import {
   buildShareRecipeSource,
   isGroundedShareRecipeUsable,
   isLikelyRecipeTranscript,
+  transcribeRemoteShareMedia,
   transcribeRemoteXiaohongshuMedia,
 } from "../../src/lib/generation/generateRecipeFromShareLink";
 import type { ParsedRecipeDraft } from "../../src/types/ai";
@@ -144,8 +145,11 @@ test("uses real visible recipe text when remote ASR has no cooking narration", a
   const result = await transcribeRemoteXiaohongshuMedia(
     "https://xhslink.cn/o/example",
     {
-      extractVisibleRecipeText: async (mediaUrl, title) => {
-        assert.equal(mediaUrl, "https://sns-video-qc.xhscdn.com/video.mp4");
+      extractVisibleRecipeText: async (media, title) => {
+        assert.deepEqual(media, {
+          mediaType: "video",
+          mediaUrl: "https://sns-video-qc.xhscdn.com/video.mp4",
+        });
         assert.equal(title, "盐水鸡腿");
         return {
           model: "qwen-vl-plus",
@@ -196,4 +200,85 @@ test("keeps the existing download pipeline when both remote providers fail", asy
   );
 
   assert.equal(result, null);
+});
+
+test("uses remote ASR for Douyin instead of downloading the full video", async () => {
+  let remoteUrl = "";
+  const result = await transcribeRemoteShareMedia(
+    "https://v.douyin.com/example/",
+    {
+      extractVisibleRecipeText: async () => {
+        throw new Error("vision should not run");
+      },
+      resolveProviderMedia: async () => ({
+        canonicalUrl: "https://v.douyin.com/example/",
+        description: "生炒甜辣鸡架",
+        durationSeconds: 0,
+        fallbackMediaUrl: null,
+        imageUrls: [],
+        mediaType: "video",
+        mediaUrl: "https://media.example.com/douyin.mp4",
+      }),
+      transcribeRemoteMedia: async (mediaUrl) => {
+        remoteUrl = mediaUrl;
+        return {
+          model: "seed-asr-2.0-turbo",
+          processingTimeMs: 20,
+          provider: "volcengine",
+          transcript:
+            "鸡架剁块焯水，锅里放油炒香辣椒，加入鸡架、生抽和糖，大火翻炒后收汁。",
+          usedFallback: false,
+          warnings: [],
+        };
+      },
+    },
+  );
+
+  assert.equal(remoteUrl, "https://media.example.com/douyin.mp4");
+  assert.equal(result?.platform, "douyin");
+  assert.match(result?.transcript ?? "", /鸡架/);
+});
+
+test("uses ordered image vision for a Douyin image post", async () => {
+  let asrCalls = 0;
+  const result = await transcribeRemoteShareMedia(
+    "https://v.douyin.com/image-example/",
+    {
+      extractVisibleRecipeText: async (media, title) => {
+        assert.deepEqual(media, {
+          imageUrls: [
+            "https://image.example.com/1.jpg",
+            "https://image.example.com/2.jpg",
+          ],
+          mediaType: "image",
+        });
+        assert.equal(title, "红薯糯米卷");
+        return {
+          model: "qwen-vl-plus",
+          processingTimeMs: 30,
+          text: "红薯蒸熟压泥，加入糯米粉揉匀，擀开卷起，切段以后蒸十五分钟即可。",
+        };
+      },
+      resolveProviderMedia: async () => ({
+        canonicalUrl: "https://v.douyin.com/image-example/",
+        description: "红薯糯米卷",
+        durationSeconds: 0,
+        fallbackMediaUrl: null,
+        imageUrls: [
+          "https://image.example.com/1.jpg",
+          "https://image.example.com/2.jpg",
+        ],
+        mediaType: "image",
+        mediaUrl: null,
+      }),
+      transcribeRemoteMedia: async () => {
+        asrCalls += 1;
+        throw new Error("image posts must skip ASR");
+      },
+    },
+  );
+
+  assert.equal(asrCalls, 0);
+  assert.equal(result?.asr.provider, "aliyun_qwen_vision");
+  assert.match(result?.transcript ?? "", /红薯/);
 });

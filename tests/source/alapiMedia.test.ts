@@ -39,7 +39,7 @@ test("calls ALAPI with POST JSON and a server-only token header", async () => {
   assert.deepEqual(JSON.parse(requestBody), { url: "https://v.douyin.com/sample/" });
   assert.equal(result.mediaType, "video");
   assert.equal(result.description, "可乐鸡翅");
-  assert.match(result.mediaUrl, /audio\.mp3/);
+  assert.match(result.mediaUrl ?? "", /audio\.mp3/);
 });
 
 test("accepts Xiaohongshu share links in the ALAPI adapter", async () => {
@@ -58,7 +58,7 @@ test("accepts Xiaohongshu share links in the ALAPI adapter", async () => {
   });
 
   assert.equal(result.canonicalUrl, "https://xhslink.com/o/sample");
-  assert.match(result.mediaUrl, /xhs\.mp4/);
+  assert.match(result.mediaUrl ?? "", /xhs\.mp4/);
 });
 
 test("upgrades official Xiaohongshu CDN media URLs from HTTP to HTTPS", async () => {
@@ -115,6 +115,27 @@ test("does not upgrade HTTP media URLs from untrusted hosts", async () => {
 });
 
 test("classifies image posts without attempting ASR", async () => {
+  const result = await resolveAlapiMedia("https://v.douyin.com/image/", {
+    token: "test-only-token",
+    fetchImpl: async () =>
+      Response.json({
+        code: 200,
+        data: {
+          pics: ["https://image.example.com/one.jpg"],
+          title: "红薯糯米卷",
+          type: 2,
+        },
+      }),
+    lookupHost: publicLookup,
+  });
+
+  assert.equal(result.mediaType, "image");
+  assert.equal(result.mediaUrl, null);
+  assert.equal(result.description, "红薯糯米卷");
+  assert.deepEqual(result.imageUrls, ["https://image.example.com/one.jpg"]);
+});
+
+test("rejects image posts whose image URLs resolve to private addresses", async () => {
   await assert.rejects(
     () =>
       resolveAlapiMedia("https://v.douyin.com/image/", {
@@ -123,14 +144,14 @@ test("classifies image posts without attempting ASR", async () => {
           Response.json({
             code: 200,
             data: {
-              pics: ["https://image.example.com/one.jpg"],
+              pics: ["https://private.example.com/one.jpg"],
               type: 2,
             },
           }),
-        lookupHost: publicLookup,
+        lookupHost: async () => [{ address: "127.0.0.1", family: 4 }],
       }),
     (error: unknown) =>
-      error instanceof AudioExtractionError && error.code === "image_post_unsupported",
+      error instanceof AudioExtractionError && error.code === "media_unavailable",
   );
 });
 

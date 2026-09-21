@@ -32,7 +32,7 @@ export type AlapiMedia = {
   fallbackMediaUrl: string | null;
   imageUrls: string[];
   mediaType: "video" | "image";
-  mediaUrl: string;
+  mediaUrl: string | null;
 };
 
 function isOfficialXiaohongshuCdn(hostname: string) {
@@ -199,13 +199,37 @@ export async function resolveAlapiMedia(
   }
 
   const data = payload.data as AlapiData;
-  const imageUrls = getImageUrls(data.pics);
-  const mediaType = String(data.type) === "2" || imageUrls.length > 0 ? "image" : "video";
+  const imageUrls = (
+    await Promise.all(
+      getImageUrls(data.pics).map(async (imageUrl) =>
+        (await validatePublicMediaUrl(imageUrl, options.lookupHost))
+          ? imageUrl
+          : null,
+      ),
+    )
+  ).filter((imageUrl): imageUrl is string => Boolean(imageUrl));
+  const mediaType =
+    String(data.type) === "2" || imageUrls.length > 0 ? "image" : "video";
   if (mediaType === "image") {
-    throw new AudioExtractionError(
-      "image_post_unsupported",
-      "This image post requires OCR and has no audio track.",
-    );
+    if (imageUrls.length === 0) {
+      throw new AudioExtractionError(
+        "media_unavailable",
+        "ALAPI image post contained no safe public images.",
+      );
+    }
+
+    return {
+      canonicalUrl: sanitizeSourceUrl(validated.url),
+      description:
+        typeof data.title === "string"
+          ? data.title.trim().slice(0, 300) || null
+          : null,
+      durationSeconds: 0,
+      fallbackMediaUrl: null,
+      imageUrls,
+      mediaType,
+      mediaUrl: null,
+    };
   }
 
   const rawMediaUrl = [data.audio, data.video_url]

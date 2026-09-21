@@ -9,7 +9,7 @@ import { resolveAlapiMedia } from "@/lib/media/alapiMedia";
 import { AudioExtractionError } from "@/lib/media/errors";
 import { extractAudioFromShareLink } from "@/lib/media/extractAudio";
 import { normalizeShareUrl } from "@/lib/media/extractAudio";
-import { extractRecipeTextFromVideo } from "@/lib/vision/extractRecipeTextFromVideo";
+import { extractRecipeTextFromMedia } from "@/lib/vision/extractRecipeTextFromVideo";
 import type { ParsedRecipeDraft } from "@/types/ai";
 import type { RecipeParseResult } from "@/types/ai";
 
@@ -51,7 +51,7 @@ export type ShareLinkTranscriptionResult = Omit<
 >;
 
 type RemoteTranscriptionDependencies = {
-  extractVisibleRecipeText: typeof extractRecipeTextFromVideo;
+  extractVisibleRecipeText: typeof extractRecipeTextFromMedia;
   resolveProviderMedia: typeof resolveAlapiMedia;
   transcribeRemoteMedia: typeof transcribeRemoteAudioUrl;
 };
@@ -123,45 +123,41 @@ const transcriptionJobs =
   globalCache.__recipeTicketTranscriptionJobs ??
   (globalCache.__recipeTicketTranscriptionJobs = new Map());
 
-export async function transcribeRemoteXiaohongshuMedia(
+export async function transcribeRemoteShareMedia(
   sourceUrl: string,
   dependencies: RemoteTranscriptionDependencies = {
-    extractVisibleRecipeText: extractRecipeTextFromVideo,
+    extractVisibleRecipeText: extractRecipeTextFromMedia,
     resolveProviderMedia: resolveAlapiMedia,
     transcribeRemoteMedia: transcribeRemoteAudioUrl,
   },
 ): Promise<ShareLinkTranscriptionResult | null> {
   const startedAt = Date.now();
   const normalized = normalizeShareUrl(sourceUrl);
-  if (normalized.platform !== "xiaohongshu") return null;
-
   let media: Awaited<ReturnType<typeof resolveAlapiMedia>>;
   try {
     media = await dependencies.resolveProviderMedia(sourceUrl);
-  } catch (error) {
-    if (
-      error instanceof AudioExtractionError &&
-      error.code === "image_post_unsupported"
-    ) {
-      throw error;
-    }
+  } catch {
     return null;
   }
 
   const resolvedAtMs = Date.now() - startedAt;
   let asr: TranscriptionResult | null = null;
-  try {
-    asr = await dependencies.transcribeRemoteMedia(
-      media.fallbackMediaUrl ?? media.mediaUrl,
-    );
-  } catch {
-    asr = null;
+  if (media.mediaType === "video" && media.mediaUrl) {
+    try {
+      asr = await dependencies.transcribeRemoteMedia(
+        media.fallbackMediaUrl ?? media.mediaUrl,
+      );
+    } catch {
+      asr = null;
+    }
   }
 
   if (!asr || !isLikelyRecipeTranscript(asr.transcript)) {
     try {
       const vision = await dependencies.extractVisibleRecipeText(
-        media.mediaUrl,
+        media.mediaType === "image"
+          ? { imageUrls: media.imageUrls, mediaType: "image" }
+          : { mediaType: "video", mediaUrl: media.mediaUrl ?? "" },
         media.description,
       );
       asr = {
@@ -170,9 +166,19 @@ export async function transcribeRemoteXiaohongshuMedia(
         provider: "aliyun_qwen_vision",
         transcript: vision.text,
         usedFallback: true,
-        warnings: ["视频语音不足，已读取画面中的真实菜谱文字。"],
+        warnings: [
+          media.mediaType === "image"
+            ? "已读取公开图文作品中的真实菜谱文字。"
+            : "视频语音不足，已读取画面中的真实菜谱文字。",
+        ],
       };
     } catch {
+      if (media.mediaType === "image") {
+        throw new AudioExtractionError(
+          "image_post_unsupported",
+          "Image post vision extraction failed.",
+        );
+      }
       return null;
     }
   }
@@ -194,10 +200,12 @@ export async function transcribeRemoteXiaohongshuMedia(
   };
 }
 
+export const transcribeRemoteXiaohongshuMedia = transcribeRemoteShareMedia;
+
 async function transcribeUncachedShareLink(
   sourceUrl: string,
 ): Promise<ShareLinkTranscriptionResult> {
-  const remote = await transcribeRemoteXiaohongshuMedia(sourceUrl);
+  const remote = await transcribeRemoteShareMedia(sourceUrl);
   if (remote) {
     console.info("[recipe-pipeline]", {
       elapsedMs: remote.stages.at(-1)?.completedAtMs,

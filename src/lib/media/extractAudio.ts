@@ -420,6 +420,12 @@ export async function getMediaRuntimeDiagnostics() {
 export async function extractAudioFromShareLink(sharedValue: string): Promise<ExtractedAudio> {
   const normalized = normalizeShareUrl(sharedValue);
   const { metadata, resolvedMedia } = await resolveShareMedia(normalized);
+  if (resolvedMedia?.mediaType === "image") {
+    throw new AudioExtractionError(
+      "image_post_unsupported",
+      "This image post requires visual extraction and has no audio track.",
+    );
+  }
   const durationSeconds = resolvedMedia?.durationSeconds ?? Number(metadata?.duration ?? 0);
   const mediaBytes = Number(metadata?.filesize ?? metadata?.filesize_approx ?? 0);
 

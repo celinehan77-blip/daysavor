@@ -21,7 +21,10 @@ import {
   getGenerationStartRoute,
   isBackgroundGenerationRouteUnavailable,
   isPendingGenerationStale,
+  isTransientGenerationGatewayFailure,
   pickReusableRecipeSlug,
+  requestDirectRecipeParse,
+  shouldFallbackToDirectParse,
 } from "../../src/lib/data/pendingRecipeGeneration";
 
 class MemoryStorage implements Storage {
@@ -221,6 +224,58 @@ test("Vercel can fall back when Netlify background routes are unavailable", () =
   assert.equal(isBackgroundGenerationRouteUnavailable(404), true);
   assert.equal(isBackgroundGenerationRouteUnavailable(405), true);
   assert.equal(isBackgroundGenerationRouteUnavailable(500), false);
+});
+
+test("Alibaba gateway failures fall back to direct parsing", () => {
+  for (const status of [502, 503, 504]) {
+    assert.equal(isTransientGenerationGatewayFailure(status), true);
+    assert.equal(shouldFallbackToDirectParse(status), true);
+  }
+  assert.equal(shouldFallbackToDirectParse(404), true);
+  assert.equal(shouldFallbackToDirectParse(422), false);
+});
+
+test("direct parsing retries transient gateway failures before succeeding", async () => {
+  let calls = 0;
+  const waited: number[] = [];
+  const result = await requestDirectRecipeParse(
+    { sourceUrl: "https://xhslink.cn/o/example" },
+    new AbortController().signal,
+    {
+      fetchImpl: async () => {
+        calls += 1;
+        if (calls < 3) return new Response("gateway", { status: calls === 1 ? 502 : 503 });
+        return Response.json({ ok: true, draft, error: null, errorCode: null, provider: "deepseek", usedFallback: false });
+      },
+      retryDelaysMs: [10, 20],
+      waitImpl: async (delayMs) => {
+        waited.push(delayMs);
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(calls, 3);
+  assert.deepEqual(waited, [10, 20]);
+});
+
+test("direct parsing does not retry a real recipe validation response", async () => {
+  let calls = 0;
+  const result = await requestDirectRecipeParse(
+    { sourceUrl: "https://xhslink.cn/o/example" },
+    new AbortController().signal,
+    {
+      fetchImpl: async () => {
+        calls += 1;
+        return Response.json({ ok: false, draft: null, error: "菜谱信息不足", errorCode: "SOURCE_EXTRACTION_FAILED", provider: "deepseek", usedFallback: false }, { status: 422 });
+      },
+      retryDelaysMs: [0, 0],
+      waitImpl: async () => undefined,
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(calls, 1);
 });
 
 test("completed source generation prefers local cache then cloud cache", () => {

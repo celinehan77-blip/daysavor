@@ -33,6 +33,7 @@ const PENDING_GENERATION_KEY = "recipe-ticket:pending-recipe-generation";
 const GENERATION_ERROR_KEY = "recipe-ticket:pending-generation-error";
 const PARSE_TIMEOUT_MS = 120_000;
 const PENDING_GENERATION_STALE_MS = 15 * 60 * 1000;
+const TRANSIENT_PARSE_RETRY_DELAYS_MS = [2_000, 4_000, 8_000, 12_000];
 
 export type PendingRecipeGeneration = {
   jobId: string;
@@ -177,14 +178,20 @@ async function waitForBackgroundGeneration(
   sourceUrl: string,
   signal: AbortSignal,
 ): Promise<BackgroundGenerationAttempt> {
-  const startResponse = await fetch("/api/generate-recipe-background", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ jobId, sourceUrl }),
-    signal,
-  });
+  let startResponse: Response;
+  try {
+    startResponse = await fetch("/api/generate-recipe-background", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jobId, sourceUrl }),
+      signal,
+    });
+  } catch (error) {
+    if (signal.aborted) throw error;
+    return { available: false, result: null };
+  }
 
-  if (isBackgroundGenerationRouteUnavailable(startResponse.status)) {
+  if (shouldFallbackToDirectParse(startResponse.status)) {
     return { available: false, result: null };
   }
 
@@ -194,12 +201,18 @@ async function waitForBackgroundGeneration(
 
   while (!signal.aborted) {
     await waitForPoll(1500, signal);
-    const statusResponse = await fetch(`/api/generation-status/${jobId}`, {
-      cache: "no-store",
-      signal,
-    });
+    let statusResponse: Response;
+    try {
+      statusResponse = await fetch(`/api/generation-status/${jobId}`, {
+        cache: "no-store",
+        signal,
+      });
+    } catch (error) {
+      if (signal.aborted) throw error;
+      return { available: false, result: null };
+    }
 
-    if (isBackgroundGenerationRouteUnavailable(statusResponse.status)) {
+    if (shouldFallbackToDirectParse(statusResponse.status)) {
       return { available: false, result: null };
     }
     if (!statusResponse.ok) {
@@ -221,6 +234,17 @@ async function waitForBackgroundGeneration(
 
 export function isBackgroundGenerationRouteUnavailable(status: number) {
   return status === 404 || status === 405;
+}
+
+export function isTransientGenerationGatewayFailure(status: number) {
+  return status === 502 || status === 503 || status === 504;
+}
+
+export function shouldFallbackToDirectParse(status: number) {
+  return (
+    isBackgroundGenerationRouteUnavailable(status) ||
+    isTransientGenerationGatewayFailure(status)
+  );
 }
 
 export function pickReusableRecipeSlug(
@@ -268,19 +292,44 @@ export function buildGenerationDiagnostics(
   };
 }
 
-async function requestDirectRecipeParse(
+export async function requestDirectRecipeParse(
   body: Record<string, string>,
   signal: AbortSignal,
+  options: {
+    fetchImpl?: typeof fetch;
+    retryDelaysMs?: number[];
+    waitImpl?: (delayMs: number, signal: AbortSignal) => Promise<void>;
+  } = {},
 ) {
-  const response = await fetch("/api/parse-recipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    signal,
-  });
-  const result = (await response.json()) as RecipeParseResult;
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const retryDelaysMs = options.retryDelaysMs ?? TRANSIENT_PARSE_RETRY_DELAYS_MS;
+  const waitImpl = options.waitImpl ?? waitForPoll;
 
-  return result;
+  for (let attempt = 0; attempt <= retryDelaysMs.length; attempt += 1) {
+    try {
+      const response = await fetchImpl("/api/parse-recipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal,
+      });
+
+      if (isTransientGenerationGatewayFailure(response.status)) {
+        if (attempt === retryDelaysMs.length) {
+          throw new Error("Recipe generation gateway remained unavailable.");
+        }
+        await waitImpl(retryDelaysMs[attempt], signal);
+        continue;
+      }
+
+      return (await response.json()) as RecipeParseResult;
+    } catch (error) {
+      if (signal.aborted || attempt === retryDelaysMs.length) throw error;
+      await waitImpl(retryDelaysMs[attempt], signal);
+    }
+  }
+
+  throw new Error("Recipe generation request failed.");
 }
 
 export function getGenerationFailureCode(

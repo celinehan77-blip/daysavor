@@ -154,6 +154,10 @@ test("normalizes copied Xiaohongshu share text to a stable source hash", () => {
   const fromHttps = normalizeShareUrl("https://xhslink.com/o/abc");
 
   assert.equal(fromHttp.canonicalUrl, "https://xhslink.com/o/abc");
+  assert.equal(
+    fromHttp.requestUrl,
+    "https://xhslink.com/o/abc?share_token=private#fragment",
+  );
   assert.equal(fromHttp.sourceHash, fromHttps.sourceHash);
 });
 

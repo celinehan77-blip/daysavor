@@ -5,10 +5,10 @@ import {
   transcribeRemoteAudioUrl,
   type TranscriptionResult,
 } from "@/lib/asr/transcribeAudio";
-import { resolveAlapiMedia } from "@/lib/media/alapiMedia";
+import type { AlapiMedia } from "@/lib/media/alapiMedia";
 import { AudioExtractionError } from "@/lib/media/errors";
 import { extractAudioFromShareLink } from "@/lib/media/extractAudio";
-import { normalizeShareUrl } from "@/lib/media/extractAudio";
+import { normalizeShareUrl, resolveRemoteShareMedia } from "@/lib/media/extractAudio";
 import { extractRecipeTextFromMedia } from "@/lib/vision/extractRecipeTextFromVideo";
 import type { ParsedRecipeDraft } from "@/types/ai";
 import type { RecipeParseResult } from "@/types/ai";
@@ -52,7 +52,7 @@ export type ShareLinkTranscriptionResult = Omit<
 
 type RemoteTranscriptionDependencies = {
   extractVisibleRecipeText: typeof extractRecipeTextFromMedia;
-  resolveProviderMedia: typeof resolveAlapiMedia;
+  resolveProviderMedia: (normalized: ReturnType<typeof normalizeShareUrl>) => Promise<AlapiMedia>;
   transcribeRemoteMedia: typeof transcribeRemoteAudioUrl;
 };
 
@@ -127,15 +127,15 @@ export async function transcribeRemoteShareMedia(
   sourceUrl: string,
   dependencies: RemoteTranscriptionDependencies = {
     extractVisibleRecipeText: extractRecipeTextFromMedia,
-    resolveProviderMedia: resolveAlapiMedia,
+    resolveProviderMedia: resolveRemoteShareMedia,
     transcribeRemoteMedia: transcribeRemoteAudioUrl,
   },
 ): Promise<ShareLinkTranscriptionResult | null> {
   const startedAt = Date.now();
   const normalized = normalizeShareUrl(sourceUrl);
-  let media: Awaited<ReturnType<typeof resolveAlapiMedia>>;
+  let media: AlapiMedia;
   try {
-    media = await dependencies.resolveProviderMedia(sourceUrl);
+    media = await dependencies.resolveProviderMedia(normalized);
   } catch {
     return null;
   }

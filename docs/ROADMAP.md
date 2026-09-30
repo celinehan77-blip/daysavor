@@ -170,6 +170,8 @@ Checkpoint B1 已完成为有限 MVP：ALAPI 路线有 2 条真实抖音视频�
 
 2026-09-21 小红书稳定性补充：12 条新增公开视频全部通过 ALAPI 媒体解析；7 条使用火山远程 ASR，5 条无口播、纯音乐或识别超时样本已验证可由 Qwen-VL 读取画面中的真实菜谱文字。正式管线改为语音优先、画面文字兜底，并取消标题估算通过质量门槛的例外。
 
+2026-10-01 小红书兼容性补充：平台桌面页策略变化导致部分链接进入登录页且 `yt-dlp` 无格式，现已增加无需登录的手机公开页通用解析，并保留 ALAPI、`yt-dlp` 后备。两条不同公开做饭视频已动态验证标题、时长与官方媒体地址；安全边界和抖音链路不变。
+
 Checkpoint C1 与 D1 已完成：登录会话刷新后恢复，当前账号 11 道生成、10 道收藏，两条抖音成功样本可从收藏页再次打开，动态详情刷新后收藏状态恢复。Vercel Production 核心路由、三个 Station、动态详情和部署健康接口均返回 200，Supabase 可读且 fallback 保留。Milestone 3 完成。
 
 每个 Checkpoint 必须依次完成 Architect Review、QA、Reviewer、Debug、Release、CHANGELOG 和 Git Commit。网络中断或新会话启动时，从本节最近一个已完成 Checkpoint 继续。

@@ -15,6 +15,7 @@ import {
   AudioExtractionError,
   type AudioExtractionErrorCode,
 } from "@/lib/media/errors";
+import { resolveXiaohongshuMedia } from "@/lib/media/xiaohongshuMedia";
 import { extractHttpUrlFromSharedText } from "@/lib/source/sharedInput";
 import {
   sanitizeSourceUrl,
@@ -144,6 +145,7 @@ export function normalizeShareUrl(sharedValue: string) {
   return {
     canonicalUrl,
     platform: validated.platform,
+    requestUrl: validated.url.toString(),
     sourceHash: createHash("sha256").update(canonicalUrl).digest("hex"),
   };
 }
@@ -274,31 +276,45 @@ type ShareMediaResolution = {
 };
 
 type ShareMediaResolutionDependencies = {
+  resolvePublicPageMedia: typeof resolveXiaohongshuMedia;
   resolveProviderMedia: typeof resolveAlapiMedia;
   readYtDlpMetadata: typeof readMetadata;
 };
 
+type RemoteShareMediaDependencies = Pick<
+  ShareMediaResolutionDependencies,
+  "resolvePublicPageMedia" | "resolveProviderMedia"
+>;
+
+export async function resolveRemoteShareMedia(
+  normalized: NormalizedShareUrl,
+  dependencies: RemoteShareMediaDependencies = {
+    resolvePublicPageMedia: resolveXiaohongshuMedia,
+    resolveProviderMedia: resolveAlapiMedia,
+  },
+) {
+  if (normalized.platform === "douyin") {
+    return dependencies.resolveProviderMedia(normalized.requestUrl);
+  }
+
+  try {
+    return await dependencies.resolvePublicPageMedia(normalized.requestUrl);
+  } catch {
+    return dependencies.resolveProviderMedia(normalized.requestUrl);
+  }
+}
+
 export async function resolveShareMedia(
   normalized: NormalizedShareUrl,
   dependencies: ShareMediaResolutionDependencies = {
+    resolvePublicPageMedia: resolveXiaohongshuMedia,
     resolveProviderMedia: resolveAlapiMedia,
     readYtDlpMetadata: readMetadata,
   },
 ): Promise<ShareMediaResolution> {
-  if (normalized.platform === "douyin") {
-    return {
-      resolvedMedia: await dependencies.resolveProviderMedia(
-        normalized.canonicalUrl,
-      ),
-      metadata: null,
-    };
-  }
-
   try {
     return {
-      resolvedMedia: await dependencies.resolveProviderMedia(
-        normalized.canonicalUrl,
-      ),
+      resolvedMedia: await resolveRemoteShareMedia(normalized, dependencies),
       metadata: null,
     };
   } catch (error) {
@@ -309,9 +325,10 @@ export async function resolveShareMedia(
       throw error;
     }
 
+    if (normalized.platform === "douyin") throw error;
     return {
       resolvedMedia: null,
-      metadata: await dependencies.readYtDlpMetadata(normalized.canonicalUrl),
+      metadata: await dependencies.readYtDlpMetadata(normalized.requestUrl),
     };
   }
 }
@@ -450,7 +467,7 @@ export async function extractAudioFromShareLink(sharedValue: string): Promise<Ex
         await streamRemoteMediaAudio(resolvedMedia.fallbackMediaUrl, audioPath);
       }
     } else {
-      await streamAudio(normalized.canonicalUrl, audioPath);
+      await streamAudio(normalized.requestUrl, audioPath);
     }
     const audioStats = await stat(/* turbopackIgnore: true */ audioPath);
 

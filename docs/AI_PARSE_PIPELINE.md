@@ -3,7 +3,7 @@
 ## 1. 当前阶段目标
 
 - 普通正文继续使用 DeepSeek 结构化解析，并保留 Mock fallback。
-- 小红书与抖音公开做饭作品优先由 ALAPI 提供安全媒体；视频先由火山 ASR 直接读取，语音为空、纯音乐或缺少菜谱特征时使用 Qwen-VL 读取画面文字，公开图文作品则按图片顺序直接读取真实菜谱文字。
+- 小红书公开视频优先从无需登录的手机公开页取得安全媒体，失败后使用 ALAPI；抖音继续使用 ALAPI。视频先由火山 ASR 直接读取，语音为空、纯音乐或缺少菜谱特征时使用 Qwen-VL 读取画面文字，公开图文作品则按图片顺序直接读取真实菜谱文字。
 - 视频链路只接受真实 transcript，不允许根据标题生成常见菜谱。
 - `ParsedRecipeDraft` 可以保存到本地，登录后可以尝试写入 Supabase recipe。
 - 抖音公开视频和图文作品已接入 ALAPI 媒体解析适配器；当前不支持 B 站、YouTube 或用户上传。
@@ -85,7 +85,7 @@ POST /api/parse-recipe
 ```text
 POST /api/parse-recipe
 -> normalizeShareUrl()
--> 小红书与抖音优先由 ALAPI 取得公开媒体 URL
+-> 小红书依次由手机公开页、ALAPI 取得公开媒体 URL；抖音由 ALAPI 取得
 -> 视频由火山 Seed ASR 直接读取远程媒体 URL
 -> 视频语音不足时调用 Qwen-VL 读取画面文字；图文作品直接按顺序读取安全图片
 -> 两个远程 Provider 均不可用时才回退本地 FFmpeg 临时音频与 Qwen ASR
@@ -107,7 +107,7 @@ Mock Parser 会根据输入文本中的关键词返回稳定草稿：
 
 ## 5. 媒体提取边界
 
-- 小红书和抖音优先调用最小 ALAPI 服务端适配器，不增加 Playwright。
+- 小红书优先读取手机公开页内嵌的安全视频元数据，并以 ALAPI 和 `yt-dlp` 兜底；抖音调用最小 ALAPI 服务端适配器。不增加 Playwright。
 - 只处理无需登录即可读取的公开小红书与抖音内容。
 - 不使用用户 Cookie，不模拟登录，不绕过验证码或访问控制。
 - 不永久保存视频；临时音频在成功或失败后删除。
